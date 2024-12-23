@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { User, UserFormData } from '../types/user';
 
 interface UserFormProps {
   user?: User;
@@ -13,17 +14,26 @@ interface UserFormProps {
   mode: 'add' | 'edit';
 }
 
-export interface UserFormData {
-  name: string;
-  email: string;
-  role: string;
-}
-
 export function UserForm({ user, onSubmit, mode }: UserFormProps) {
   const [formData, setFormData] = useState<UserFormData>({
-    name: user?.name || '',
+    id: user?.id || '',
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    username: user?.username || '',
     email: user?.email || '',
-    role: user?.role || 'User',
+    emailVerified: user?.emailVerified || false,
+    enabled: user?.enabled || false,
+    attributes: user?.attributes || {
+      DateOfBirth: [''],
+      addr_PostCode: [''],
+      addr_District: [''],
+      Telephone: [''],
+      addr_Province: [''],
+      addr_Address: [''],
+      NationalIDCard: [''],
+      Gender: [''],
+      addr_SubDistrict: ['']
+    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,11 +54,20 @@ export function UserForm({ user, onSubmit, mode }: UserFormProps) {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="firstName">First Name</Label>
             <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              id="firstName"
+              value={formData.firstName}
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              value={formData.lastName}
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               required
             />
           </div>
@@ -63,17 +82,32 @@ export function UserForm({ user, onSubmit, mode }: UserFormProps) {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="emailVerified">Email Verified</Label>
             <Select
-              value={formData.role}
-              onValueChange={(value) => setFormData({ ...formData, role: value })}
+              value={formData.emailVerified.toString()}
+              onValueChange={(value) => setFormData({ ...formData, emailVerified: value === 'true' })}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select role" />
+                <SelectValue placeholder="Select email verification status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="User">User</SelectItem>
-                <SelectItem value="Admin">Admin</SelectItem>
+                <SelectItem value="true">Verified</SelectItem>
+                <SelectItem value="false">Unverified</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="enabled">Status</Label>
+            <Select
+              value={formData.enabled.toString()}
+              onValueChange={(value) => setFormData({ ...formData, enabled: value === 'true' })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="true">Active</SelectItem>
+                <SelectItem value="false">Inactive</SelectItem>
               </SelectContent>
             </Select>
           </div>

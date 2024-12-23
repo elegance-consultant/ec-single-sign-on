@@ -24,7 +24,6 @@ export function UsersTable({ users: initialUsers }: UsersTableProps) {
 
   const handleAddUser = (data: UserFormData) => {
     const newUser = {
-      id: Math.random().toString(36).substr(2, 9),
       ...data,
       status: 'Active',
     };
@@ -52,19 +51,29 @@ export function UsersTable({ users: initialUsers }: UsersTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Id</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
+              <TableHead>Username</TableHead>
+              <TableHead>Email Verified</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users.map((user, index) => (
               <TableRow key={user.id}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell className="font-medium">{user.firstName} {user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.username}</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={user.emailVerified ? 'default' : 'secondary'}
+                  >
+                    {user.emailVerified ? 'Verified' : 'Unverified'}
+                  </Badge>
+                </TableCell>
                 <TableCell>
                   <Badge
                     variant={user.enabled ? 'default' : 'secondary'}
