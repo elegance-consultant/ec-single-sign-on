@@ -18,24 +18,12 @@ const routes = [
     href: '/dashboard',
     color: 'text-sky-500',
   },
-  // {
-  //   label: 'Analytics',
-  //   icon: BarChart3,
-  //   href: '/dashboard/analytics',
-  //   color: 'text-violet-500',
-  // },
   {
     label: 'Users',
     icon: Users,
     href: '/users',
     color: 'text-pink-700',
   },
-  // {
-  //   label: 'Settings',
-  //   icon: Settings,
-  //   href: '/dashboard/settings',
-  //   color: 'text-gray-500',
-  // },
 ];
 
 const handleDeleteCookie = async () => {

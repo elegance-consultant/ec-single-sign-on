@@ -17,14 +17,16 @@ export function UserCard({ user, onEdit, onDelete }: UserCardProps) {
     <Card className="p-4">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-medium">{user.name}</h3>
-          <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>
-            {user.status}
+          <h3 className="font-medium">{user.id}</h3>
+          <Badge
+            variant={user.enabled ? 'default' : 'secondary'}
+          >
+            {user.enabled ? 'Active' : 'Inactive'}
           </Badge>
         </div>
         <div className="text-sm text-muted-foreground">
-          <p>{user.email}</p>
-          <p>Role: {user.role}</p>
+          <p>{user.firstName}</p>
+          <p>Enail: {user.email}</p>
         </div>
         <div className="flex space-x-2 pt-2">
           <UserForm

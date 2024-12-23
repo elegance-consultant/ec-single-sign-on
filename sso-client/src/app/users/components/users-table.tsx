@@ -27,7 +27,7 @@ export function UsersTable({ users: initialUsers }: UsersTableProps) {
       ...data,
       status: 'Active',
     };
-    setUsers([...users, newUser]);
+    // setUsers([...users, newUser]);
   };
 
   const handleEditUser = (id: string, data: UserFormData) => {
