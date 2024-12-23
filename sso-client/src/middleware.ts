@@ -4,7 +4,7 @@ export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Define the paths that need protection
-    const protectedPaths = ['/dashboard', '/profile']; // Add any other protected paths here
+    const protectedPaths = ['/dashboard', '/users']; // Add any other protected paths here
 
     // Check if the request path is protected
     if (protectedPaths.some(path => pathname.startsWith(path))) {
@@ -22,5 +22,5 @@ export function middleware(request: NextRequest) {
 
 // Optional: Configure the matcher to apply middleware only to specific routes
 export const config = {
-    matcher: ['/dashboard/:path*', '/profile/:path*'], // Apply middleware only to specified routes
+    matcher: ['/dashboard/:path*', '/users/:path*'], // Apply middleware only to specified routes
 };

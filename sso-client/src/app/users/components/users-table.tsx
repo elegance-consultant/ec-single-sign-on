@@ -15,23 +15,12 @@ import { UserActions } from './user-actions';
 import { UsersGrid } from './users-grid';
 import { User, UserFormData } from '../types/user';
 
-export function UsersTable() {
-  const [users, setUsers] = useState<User[]>([
-    {
-      id: '1',
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'Admin',
-      status: 'Active',
-    },
-    {
-      id: '2',
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      role: 'User',
-      status: 'Inactive',
-    },
-  ]);
+interface UsersTableProps {
+  users: User[];
+}
+
+export function UsersTable({ users: initialUsers }: UsersTableProps) {
+  const [users, setUsers] = useState<User[]>(initialUsers);
 
   const handleAddUser = (data: UserFormData) => {
     const newUser = {
@@ -43,7 +32,7 @@ export function UsersTable() {
   };
 
   const handleEditUser = (id: string, data: UserFormData) => {
-    setUsers(users.map(user => 
+    setUsers(users.map(user =>
       user.id === id ? { ...user, ...data } : user
     ));
   };
@@ -57,7 +46,7 @@ export function UsersTable() {
       <div className="flex justify-end">
         <UserForm mode="add" onSubmit={handleAddUser} />
       </div>
-      
+
       {/* Desktop view */}
       <div className="hidden md:block rounded-md border">
         <Table>
@@ -73,14 +62,14 @@ export function UsersTable() {
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
+                <TableCell className="font-medium">{user.firstName} {user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.username}</TableCell>
                 <TableCell>
                   <Badge
-                    variant={user.status === 'Active' ? 'default' : 'secondary'}
+                    variant={user.enabled ? 'default' : 'secondary'}
                   >
-                    {user.status}
+                    {user.enabled ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
                 <TableCell>

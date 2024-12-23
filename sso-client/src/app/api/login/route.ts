@@ -4,7 +4,7 @@ import { serialize } from 'cookie';
 export async function POST(req: NextRequest) {
     const body = await req.json();
     const { username, password } = body;
-    const res = await fetch(`${process.env.KEYCLOAK_AUTHORIZATION}`, {
+    const res = await fetch(`${process.env.KEYCLOAK_HOST}/realms/${process.env.KEYCLOAK_REALMS}/protocol/openid-connect/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -21,13 +21,13 @@ export async function POST(req: NextRequest) {
 
     if (res.ok) {
         const data = await res.json();
-        const { access_token } = data;
+        const { access_token, expires_in} = data;
 
         // Set the token in a cookie
         const cookie = serialize('token', access_token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 3600, // 1 hour
+            maxAge: expires_in, // expire token
             path: '/'
         });
         const response = NextResponse.json({ message: 'Logged in successfully' });

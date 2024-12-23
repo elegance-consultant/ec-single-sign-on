@@ -27,7 +27,7 @@ const routes = [
   {
     label: 'Users',
     icon: Users,
-    href: '/dashboard/users',
+    href: '/users',
     color: 'text-pink-700',
   },
   // {

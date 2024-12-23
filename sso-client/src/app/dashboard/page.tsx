@@ -34,16 +34,16 @@ const stats = [
   },
 ];
 
-export default function AdminPage() {
+export default async function Page() {
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
         <p className="text-muted-foreground">
           Here's an overview of your business
+          
         </p>
       </div>
-
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card key={stat.title} className="p-6">
