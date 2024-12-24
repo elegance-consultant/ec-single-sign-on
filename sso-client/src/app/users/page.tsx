@@ -17,7 +17,7 @@ export default async function UsersPage() {
   const tbheader: string[] = [];
   Object.entries(data[0]).forEach(([key, value]) => {
     // console.log(`${key} ${value}`);
-    tbheader.push(key)
+    tbheader.push(key);
   });
   // console.log(typeof(tbheader));
   

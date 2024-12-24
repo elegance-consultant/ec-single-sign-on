@@ -62,8 +62,7 @@ export function UsersTable({ users: initialUsers, tbHead }: UsersTableProps) {
             {users.map((user, index) => (
               <TableRow key={user.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell className="font-medium">{user.firstName} {user.lastName}</TableCell>
-                <TableCell>{user.email}</TableCell>
+                {/* <TableCell>{user.email}</TableCell>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>
                   <Badge
@@ -88,6 +87,17 @@ export function UsersTable({ users: initialUsers, tbHead }: UsersTableProps) {
                     />
                     <UserActions onDelete={() => handleDeleteUser(user.id)} />
                   </div>
+                </TableCell> */}
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={user.emailVerified ? 'default' : 'secondary'}
+                  >
+                    {user.emailVerified ? 'Verified' : 'Unverified'}
+                  </Badge>
                 </TableCell>
               </TableRow>
             ))}
