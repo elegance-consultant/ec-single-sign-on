@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
                 if (decodedToken.aud === 'account') {
                     const headersList = headers();
                     const users = (await headersList).get('next-url');
-                    if (users === '/dashboard') {
+                    if (users == '/dashboard' || users == '/access-denied') {
                         return NextResponse.redirect(new URL('/access-denied', request.url));
                     }
                     

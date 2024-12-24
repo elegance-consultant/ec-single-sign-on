@@ -17,9 +17,10 @@ import { User, UserFormData } from '../types/user';
 
 interface UsersTableProps {
   users: User[];
+  tbHead: string[];
 }
 
-export function UsersTable({ users: initialUsers }: UsersTableProps) {
+export function UsersTable({ users: initialUsers, tbHead }: UsersTableProps) {
   const [users, setUsers] = useState<User[]>(initialUsers);
 
   const handleAddUser = (data: UserFormData) => {
@@ -27,7 +28,7 @@ export function UsersTable({ users: initialUsers }: UsersTableProps) {
       ...data,
       status: 'Active',
     };
-    // setUsers([...users, newUser]);
+    setUsers([...users, newUser]);
   };
 
   const handleEditUser = (id: string, data: UserFormData) => {
@@ -51,12 +52,9 @@ export function UsersTable({ users: initialUsers }: UsersTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Id</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Username</TableHead>
-              <TableHead>Email Verified</TableHead>
-              <TableHead>Status</TableHead>
+              {tbHead.map((header) => (
+                <TableHead key={header}>{header}</TableHead>
+              ))}
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>

@@ -1,3 +1,9 @@
+export interface Credentials {
+  type: string,
+  value: string,
+  temporary: boolean
+}
+
 export interface User {
   id: string;
   username: string;
@@ -29,8 +35,8 @@ export interface User {
     impersonate: boolean;
     manage: boolean;
   };
+  credentials: Credentials[];
 }
-
 
 export interface UserFormData {
   id: string;
@@ -51,4 +57,5 @@ export interface UserFormData {
     Gender: string[];
     addr_SubDistrict: string[];
   };
+  credentials: Credentials[];
 }

@@ -34,12 +34,31 @@ export function UserForm({ user, onSubmit, mode }: UserFormProps) {
       Gender: [''],
       addr_SubDistrict: ['']
     },
+    credentials: user?.credentials || [{ type: 'password', value: '', temporary: false }]
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
+
+    console.log(formData);
+    
+    // try {
+    //   const formUser = fetch('/api/users/create', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: ''
+    //   })
+
+    // } catch (error) {
+      
+    // }
   };
+
+  // Convert datetime to date format for the input field
+  const getFormattedDate = (datetime: string) => datetime ? datetime.substring(0, 10) : '';
 
   return (
     <Dialog>
@@ -53,6 +72,25 @@ export function UserForm({ user, onSubmit, mode }: UserFormProps) {
           <DialogTitle>{mode === 'add' ? 'Add New User' : 'Edit User'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              value={formData.username}
+              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              value={formData.credentials[0].value}
+              onChange={(e) => setFormData({ ...formData, credentials: [{ ...formData.credentials[0], value: e.target.value }] })}
+              required
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="firstName">First Name</Label>
             <Input
@@ -110,6 +148,16 @@ export function UserForm({ user, onSubmit, mode }: UserFormProps) {
                 <SelectItem value="false">Inactive</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="birthday">BirthDay</Label>
+            <Input
+              id="birthday"
+              type="date"
+              value={getFormattedDate(formData.attributes.DateOfBirth[0])}
+              onChange={(e) => setFormData({ ...formData, attributes: { ...formData.attributes, DateOfBirth: [e.target.value] } })}
+              required
+            />
           </div>
           <Button type="submit" className="w-full">
             {mode === 'add' ? 'Add User' : 'Save Changes'}
