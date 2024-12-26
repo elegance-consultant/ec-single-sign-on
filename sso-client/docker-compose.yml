@@ -1,7 +1,8 @@
 version: "3.9"  # Use a recent version of docker-compose
 
 services:
-  web:
+  sso:
+    image: sso:latest
     build:
       context: . # Current directory as build context
       dockerfile: Dockerfile # Name of your Dockerfile
