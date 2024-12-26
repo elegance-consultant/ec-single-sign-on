@@ -19,9 +19,9 @@ const Header = async () => {
     }
 
     return (
-        <header className='pt-4'>
-            <div className="container mx-auto flex justify-end items-center py-3 px-6">
-                <div className="hidden md:flex items-center space-x-4">
+        <header>
+            <div className="hidden md:flex rounded-md container mx-auto justify-end items-center py-3 px-6">
+                <div className="hidden md:flex items-center space-x-5">
                     <span>{given_name}</span> {/* Display the username */}
                     <ModeToggle />
                 </div>
