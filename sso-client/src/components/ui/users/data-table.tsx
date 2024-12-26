@@ -208,6 +208,9 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Mobile view */}
+      <div className="hidden md:block">
+
+      </div>
     </div>
   )
 }

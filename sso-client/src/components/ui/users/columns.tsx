@@ -20,6 +20,13 @@ import { Badge } from "@/components/ui/badge"
 import { User } from "@/types/user"
 import { DataTableColumnHeader } from "@/components/colunm-header"
 
+interface BirthDay {
+  birthday: string[]
+}
+
+export function DateOfBirth({ birthday }: BirthDay) {
+  return new Date(birthday[0]).toLocaleDateString() || '';
+}
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -109,16 +116,16 @@ export const columns: ColumnDef<User>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "birthday",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="DateOfBirth" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const user = row.original
-  //     return(new Date(user.attributes?.DateOfBirth).toLocaleDateString('th-TH') || '');
-  //   },
-  // },
+  {
+    accessorKey: "birthday",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="DateOfBirth" />
+    ),
+    cell: ({ row }) => {
+      const user = row.original
+      return(<DateOfBirth birthday={user.attributes.DateOfBirth} />);
+    },
+  },
   {
     accessorKey: "gender",
     header: ({ column }) => (

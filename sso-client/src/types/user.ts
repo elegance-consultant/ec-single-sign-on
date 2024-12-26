@@ -30,16 +30,3 @@ export type User = {
         manage: boolean;
     };
   };
-
-  // interface UserAttributes {
-  //   DateOfBirth: string[];
-  //   Telephone: string[];
-  //   addr_Province?: string[];
-  //   addr_Address?: string[];
-  //   Gender?: string[];
-  //   addr_PostCode?: string[];
-  //   addr_District?: string[];
-  //   NationalIDCard?: string[];
-  //   addr_SubDistrict?: string[];
-  //   [key: string]: string[]; // Allow for other attributes
-  // }
