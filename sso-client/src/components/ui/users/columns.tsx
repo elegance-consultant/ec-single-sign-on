@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge"
 import { User } from "@/types/user"
 import { DataTableColumnHeader } from "@/components/colunm-header"
 
+
 export const columns: ColumnDef<User>[] = [
   {
     id: "select",
