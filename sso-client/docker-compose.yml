@@ -1,0 +1,17 @@
+version: "3.9"  # Use a recent version of docker-compose
+
+services:
+  web:
+    build:
+      context: . # Current directory as build context
+      dockerfile: Dockerfile # Name of your Dockerfile
+    ports:
+      - "4000:3000" # Map host port 3000 to container port 3000
+    environment: # Optional environment variables
+      - NODE_ENV=production # Important for production
+      - AUTH_SECRET=+fPXTFfSweyKc2oNT2vclrdXodNL5NMTczOpbTzXEl4=
+      - KEYCLOAK_ID=QYmZpudLGEqxBrGlK66hqw==
+      - KEYCLOAK_SECRET=Zju0tBUai1T9fdJAdPRu1FaHqHg5teZ0
+      - KEYCLOAK_HOST=https://keycloak.ecsocketio.com
+      - KEYCLOAK_REALMS=swp-sso
+      - KEYCLOAK_AUTHORIZATION=protocol/openid-connect/token

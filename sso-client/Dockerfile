@@ -1,41 +1,37 @@
-# Use a Node.js base image with the appropriate version
+# Use a Node.js base image
 FROM node:18-alpine AS builder
 
-# Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
 # Copy package.json and package-lock.json (or yarn.lock)
 COPY package*.json ./
 
-# Install dependencies. Use --no-cache for cleaner builds in CI/CD
-RUN npm ci --no-cache
+# Install dependencies
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the Next.js application for production in standalone mode
+# Build the Next.js application
 RUN npm run build
 
-# --- Production Stage ---
+# --- Stage 2: Production image ---
 FROM node:18-alpine
 
-# Set the working directory
 WORKDIR /app
 
 # Copy the standalone output from the builder stage
 COPY --from=builder /app/.next/standalone ./
 
-# Copy the public files
+# Copy the public folder
 COPY --from=builder /app/public ./public
 
-# Copy necessary files from node_modules (if needed)
-# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma # Example for Prisma
+# Copy the static files
+COPY --from=builder /app/.next/static ./.next/static
 
-# Set environment variables (if needed)
-ENV NODE_ENV production
-
-# Expose the port the app runs on
+# Expose the port your app runs on
 EXPOSE 3000
 
-# Start the Next.js server
+# Set the startup command
 CMD ["node", "server.js"]
