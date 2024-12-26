@@ -5,11 +5,21 @@ export type User = {
     lastName: string;
     email: string;
     emailVerified: boolean;
-    attributes?: UserAttributes;
+    attributes: {
+      DateOfBirth: string[];
+      Telephone: string[];
+      addr_Province?: string[];
+      addr_Address?: string[];
+      Gender?: string[];
+      addr_PostCode?: string[];
+      addr_District?: string[];
+      NationalIDCard?: string[];
+      addr_SubDistrict?: string[];
+    };
     createdTimestamp: number;
     enabled: boolean;
     totp: boolean;
-    disableableCredentialTypes: any[];
+    disableableCredentialTypes: string[];
     requiredActions: any[];
     notBefore: number;
     access: {
@@ -21,15 +31,15 @@ export type User = {
     };
   };
 
-  interface UserAttributes {
-    DateOfBirth: string[];
-    Telephone: string[];
-    addr_Province?: string[];
-    addr_Address?: string[];
-    Gender?: string[];
-    addr_PostCode?: string[];
-    addr_District?: string[];
-    NationalIDCard?: string[];
-    addr_SubDistrict?: string[];
-    [key: string]: string[]; // Allow for other attributes
-  }
+  // interface UserAttributes {
+  //   DateOfBirth: string[];
+  //   Telephone: string[];
+  //   addr_Province?: string[];
+  //   addr_Address?: string[];
+  //   Gender?: string[];
+  //   addr_PostCode?: string[];
+  //   addr_District?: string[];
+  //   NationalIDCard?: string[];
+  //   addr_SubDistrict?: string[];
+  //   [key: string]: string[]; // Allow for other attributes
+  // }

@@ -108,16 +108,16 @@ export const columns: ColumnDef<User>[] = [
       );
     },
   },
-  {
-    accessorKey: "birthday",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="DateOfBirth" />
-    ),
-    cell: ({ row }) => {
-      const user = row.original
-      return(new Date(user.attributes?.DateOfBirth).toLocaleDateString('th-TH') || '');
-    },
-  },
+  // {
+  //   accessorKey: "birthday",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="DateOfBirth" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const user = row.original
+  //     return(new Date(user.attributes?.DateOfBirth).toLocaleDateString('th-TH') || '');
+  //   },
+  // },
   {
     accessorKey: "gender",
     header: ({ column }) => (

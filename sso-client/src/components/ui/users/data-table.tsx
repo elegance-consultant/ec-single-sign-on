@@ -71,46 +71,46 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  function downloadCSV<T>(data: T[], filename: string = 'data.csv') {
-    // Use UTF-16LE encoding for proper Thai character support in Excel
-    const csv = '\ufeff' + Papa.unparse(data, { encoding: 'UTF-16LE' }); // Add BOM
+  // function downloadCSV<T>(data: T[], filename: string = 'data.csv') {
+  //   // Use UTF-16LE encoding for proper Thai character support in Excel
+  //   const csv = '\ufeff' + Papa.unparse(data, { encoding: 'UTF-16LE' }); // Add BOM
   
-    const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
-    const downloadLink = document.createElement('a');
+  //   const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
+  //   const downloadLink = document.createElement('a');
   
-    downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
-    downloadLink.setAttribute('download', filename);
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  }
+  //   downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
+  //   downloadLink.setAttribute('download', filename);
+  //   document.body.appendChild(downloadLink);
+  //   downloadLink.click();
+  //   document.body.removeChild(downloadLink);
+  // }
 
-  const handleExportCSV = () => {
-    //Important Change is here
-    const csvData: any[] = table.getRowModel().rows.map((row: Row<TData>) => {
-      const original = row.original;
-      const flattened: any = {};
+  // const handleExportCSV = () => {
+  //   //Important Change is here
+  //   const csvData: any[] = table.getRowModel().rows.map((row: Row<TData>) => {
+  //     const original = row.original;
+  //     const flattened: any = {};
 
-      // Function to recursively flatten nested objects
-      function flattenObject(obj: any, prefix = '') {
-        for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            const propName = prefix ? `${prefix}.${key}` : key;
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-              flattenObject(obj[key], propName);
-            } else {
-              flattened[propName] = obj[key];
-            }
-          }
-        }
-      }
+  //     // Function to recursively flatten nested objects
+  //     function flattenObject(obj: any, prefix = '') {
+  //       for (const key in obj) {
+  //         if (obj.hasOwnProperty(key)) {
+  //           const propName = prefix ? `${prefix}.${key}` : key;
+  //           if (typeof obj[key] === 'object' && obj[key] !== null) {
+  //             flattenObject(obj[key], propName);
+  //           } else {
+  //             flattened[propName] = obj[key];
+  //           }
+  //         }
+  //       }
+  //     }
 
-      flattenObject(original);
-      return flattened;
-    });
+  //     flattenObject(original);
+  //     return flattened;
+  //   });
 
-    downloadCSV<any>(csvData, 'table_data.csv');
-  };
+  //   downloadCSV<any>(csvData, 'table_data.csv');
+  // };
 
   return (
     <div className="hidden md:block rounded-md">
@@ -131,7 +131,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Button onClick={handleExportCSV}>Export CSV</Button>
+        {/* <Button onClick={handleExportCSV}>Export CSV</Button> */}
         <DropdownMenu>
           <DataTableViewOptions table={table} />
           <DropdownMenuContent align="end">
