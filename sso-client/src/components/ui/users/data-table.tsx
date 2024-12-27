@@ -49,8 +49,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
 
   const table = useReactTable({
     data,
@@ -71,67 +70,66 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  // function downloadCSV<T>(data: T[], filename: string = 'data.csv') {
-  //   // Use UTF-16LE encoding for proper Thai character support in Excel
-  //   const csv = '\ufeff' + Papa.unparse(data, { encoding: 'UTF-16LE' }); // Add BOM
-  
-  //   const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
-  //   const downloadLink = document.createElement('a');
-  
-  //   downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
-  //   downloadLink.setAttribute('download', filename);
-  //   document.body.appendChild(downloadLink);
-  //   downloadLink.click();
-  //   document.body.removeChild(downloadLink);
-  // }
+  function downloadCSV<T>(data: T[], filename: string = "data.csv") {
+    const csv = '\ufeff' + Papa.unparse(data);
+    const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
+    const downloadLink = document.createElement('a');
 
-  // const handleExportCSV = () => {
-  //   //Important Change is here
-  //   const csvData: any[] = table.getRowModel().rows.map((row: Row<TData>) => {
-  //     const original = row.original;
-  //     const flattened: any = {};
+    downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
+    downloadLink.setAttribute('download', filename);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
 
-  //     // Function to recursively flatten nested objects
-  //     function flattenObject(obj: any, prefix = '') {
-  //       for (const key in obj) {
-  //         if (obj.hasOwnProperty(key)) {
-  //           const propName = prefix ? `${prefix}.${key}` : key;
-  //           if (typeof obj[key] === 'object' && obj[key] !== null) {
-  //             flattenObject(obj[key], propName);
-  //           } else {
-  //             flattened[propName] = obj[key];
-  //           }
-  //         }
-  //       }
-  //     }
+  const handleExportCSV = () => {
+    const selectedRows = table.getSelectedRowModel().rows;
+    const csvData = selectedRows.map((row) => {
+      const original = row.original;
+      const flattened: any = {};
 
-  //     flattenObject(original);
-  //     return flattened;
-  //   });
+      function flattenObject(obj: any, prefix = "") {
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const propName = prefix ? `${prefix}.${key}` : key;
+            if (typeof obj[key] === "object" && obj[key] !== null) {
+              flattenObject(obj[key], propName);
+            } else {
+              flattened[propName] = obj[key];
+            }
+          }
+        }
+      }
 
-  //   downloadCSV<any>(csvData, 'table_data.csv');
-  // };
+      flattenObject(original);
+      return flattened;
+    });
+
+    downloadCSV(csvData, "selected_data.csv");
+  };
 
   return (
     <div className="hidden md:block rounded-md">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Input
-          placeholder="Filter usernames..."
-          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("username")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        {/* <Button onClick={handleExportCSV}>Export CSV</Button> */}
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          <Input
+            placeholder="Filter emails..."
+            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("email")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          <Input
+            placeholder="Filter usernames..."
+            value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("username")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <Button onClick={handleExportCSV}>Export CSV</Button>
         <DropdownMenu>
           <DataTableViewOptions table={table} />
           <DropdownMenuContent align="end">

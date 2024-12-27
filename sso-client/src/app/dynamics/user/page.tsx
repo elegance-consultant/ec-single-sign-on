@@ -1,8 +1,11 @@
-import { UserPage } from '@/components/ui/users/user-page';
-import { cookies } from 'next/headers';
+import { User } from "@/types/user";
+import { cookies } from "next/headers";
 
-export default async function Page() {
-    // Fetch data from your API here.
+interface UserProp {
+    user: User;
+}
+
+export default async function Page({user}: UserProp) {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     const response = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users`, {
@@ -13,6 +16,5 @@ export default async function Page() {
         },
     });
     const data = await response.json();
-    
-    return <UserPage data={data} />
+    // console.log(Object.keys(data[0]));
 }

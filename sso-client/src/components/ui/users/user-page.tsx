@@ -3,7 +3,7 @@
 import { User } from '@/types/user';
 import { useState, useEffect } from 'react';
 import { DataTable } from './data-table';
-import { columns } from './columns';
+import { getColumns } from './columns';
 
 interface UserPageProps {
     data: User[];
@@ -29,6 +29,8 @@ export function UserPage({ data }: UserPageProps) {
         setIsClient(true);
     }, []);
 
+    const dynamicFields = Object.keys(data[0]);
+
     return (
         <div className="space-y-0">
             <div>
@@ -39,7 +41,7 @@ export function UserPage({ data }: UserPageProps) {
             </div>
             <div className="container mx-auto">
                 {
-                    isClient ? <DataTable columns={columns} data={data} /> : Loading()
+                    isClient ? <DataTable columns={getColumns(dynamicFields)} data={data} /> : Loading()
                 }
             </div>
         </div>

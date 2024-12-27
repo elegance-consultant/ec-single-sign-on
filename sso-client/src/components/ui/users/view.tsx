@@ -4,140 +4,87 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { User } from "@/types/user";
+import { redirect } from "next/navigation";
 
 interface UserFormProps {
-  user?: User;
+  user: User;
 }
 
 export function UserForm({ user }: UserFormProps) {
-  const [formData, setFormData] = useState<User>({
-    id: user?.id || '',
-    username: user?.username || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    emailVerified: user?.emailVerified || false,
-    attributes: user?.attributes || {
-      DateOfBirth: [''],
-      Telephone: [''],
-      addr_Province: [''],
-      addr_Address: [''],
-      Gender: [''],
-      addr_PostCode: [''],
-      addr_District: [''],
-      NationalIDCard: [''],
-      addr_SubDistrict: ['']
-    },
-    createdTimestamp: user?.createdTimestamp || Date.now(),
-    enabled: user?.enabled || false,
-    totp: user?.totp || false,
-    disableableCredentialTypes: user?.disableableCredentialTypes || [],
-    requiredActions: user?.requiredActions || [],
-    notBefore: user?.notBefore || 0,
-    access: user?.access || {
-      manageGroupMembership: false,
-      view: false,
-      mapRoles: false,
-      impersonate: false,
-      manage: false
-    }
-  });
+  const [formData, setFormData] = useState(user);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAttributesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      attributes: {
+        ...prev.attributes,
+        [name]: [value]
+      }
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData);
   };
+
+  const handleGoToUsers = () => {
+    redirect('/users');
+  };
+
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">View User</h1>
-      <div className="py-10 columns-2xl">
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-6 grid-auto-rows-min">
-            <div className="grid gap-2">
-              <Label htmlFor="id">Id</Label>
-              <Input
-                id="id"
-                name="id"
-                type="text"
-                placeholder="id"
-                value={formData.id}
-                onChange={handleChange}
-                disabled
-                className="w-full"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                name="username"
-                type="text"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                disabled
-                className="w-full"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="m@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                disabled
-                className="w-full"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input
-                id="firstName"
-                name="firstName"
-                type="text"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={handleChange}
-                disabled
-                className="w-full"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                name="lastName"
-                type="text"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={handleChange}
-                disabled
-                className="w-full"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="address">Address</Label>
-              <Input
-                id="address"
-                name="address"
-                type="text"
-                value={formData.attributes?.addr_Address?.[0] || ''}
-                onChange={handleChange}
-                disabled
-                className="w-full"
-              />
-            </div>
-          </div>
-        </form>
-      </div>
+      <button onClick={handleGoToUsers}>Go to Users</button>
+      <form onSubmit={handleSubmit}>
+        <div className="grid gap-6 md:grid-cols-3">
+          {Object.keys(user).map((key) => {
+            switch (key) {
+              case 'attributes':
+                return Object.keys(user.attributes).map((attrKey) => (
+                  <div className="grid gap-2" key={attrKey}>
+                    <Label htmlFor={attrKey}>{attrKey}</Label>
+                    <Input
+                      id={attrKey}
+                      name={attrKey}
+                      type="text"
+                      placeholder={attrKey}
+                      value={formData.attributes[attrKey]?.join(', ') || ''} // Added nullish coalescing
+                      onChange={handleAttributesChange}
+                      className="w-full"
+                    />
+                  </div>
+                ));
+              case 'access':
+                break;
+              default:
+                return (
+                  <div className="grid gap-2" key={key}>
+                    <Label htmlFor={key}>{key}</Label>
+                    <Input
+                      id={key}
+                      name={key}
+                      type="text"
+                      placeholder={key}
+                      value={formData[key as keyof User]?.toString() || ''}
+                      onChange={handleChange}
+                      disabled={key === 'id'}
+                      className="w-full"
+                    />
+                  </div>
+                );
+            }
+          })}
+        </div>
+        <button type="submit" className="mt-4 btn btn-primary">Submit</button>
+      </form>
     </div>
   );
 }
