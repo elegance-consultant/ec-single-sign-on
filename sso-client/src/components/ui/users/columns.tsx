@@ -70,7 +70,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(user.id)}
+                onClick={() => navigator.clipboard.writeText(user.id.toString())}
               >
                 Copy user ID
               </DropdownMenuItem>
