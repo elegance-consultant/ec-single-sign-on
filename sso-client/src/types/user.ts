@@ -1,18 +1,18 @@
 export interface User {
-  attributes: {
-    [key: string]: string[];
-  };
-  [key: string]: string | boolean | number | number[] | string[] | attributes | access | credentials;
+  attributes: Attributes;
+  access: Access;
+  credentials: Credentials;
+  [key: string]: string | boolean | number | number[] | string[] | Attributes | Access | Credentials;
 };
 
-interface attributes {
+interface Attributes {
   [key: string]: string[];
 };
 
-interface access {
+interface Access {
   [key: string]: boolean;
 };
 
-interface credentials {
+interface Credentials {
   [key: string]: string;
 };
