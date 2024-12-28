@@ -119,9 +119,21 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           },
         });
         break;
-      case 'attributes':
-
-        break;
+      // case 'attributes':
+      //   Object.keys(dynamicFields).forEach(attrKey => {
+      //     dynamic_column.push({
+      //       accessorKey: `attributes.${attrKey}`,
+      //       header: ({ column }) => {
+      //         <DataTableColumnHeader column={column} title={attrKey} />
+      //       },
+      //       cell: ({ row }) => {
+      //         const user = row.original;
+      //         const attrValue = user.attributes[attrKey];
+      //         return Array.isArray(attrValue) ? attrValue.join(', ') : attrValue;
+      //       }
+      //     });
+      //   });
+      //   break;
       case 'createdTimestamp':
 
         break;
