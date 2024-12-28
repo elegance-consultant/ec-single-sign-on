@@ -42,8 +42,8 @@ export function UserForm({ user }: UserFormProps) {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">User Management</h1>
+    <div className="mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">User view</h1>
       <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleGoToUsers}>Go to Users Table</button>
       <button
         onClick={() => setIsEditMode(!isEditMode)}
@@ -71,8 +71,24 @@ export function UserForm({ user }: UserFormProps) {
                     />
                   </div>
                 ));
-                case 'access':
-                  break;
+              case 'access':
+                break;
+              case 'credentials':
+                return Object.keys(user.attributes).map((attrKey) => (
+                  <div className="grid gap-2" key={attrKey}>
+                    <Label htmlFor={attrKey}>{attrKey}</Label>
+                    <Input
+                      id={attrKey}
+                      name={attrKey}
+                      type="text"
+                      placeholder={attrKey}
+                      value={formData.attributes[attrKey]?.join(', ') || ''}
+                      onChange={handleAttributesChange}
+                      className="w-full"
+                      disabled={!isEditMode}
+                    />
+                  </div>
+                ));
               default:
                 return (
                   <div className="grid gap-2" key={key}>

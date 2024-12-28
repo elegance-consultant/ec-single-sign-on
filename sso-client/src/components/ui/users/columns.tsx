@@ -19,17 +19,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { User } from "@/types/user"
 import { DataTableColumnHeader } from "@/components/colunm-header"
-
-interface BirthDay {
-  birthday: string
-}
-
-export function DateOfBirth({ birthday }: BirthDay) {
-  return new Date(birthday[0]).toLocaleDateString() || '';
-}
+import { Attributes } from "./attribute-view"
 
 export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
-    const select_column: ColumnDef<User>[] = [
+  const select_column: ColumnDef<User>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -109,33 +102,39 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const user = row.original
-            return(
+            return (
               <Badge
-              variant={user.emailVerified ? 'default' : 'secondary'}
+                variant={user.emailVerified ? 'default' : 'secondary'}
               >
-              {user.emailVerified ? 'Verified' : 'Unverified'}
-            </Badge>
+                {user.emailVerified ? 'Verified' : 'Unverified'}
+              </Badge>
             );
           },
         });
         break;
-      // case 'attributes':
-      //   Object.keys(dynamicFields).forEach(attrKey => {
-      //     dynamic_column.push({
-      //       accessorKey: `attributes.${attrKey}`,
-      //       header: ({ column }) => {
-      //         <DataTableColumnHeader column={column} title={attrKey} />
-      //       },
-      //       cell: ({ row }) => {
-      //         const user = row.original;
-      //         const attrValue = user.attributes[attrKey];
-      //         return Array.isArray(attrValue) ? attrValue.join(', ') : attrValue;
-      //       }
-      //     });
-      //   });
-      //   break;
+      case 'attributes':
+        dynamic_column.push({
+          accessorKey: field,
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title={field} />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            return <Attributes attributes={user.attributes} />;
+          },
+        });
+      break;
       case 'createdTimestamp':
-
+        dynamic_column.push({
+          accessorKey: field,
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title={field} />
+          ),
+          cell: ({ row }) => {
+            const timestamp = row.original[field];
+            return timestamp ? new Date(Number(timestamp)).toLocaleString() : ''; // Format the timestamp
+          },
+        });
         break;
       case 'enabled':
 
@@ -157,14 +156,14 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         break;
       default:
         dynamic_column.push({
-            accessorKey: field,
-            header: ({ column }) => (
-              <DataTableColumnHeader column={column} title={field} />
-            ),
-            cell: ({ row }) => {
-              const user = row.original;
-              return user?.[field].toString() || '';
-            },
+          accessorKey: field,
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title={field} />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            return user?.[field].toString() || '';
+          },
         });
         break;
     }
@@ -176,3 +175,4 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
     ...action_column,
   ];
 }
+

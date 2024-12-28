@@ -1,8 +1,8 @@
 export interface User {
   attributes: Attributes;
   access: Access;
-  credentials: Credentials;
-  [key: string]: string | boolean | number | number[] | string[] | Attributes | Access | Credentials;
+  credentials: Credentials[];
+  [key: string]: string | boolean | number | number[] | string[] | Attributes | Access | Credentials[];
 };
 
 interface Attributes {
@@ -14,5 +14,5 @@ interface Access {
 };
 
 interface Credentials {
-  [key: string]: string;
+  [key: string]: string | boolean;
 };
