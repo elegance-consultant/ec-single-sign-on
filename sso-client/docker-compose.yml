@@ -1,14 +1,20 @@
-version: "3.9"  # Use a recent version of docker-compose
+networks:
+  t3_proxy:
+   external: true
 
 services:
-  sso:
-    image: sso:latest
+  ec-sso:
+    container_name: ec-sso
+    # image: sso:latest
     build:
       context: . # Current directory as build context
       dockerfile: Dockerfile # Name of your Dockerfile
+    networks:
+      - t3_proxy
     ports:
-      - "4000:3000" # Map host port 3000 to container port 3000
+      - "9998:3001" # Map host port 3000 to container port 3000
     environment: # Optional environment variables
+      - PORT=3001
       - NODE_ENV=production # Important for production
       - AUTH_SECRET=+fPXTFfSweyKc2oNT2vclrdXodNL5NMTczOpbTzXEl4=
       - KEYCLOAK_ID=QYmZpudLGEqxBrGlK66hqw==
@@ -16,3 +22,10 @@ services:
       - KEYCLOAK_HOST=https://keycloak.ecsocketio.com
       - KEYCLOAK_REALMS=swp-sso
       - KEYCLOAK_AUTHORIZATION=protocol/openid-connect/token
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ec-sso-rtr.entrypoints=websecure"
+      - "traefik.http.routers.ec-sso-rtr.rule=Host(`sso.ecgold.io`)"
+      - "traefik.http.routers.ec-sso-rtr.middlewares=chain-no-auth@file"
+      - "traefik.http.routers.ec-sso-rtr.service=ec-sso-svc"
+      - "traefik.http.services.ec-sso-svc.loadbalancer.server.port=3001"
