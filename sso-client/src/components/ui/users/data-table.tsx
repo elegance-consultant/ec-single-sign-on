@@ -77,20 +77,22 @@ export function DataTable<TData, TValue>({
     const csv = '\ufeff' + Papa.unparse(data);
     const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
     const downloadLink = document.createElement('a');
-
+  
     downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
     downloadLink.setAttribute('download', filename);
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
   }
-
+  
   const handleExportCSV = () => {
-    const selectedRows = table.getSelectedRowModel().rows;
-    const csvData = selectedRows.map((row) => {
+    const selectedRows = table.getSelectedRowModel().rows;   
+    const rowsToExport = selectedRows && selectedRows.length > 0 ? selectedRows : table.getRowModel().rows;
+  
+    const csvData = rowsToExport.map((row) => {
       const original = row.original;
       const flattened: any = {};
-
+  
       function flattenObject(obj: any, prefix = "") {
         for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
@@ -103,12 +105,12 @@ export function DataTable<TData, TValue>({
           }
         }
       }
-
+  
       flattenObject(original);
       return flattened;
     });
-
-    downloadCSV(csvData, "selected_data.csv");
+  
+    downloadCSV(csvData, "users.csv");
   };
 
   return (
