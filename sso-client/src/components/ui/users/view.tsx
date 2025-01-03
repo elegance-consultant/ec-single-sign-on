@@ -73,6 +73,12 @@ export function UserForm({ user }: UserFormProps) {
                 ));
               case 'access':
                 break;
+              case 'disableableCredentialTypes':
+                break;
+              case 'requiredActions':
+                break;
+              case 'notBefore':
+                break;
               case 'credentials':
                 return Object.keys(user.attributes).map((attrKey) => (
                   <div className="grid gap-2" key={attrKey}>

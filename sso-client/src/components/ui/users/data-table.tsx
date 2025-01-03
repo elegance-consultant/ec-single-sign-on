@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
     // username: false,
-    createdTimestamp: false
+    createdTimestamp: false,
   })
 
   const table = useReactTable({
