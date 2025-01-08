@@ -8,16 +8,27 @@ import {
 } from 'lucide-react';
 import { cookies } from 'next/headers';
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  const response = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-      },
-  });
-  const userCount = await response.json();
+const cookieStore = await cookies();
+const token = cookieStore.get('token')?.value;
+const GetuserCount = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+});
+const GetSessionClientStats = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/client-session-stats`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+});
+const userCount = await GetuserCount.json();
+const clientSessionStats = await GetSessionClientStats.json()
+
+console.log(clientSessionStats);
+
 
 const stats = [
   // {
@@ -39,9 +50,9 @@ const stats = [
   //   icon: CreditCard,
   // },
   // {
-  //   title: 'Active Sessions',
-  //   value: '573',
-  //   change: '+8.1%',
+  //   title: 'Client Sessions',
+  //   value: clientSessionStats,
+  //   change: '',
   //   icon: Activity,
   // },
 ];
