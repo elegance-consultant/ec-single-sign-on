@@ -119,8 +119,8 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md">
       <div className="flex items-center py-4 flex-col md:flex-row">
-        <div className="mb-4 md:mb-0">
-        <Input
+        <div className="grid grid-cols-1 md:grid-cols-1 mb-4 md:mb-0">
+          <Input
             placeholder="Filter usernames..."
             value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
@@ -130,7 +130,7 @@ export function DataTable<TData, TValue>({
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 mb-4 md:mb-0">
-        <Input
+          <Input
             placeholder="Filter emails..."
             value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>

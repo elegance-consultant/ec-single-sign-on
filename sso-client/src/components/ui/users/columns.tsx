@@ -44,7 +44,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         const user = row.original;
 
         return (
-          <div>
+          <div className="space-x-1">
             <Button onClick={() => redirect(`/users/${user.id}`)}>
               View
             </Button>

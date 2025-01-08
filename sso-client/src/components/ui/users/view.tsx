@@ -48,13 +48,15 @@ export function UserForm({ user }: UserFormProps) {
   return (
     <div className="mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User view</h1>
-      <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleGoToUsers}>Go to Users Table</button>
-      <button
-        onClick={() => setIsEditMode(!isEditMode)}
-        className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm"
-      >
+      <div className="space-x-4">
+        <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleGoToUsers}>Go to Users Table</button>
+        <button
+          onClick={() => setIsEditMode(!isEditMode)}
+          className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm"
+        >
         {isEditMode ? 'View' : 'Edit'}
-      </button>
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Object.keys(user).map((key) => {
