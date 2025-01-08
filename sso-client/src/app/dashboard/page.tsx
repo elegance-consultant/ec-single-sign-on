@@ -29,6 +29,7 @@ const stats = [
   {
     title: 'Users',
     value: userCount,
+    change: '',
     icon: Users,
   },
   // {
