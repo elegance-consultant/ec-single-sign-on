@@ -6,32 +6,43 @@ import {
   Activity,
   DollarSign,
 } from 'lucide-react';
+import { cookies } from 'next/headers';
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  const response = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      },
+  });
+  const userCount = await response.json();
 
 const stats = [
+  // {
+  //   title: 'Total Revenue',
+  //   value: '$45,231.89',
+  //   change: '+20.1%',
+  //   icon: DollarSign,
+  // },
   {
-    title: 'Total Revenue',
-    value: '$45,231.89',
-    change: '+20.1%',
-    icon: DollarSign,
-  },
-  {
-    title: 'Active Users',
-    value: '2,350',
-    change: '+15.2%',
+    title: 'Users',
+    value: userCount,
     icon: Users,
   },
-  {
-    title: 'Sales',
-    value: '12,234',
-    change: '+12.2%',
-    icon: CreditCard,
-  },
-  {
-    title: 'Active Sessions',
-    value: '573',
-    change: '+8.1%',
-    icon: Activity,
-  },
+  // {
+  //   title: 'Sales',
+  //   value: '12,234',
+  //   change: '+12.2%',
+  //   icon: CreditCard,
+  // },
+  // {
+  //   title: 'Active Sessions',
+  //   value: '573',
+  //   change: '+8.1%',
+  //   icon: Activity,
+  // },
 ];
 
 export default async function Page() {
