@@ -128,6 +128,8 @@ export function DataTable<TData, TValue>({
             }
             className="max-w-sm"
           />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 mb-4 md:mb-0">
           <Input
             placeholder="Filter usernames..."
             value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
