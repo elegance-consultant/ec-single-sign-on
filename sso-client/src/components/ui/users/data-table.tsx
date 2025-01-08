@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -11,8 +11,7 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   VisibilityState,
-  Row,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -20,39 +19,40 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table"
+  TableRow,
+} from "@/components/ui/table";
 
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import { Input } from "@/components/ui/input"
-import React from "react"
-import { DataTablePagination } from "@/components/pagination"
-import { DataTableViewOptions } from "@/components/column-toggle"
-import { Button } from "@/components/ui/button"
-import Papa from 'papaparse';
+import { Input } from "@/components/ui/input";
+import React from "react";
+import { DataTablePagination } from "@/components/pagination";
+import { DataTableViewOptions } from "@/components/column-toggle";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Papa from "papaparse";
+import { redirect } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[],
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
-    // username: false,
     createdTimestamp: false,
-  })
+  });
 
   const table = useReactTable({
     data,
@@ -71,28 +71,31 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   function downloadCSV<T>(data: T[], filename: string = "data.csv") {
-    const csv = '\ufeff' + Papa.unparse(data);
-    const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
-    const downloadLink = document.createElement('a');
-  
-    downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
-    downloadLink.setAttribute('download', filename);
+    const csv = "\ufeff" + Papa.unparse(data);
+    const csvFile = new Blob([csv], { type: "text/csv;charset=UTF-16LE;" });
+    const downloadLink = document.createElement("a");
+
+    downloadLink.setAttribute("href", URL.createObjectURL(csvFile));
+    downloadLink.setAttribute("download", filename);
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
   }
-  
+
   const handleExportCSV = () => {
-    const selectedRows = table.getSelectedRowModel().rows;   
-    const rowsToExport = selectedRows && selectedRows.length > 0 ? selectedRows : table.getRowModel().rows;
-  
+    const selectedRows = table.getSelectedRowModel().rows;
+    const rowsToExport =
+      selectedRows && selectedRows.length > 0
+        ? selectedRows
+        : table.getRowModel().rows;
+
     const csvData = rowsToExport.map((row) => {
       const original = row.original;
       const flattened: any = {};
-  
+
       function flattenObject(obj: any, prefix = "") {
         for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
@@ -105,18 +108,18 @@ export function DataTable<TData, TValue>({
           }
         }
       }
-  
+
       flattenObject(original);
       return flattened;
     });
-  
+
     downloadCSV(csvData, "users.csv");
   };
 
   return (
-    <div className="hidden md:block rounded-md">
-      <div className="flex items-center py-4">
-        <div className="grid grid-cols-1 md:grid-cols-3">
+    <div className="rounded-md">
+      <div className="flex items-center py-4 flex-col md:flex-row">
+        <div className="grid grid-cols-1 md:grid-cols-3 mb-4 md:mb-0">
           <Input
             placeholder="Filter emails..."
             value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -134,15 +137,18 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <Button onClick={handleExportCSV}>Export CSV</Button>
+        <div>
+          <Button onClick={handleExportCSV}>Export CSV</Button>
+        </div>
+        <div>
+          <Button onClick={() => redirect('/create')}>Add</Button>
+        </div>
         <DropdownMenu>
           <DataTableViewOptions table={table} />
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
+              .filter((column) => column.getCanHide())
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem
@@ -155,7 +161,7 @@ export function DataTable<TData, TValue>({
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -177,7 +183,7 @@ export function DataTable<TData, TValue>({
                           header.getContext()
                         )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -206,14 +212,32 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
+      {/* Mobile view */}
+      <div className="md:hidden w-full">
+        {table.getRowModel().rows?.length ? (
+          table.getRowModel().rows.map((row) => (
+            <Card key={row.id} className="mb-4">
+              <CardHeader>
+                <CardTitle>{row.id}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {row.getVisibleCells().map((cell) => (
+                  <div key={cell.id} className="py-1">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <div className="text-center py-4">No results.</div>
+        )}
+      </div>
+
       <div className="flex items-center justify-end space-x-2 py-4">
         <DataTablePagination table={table} />
       </div>
-
-      {/* Mobile view */}
-      <div className="hidden md:block">
-
-      </div>
     </div>
-  )
+  );
 }

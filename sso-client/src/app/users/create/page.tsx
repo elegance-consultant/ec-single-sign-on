@@ -1,5 +1,5 @@
-import { CreateUserForm } from "@/components/ui/users/create-user";
+import CreateUser from "@/components/ui/users/create";
 
 export default function Page() {
-    return <CreateUserForm />
+    return(<CreateUser></CreateUser>);
 }

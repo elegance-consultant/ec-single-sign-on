@@ -14,5 +14,9 @@ export default async function Page() {
     });
     const data = await response.json();
     
-    return <UserPage data={data} />
+    return (
+        <div>
+            <UserPage data={data} />
+        </div>
+    )
 }

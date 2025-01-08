@@ -37,7 +37,7 @@ export function Attributes({ attributes }: AttributeProps) {
                             </Label>
                             <Input
                                 id={key}
-                                value={attributes[key][0]}
+                                value={attributes[key]?.length ? attributes[key].toString() : ''}
                                 readOnly
                                 className="col-span-3"
                             />

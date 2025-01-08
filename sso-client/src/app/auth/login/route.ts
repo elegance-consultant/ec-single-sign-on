@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { serialize } from 'cookie';
+import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
@@ -23,16 +23,20 @@ export async function POST(req: NextRequest) {
         const data = await res.json();
         const { access_token, expires_in} = data;
 
-        // Set the token in a cookie
-        const cookie = serialize('token', access_token, {
+        const cookieStore = await cookies();
+        cookieStore.set({
+            name: 'token',
+            value: access_token,
             httpOnly: true,
+            path: '/',
             secure: process.env.NODE_ENV === 'production',
-            maxAge: expires_in, // expire token
-            path: '/'
+            maxAge: expires_in,
         });
-        const response = NextResponse.json({ message: 'Logged in successfully' });
-        response.headers.append('Set-Cookie', cookie);
-        return response;
+        const token = cookieStore.get('token')
+        return Response.json({
+            status: 200,
+            headers: { 'Set-Cookie': `token=${token}` },
+        });
     } else {
         return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }

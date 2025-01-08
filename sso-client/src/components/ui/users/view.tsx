@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { User } from "@/types/user";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 interface UserFormProps {
   user: User;
@@ -31,9 +31,13 @@ export function UserForm({ user }: UserFormProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+    await fetch(`/api/user/update`, {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    })
     setIsEditMode(false);
   };
 
@@ -71,6 +75,12 @@ export function UserForm({ user }: UserFormProps) {
                     />
                   </div>
                 ));
+              case 'createdTimestamp':
+                break;
+              case 'enabled':
+                break;
+              case 'totp':
+                break;
               case 'access':
                 break;
               case 'disableableCredentialTypes':

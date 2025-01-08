@@ -28,7 +28,6 @@ export async function middleware(request: NextRequest) {
                     if (users == '/dashboard' || users == '/access-denied') {
                         return NextResponse.redirect(new URL('/access-denied', request.url));
                     }
-                    
                 }
             } catch (error) {
                 console.error('Failed to decode JWT:', error);

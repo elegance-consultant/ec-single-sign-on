@@ -24,8 +24,8 @@ export function Loading() {
 }
 
 const handleCreate = () => {
-    redirect('/users/create');
-  };
+    redirect('/user/create');
+};
 
 export function UserPage({ data }: UserPageProps) {
     const [isClient, setIsClient] = useState(false);
@@ -43,12 +43,6 @@ export function UserPage({ data }: UserPageProps) {
                 <p className="text-muted-foreground">
                     Here's an overview of your business
                 </p>
-                <button
-                    className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm"
-                    onClick={handleCreate}
-                >
-                    Add
-                </button>
             </div>
             <div className="container mx-auto">
                 {
