@@ -10,18 +10,20 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
   import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
   
   interface userIdProp {
     userId: string
   }
   export function DeleteUser({ userId }: userIdProp) {
+    const router = useRouter()
     const handleConfirm = async (Id: string) => {
 
         const deleteUser = await fetch(`/api/user/delete/${Id}`, {
             method: 'GET',
         });
         if (deleteUser.ok) {
-          // refresh
+          router.push('/users')
         }
     }
     return (
