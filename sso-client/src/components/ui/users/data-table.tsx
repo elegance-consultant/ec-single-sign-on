@@ -119,18 +119,8 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md">
       <div className="flex items-center py-4 flex-col md:flex-row">
-        <div className="grid grid-cols-1 md:grid-cols-3 mb-4 md:mb-0">
-          <Input
-            placeholder="Filter emails..."
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 mb-4 md:mb-0">
-          <Input
+        <div className="mb-4 md:mb-0">
+        <Input
             placeholder="Filter usernames..."
             value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
@@ -139,7 +129,17 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 mb-4 md:mb-0">
+        <Input
+            placeholder="Filter emails..."
+            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("email")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-8 mb-4 md:mb-0">
           <Button onClick={handleExportCSV}>Export CSV</Button>
         </div>
         <div>
