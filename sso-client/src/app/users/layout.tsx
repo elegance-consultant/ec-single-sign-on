@@ -2,7 +2,7 @@ import { Sidebar } from '@/components/sidebar';
 import { Navbar } from '@/components/navbar';
 import Header from '@/components/header';
 
-export default async function AdminLayout({
+export default async function CreateUserLayout({
   children,
 }: {
   children: React.ReactNode;

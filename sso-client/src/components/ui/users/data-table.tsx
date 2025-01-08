@@ -141,7 +141,7 @@ export function DataTable<TData, TValue>({
           <Button onClick={handleExportCSV}>Export CSV</Button>
         </div>
         <div>
-          <Button onClick={() => redirect('/create')}>Add</Button>
+          <Button onClick={() => redirect('/users/create')}>Add</Button>
         </div>
         <DropdownMenu>
           <DataTableViewOptions table={table} />

@@ -1,7 +1,8 @@
 "use client";
 
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useState, FormEvent } from 'react';
+import { Button } from '../button';
 
 interface UserCreate {
     username: string;
@@ -69,6 +70,11 @@ const CreateUser = () => {
         }));
     };
 
+    const router = useRouter();
+    const handleGoToUsers = () => {
+        router.push('/users');
+    };
+
     return (
         <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Create User</h2>
@@ -113,6 +119,7 @@ const CreateUser = () => {
                     <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Create User</button>
                 </div>
             </form>
+            <Button className='bg-red-500' onClick={() => handleGoToUsers()}>Cancel</Button>
         </div>
     );
 };
