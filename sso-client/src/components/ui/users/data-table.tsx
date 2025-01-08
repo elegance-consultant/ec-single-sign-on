@@ -129,7 +129,7 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 mb-4 md:mb-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 px-2 mb-4 md:mb-0">
           <Input
             placeholder="Filter emails..."
             value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -139,7 +139,7 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-8 mb-4 md:mb-0">
+        <div className="grid grid-cols-1 md:grid-cols-7 mb-4 md:mb-0">
           <Button onClick={handleExportCSV}>Export CSV</Button>
         </div>
         <div>
