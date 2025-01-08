@@ -119,7 +119,9 @@ const CreateUser = () => {
                     <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Create User</button>
                 </div>
             </form>
-            <Button className='bg-red-500' onClick={() => handleGoToUsers()}>Cancel</Button>
+            <div className='py-2'>
+                <Button className='w-full flex justify-center bg-red-500' onClick={() => handleGoToUsers()}>Cancel</Button>
+            </div>
         </div>
     );
 };
