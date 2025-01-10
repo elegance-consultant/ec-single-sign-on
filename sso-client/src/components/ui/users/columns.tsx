@@ -5,10 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { User } from "@/types/user"
 import { DataTableColumnHeader } from "@/components/colunm-header"
-import { Attributes } from "./attribute-view"
-import { DeleteUser } from "./deleteUser"
-import { redirect } from "next/navigation"
-import { Button } from "../button"
+import { DataTableRowActions } from "./data-table-row-actions"
 
 export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
   const select_column: ColumnDef<User>[] = [
@@ -39,19 +36,10 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
   const action_column: ColumnDef<User>[] = [
     {
       id: "actions",
-      header: 'Action',
+      header: 'Actions',
       cell: ({ row }) => {
         const user = row.original;
-
-        return (
-          <div className="space-x-1">
-            <Button onClick={() => redirect(`/users/${user.id}`)}>
-              View
-            </Button>
-            <Button onClick={() => navigator.clipboard.writeText(user.id.toString())}>Copy</Button>
-            <DeleteUser userId={user.id.toString()} />
-          </div>
-        );
+        return <DataTableRowActions id={user.id.toString()} />
       },
     }
   ];
@@ -81,6 +69,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
             return (
               <Badge
                 variant={user.emailVerified ? 'default' : 'secondary'}
+                className={user.emailVerified ? 'md:bg-green-500 hover:bg-green-600' : 'md:bg-red-500 hover:bg-red-600'}
               >
                 {user.emailVerified ? 'Verified' : 'Unverified'}
               </Badge>
@@ -89,20 +78,6 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         });
         break;
       case 'attributes':
-        dynamic_column.push({
-          accessorKey: field,
-          header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={field} />
-          ),
-          cell: ({ row }) => {
-            const user = row.original;
-            if (user.attributes == null) {
-              return '';
-            } else {
-              return <Attributes attributes={user.attributes} />;
-            }
-          },
-        });
         break;
       case 'createdTimestamp':
         dynamic_column.push({

@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { ModeToggle } from './mode-toggle';
 import { decode } from 'jsonwebtoken';
 
-const Header = async () => {
+const DisplayUser = async () => {
     const cookieStore = await cookies();
     const jwtCookie = cookieStore.get('token');
     const jwtCookie_str = jwtCookie?.value;
@@ -17,17 +17,16 @@ const Header = async () => {
             console.error('Failed to decode JWT:', error);
         }
     }
-
     return (
-        <header>
-            <div className="hidden md:flex rounded-md container mx-auto justify-end items-center py-3 px-6">
-                <div className="hidden md:flex items-center space-x-5">
-                    <span>{given_name}</span> {/* Display the username */}
-                    <ModeToggle />
-                </div>
+        <div className='grid grid-cols-2'>
+            <div>
+                <p>{given_name}</p>
             </div>
-        </header>
+            <div className='justify-self-end'>
+                <ModeToggle />
+            </div>
+        </div>
     );
 };
 
-export default Header;
+export default DisplayUser;

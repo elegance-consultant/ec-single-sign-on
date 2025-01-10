@@ -1,3 +1,4 @@
+import DisplayUser from '@/components/display-user';
 import { UserPage } from '@/components/ui/users/user-page';
 import { cookies } from 'next/headers';
 
@@ -13,9 +14,20 @@ export default async function Page() {
         },
     });
     const data = await response.json();
-    
+
     return (
-        <div>
+        <div className="space-y-8 py-6 pr-6">
+            <div className='grid grid-cols-2'>
+                <div>
+                    <h2 className="text-3xl font-bold tracking-tight">Users</h2>
+                    <p className="text-muted-foreground">
+                        Here's an overview of your business
+                    </p>
+                </div>
+                <div className="justify-self-end">
+                    <DisplayUser />
+                </div>
+            </div>
             <UserPage data={data} />
         </div>
     )

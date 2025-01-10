@@ -12,10 +12,10 @@ export async function POST(req: NextRequest) {
         body: new URLSearchParams({
             username: username,
             password: password,
-            grant_type: 'password',
+            grant_type: `${process.env.KEYCLOAK_GRANT_TYPE}`,
             client_id: `${process.env.KEYCLOAK_ID}`,
             client_secret: `${process.env.KEYCLOAK_SECRET}`,
-            scope: 'openid profile email'
+            scope: `${process.env.KEYCLOAK_SCOPE}`
         }),
     });
 

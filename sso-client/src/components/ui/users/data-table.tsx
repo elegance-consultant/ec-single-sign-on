@@ -26,17 +26,15 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { Input } from "@/components/ui/input";
-import React from "react";
-import { DataTablePagination } from "@/components/pagination";
+import React, { useState } from "react";
 import { DataTableViewOptions } from "@/components/column-toggle";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Papa from "papaparse";
 import { redirect } from "next/navigation";
+import { DataTablePagination } from "@/components/pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,12 +45,13 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
-    createdTimestamp: false,
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    createdTimestamp: true,
   });
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
     data,
@@ -65,11 +64,13 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
   });
 
@@ -118,55 +119,44 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md">
-      <div className="flex items-center py-4 flex-col md:flex-row">
-        <div className="grid grid-cols-1 md:grid-cols-1 mb-4 md:mb-0">
-          <Input
-            placeholder="Filter usernames..."
-            value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("username")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
+      <div>
+        <div className="grid grid-cols-2">
+          <div className="flex gap-4 mb-4 max-w-sm">
+            <Input
+              placeholder="Search all columns..."
+              value={globalFilter ?? ""}
+              onChange={(event) => setGlobalFilter(event.target.value)}
+            />
+          </div>
+          <div className="justify-self-end">
+            <DropdownMenu>
+              <div className="flex mb-4">
+                <Button className="md:bg-gray-500 hover:bg-gray-400" onClick={handleExportCSV}>Export CSV</Button>
+                <DataTableViewOptions table={table} />
+                <Button className="ml-5 md:bg-sky-950 hover:bg-sky-900" onClick={() => redirect('/users/create')}>+ Create new user</Button>
+              </div>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 px-2 mb-4 md:mb-0">
-          <Input
-            placeholder="Filter emails..."
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-7 mb-4 md:mb-0">
-          <Button onClick={handleExportCSV}>Export CSV</Button>
-        </div>
-        <div>
-          <Button onClick={() => redirect('/users/create')}>Add</Button>
-        </div>
-        <DropdownMenu>
-          <DataTableViewOptions table={table} />
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
       {/* Desktop view */}
@@ -214,29 +204,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
-      {/* Mobile view */}
-      <div className="md:hidden w-full">
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <Card key={row.id} className="mb-4">
-              <CardHeader>
-                <CardTitle>{row.id}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {row.getVisibleCells().map((cell) => (
-                  <div key={cell.id} className="py-1">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          ))
-        ) : (
-          <div className="text-center py-4">No results.</div>
-        )}
-      </div>
-
       <div className="flex items-center justify-end space-x-2 py-4">
         <DataTablePagination table={table} />
       </div>
