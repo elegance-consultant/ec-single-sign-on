@@ -11,14 +11,50 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/hooks/use-toast";
 
 interface IdProps {
   id: string
 }
 
 export function DataTableRowActions({ id }: IdProps) {
-  const { toast } = useToast()
+
+  const Swal = require('sweetalert2');
+  const handleDelete = () => {
+    const deleteUser = Swal.mixin({
+      customClass: {
+        confirmButton: "bg-green-600",
+        cancelButton: "bg-red-600"
+      },
+      buttonsStyling: true
+    });
+
+    deleteUser.fire({
+      title: "ต้องการลบบัญชีผู้ใช้",
+      text: "ใช่หรือไม่",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+      reverseButtons: true
+    }).then((result: { isConfirmed: boolean; dismiss: boolean; }) => {
+      if (result.isConfirmed) {
+        deleteUser.fire({
+          title: "ลบบัญชีผู้ใช้สำเร็จ",
+          icon: "success",
+          confirmButtonText: "ยืนยัน",
+        }).then(() => {
+          
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        deleteUser.fire({
+          title: "ยกเลิกรายการ",
+          icon: "error",
+          confirmButtonText: "ยืนยัน",
+        });
+      }
+    });
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,25 +68,22 @@ export function DataTableRowActions({ id }: IdProps) {
           <Button variant={"ghost"} size={"sm"} className={"justify-start w-full"} asChild>
             <Link href={`/users/${id}`}>
               <Eye className="w-4 h-4 text-blue-500" />
-              {<span className="ml-2">{"View"}</span>}
+              <span className="ml-2">{"View"}</span>
               /
               <Pencil className="h-4 w-4 text-green-500" />
-              {<span className="ml-2">{"Update"}</span>}
+              <span className="ml-2">{"Update"}</span>
             </Link>
           </Button>
         </DropdownMenuItem>
-
         <DropdownMenuItem>
-          <Button variant={"ghost"} size={"sm"} className={"justify-start w-full"}
-                onClick={() => {
-                  toast({
-                    title: "Scheduled: Catch up",
-                    description: "Friday, February 10, 2023 at 5:57 PM",
-                  })
-                }}
+          <Button 
+            variant={"ghost"} 
+            size={"sm"} 
+            className={"justify-start w-full"}
+            onClick={handleDelete}
           >
             <Trash2 className="h-4 w-4 text-red-500" />
-            {<span className="ml-2">{"Delete"}</span>}
+            <span className="ml-2">{"Delete"}</span>
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SSO",
+  title: "Ausiris SSO",
   description: "Create by ELEGANCE CONSULTANT Co.,Ltd.",
 };
 

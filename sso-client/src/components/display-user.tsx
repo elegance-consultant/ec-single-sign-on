@@ -1,13 +1,14 @@
 import { cookies } from 'next/headers';
 import { ModeToggle } from './mode-toggle';
 import { decode } from 'jsonwebtoken';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const DisplayUser = async () => {
     const cookieStore = await cookies();
     const jwtCookie = cookieStore.get('token');
     const jwtCookie_str = jwtCookie?.value;
 
-    let given_name = 'Guest'; // Default name if JWT is not present
+    let given_name = 'Guest';
 
     if (jwtCookie_str) {
         try {
@@ -18,11 +19,17 @@ const DisplayUser = async () => {
         }
     }
     return (
-        <div className='grid grid-cols-2'>
-            <div>
-                <p>{given_name}</p>
+        <div className='grid grid-cols-3'>
+            <div className='px-5'>
+                <Avatar>
+                    <AvatarImage src="./icon.svg" alt="@shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
             </div>
-            <div className='justify-self-end'>
+            <div className='py-2'>
+                {given_name}
+            </div>
+            <div className='py-2 justify-self-end'>
                 <ModeToggle />
             </div>
         </div>

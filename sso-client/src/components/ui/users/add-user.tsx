@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { redirect, useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import Swal from 'sweetalert2';
 
 interface User {
     username: string;
@@ -58,19 +59,32 @@ export default function CreateUserForm() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        // console.log(formData);
         const create = await fetch('/api/user/create', {
             method: 'POST',
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
         if (create.ok) {
-            redirect('/users')
+            handleCreate();
         }
     };
 
     const router = useRouter();
     const handleBack = () => {
         router.push('/users');
+    };
+
+    const handleCreate = () => {
+        Swal.fire({
+            icon: "success",
+            title: "สร้างบัญชีสำเร็จ",
+            showConfirmButton: false,
+            timer: 1000
+        }).then(() => {
+            router.push('/users');
+        });
     };
 
     return (
@@ -85,7 +99,7 @@ export default function CreateUserForm() {
                             type="text"
                             value={formData.username}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                            className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -96,7 +110,7 @@ export default function CreateUserForm() {
                             type="text"
                             value={formData.firstName}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                            className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -107,7 +121,7 @@ export default function CreateUserForm() {
                             type="text"
                             value={formData.lastName}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                            className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -118,7 +132,7 @@ export default function CreateUserForm() {
                             type="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                            className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div>
@@ -129,12 +143,12 @@ export default function CreateUserForm() {
                             type="password"
                             value={formData.credentials[0].value || ""}
                             onChange={handleCredentialsChange}
-                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                            className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                 </div>
                 <div className="flex justify-end mt-8 space-x-4">
-                    <button type="button" className="border border-gray-400 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => handleBack()}>
+                    <button type="button" className="border border-gray-400 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleBack}>
                         Cancel
                     </button>
                     <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline">

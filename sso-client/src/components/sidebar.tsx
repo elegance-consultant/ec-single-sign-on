@@ -10,9 +10,9 @@ import {
   Clock,
   CalendarDays
 } from 'lucide-react';
-import { LucideIcon } from 'lucide-react'; // Import for type
+import { LucideIcon } from 'lucide-react';
 import Image from 'next/image';
-
+import { useState, useEffect } from 'react'
 import HomeLogo from '../../public/home.png';
 
 interface Route {
@@ -35,25 +35,22 @@ const routes: Route[] = [
 ];
 
 const handleDeleteCookie = async () => {
-  try {
-    const response = await fetch('/auth/logout', {
-      method: 'DELETE',
-    });
-
-    if (response.ok) {
-      redirect("/login");
-    } else {
-      console.error('Failed to delete cookie');
-      // Optionally handle the error, e.g., display a message to the user
-    }
-  } catch (error) {
-    console.error("Error during logout:", error);
-    //Handle error, e.g. display error message to user
+  const res = await fetch('/auth/logout', {
+      method: 'GET',
+  });
+  if (res.ok) {
+    redirect('/login')
   }
 };
 
 export function Sidebar() {
   const pathname = usePathname();
+
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <div className="hidden h-full rounded-md md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80]">
@@ -83,7 +80,7 @@ export function Sidebar() {
           <div className='mb-4'>
             <div className='flex items-center text-gray-600 mb-2'>
               <Clock className='h-4 w-4 mr-2' />
-              {` (GMT+7)`}
+              {`${isClient ? '' : ''} (GMT+7)`}
             </div>
             <div className='flex items-center text-gray-600'>
               <CalendarDays className='h-4 w-4 mr-2' />

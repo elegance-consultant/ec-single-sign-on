@@ -1,5 +1,4 @@
 import { Sidebar } from '@/components/sidebar';
-import { Toaster } from '@/components/ui/toaster';
 
 export default async function CreateUserLayout({
   children,
@@ -11,7 +10,6 @@ export default async function CreateUserLayout({
       <Sidebar />
       <div className="md:pl-72">
         {children}
-        <Toaster />
       </div>
     </div>
   );

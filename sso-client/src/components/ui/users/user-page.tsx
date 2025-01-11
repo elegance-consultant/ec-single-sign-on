@@ -4,7 +4,6 @@ import { User } from '@/types/user';
 import { useState, useEffect } from 'react';
 import { DataTable } from './data-table';
 import { getColumns } from './columns';
-import { redirect } from 'next/navigation';
 import { Spinner } from '@/components/spinner';
 
 interface UserPageProps {
@@ -18,10 +17,6 @@ export function Loading() {
         </div>
     );
 }
-
-const handleCreate = () => {
-    redirect('/user/create');
-};
 
 export function UserPage({ data }: UserPageProps) {
     const [isClient, setIsClient] = useState(false);

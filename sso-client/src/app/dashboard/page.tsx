@@ -1,9 +1,8 @@
 import DisplayUser from '@/components/display-user';
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react'; // Import necessary icons
+import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
 
-export default async function Page() {
-    // Placeholder data - Replace with actual data fetching logic
+export default function Page() {
     const stats = [
         {
             title: 'Total Users',
@@ -14,14 +13,14 @@ export default async function Page() {
         {
             title: 'Active Users',
             value: 2350,
-            change: '-15.2%', // Note the negative sign
-            icon: Users, // Or a different icon if you have one for active users
+            change: '-15.2%',
+            icon: Users,
         },
         {
             title: 'Blacklist User',
             value: 234,
             change: '+12.2%',
-            icon: UserX, // Use an icon that represents blacklisted users
+            icon: UserX,
         },
         {
             title: 'Active Sessions',
@@ -47,7 +46,7 @@ export default async function Page() {
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
                             <stat.icon className="h-5 w-5 text-muted-foreground" />
-                            <ArrowUpRight className="h-4 w-4 text-emerald-500" /> {/* Always green arrow? */}
+                            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                         </div>
                         <div className="mt-4">
                             <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
