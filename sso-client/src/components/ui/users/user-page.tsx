@@ -1,5 +1,5 @@
-// Client Component
 'use client';
+
 import { User } from '@/types/user';
 import { useState, useEffect } from 'react';
 import { DataTable } from './data-table';
@@ -25,7 +25,7 @@ export function UserPage({ data }: UserPageProps) {
         setIsClient(true);
     }, []);
 
-    const dynamicFields = Object.keys(data[0]);
+    const dynamicFields = Object.keys(data[0] || '');
 
     return (
         isClient ? <DataTable columns={getColumns(dynamicFields)} data={data} /> : Loading()

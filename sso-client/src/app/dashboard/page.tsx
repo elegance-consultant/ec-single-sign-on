@@ -1,22 +1,11 @@
 import { Card } from '@/components/ui/card';
 import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
-import { cookies } from 'next/headers';
 
 export default async function Page() {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-    const reqConutUser = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    });
-    const conutUser = await reqConutUser.json();
     const stats = [
         {
             title: 'Total Users',
-            value: conutUser || '',
+            value: 123,
             change: '20.1%',
             icon: Users,
         },
