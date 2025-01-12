@@ -10,7 +10,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const jwtCookie = cookieStore.get('token');
+  const jwtCookie = cookieStore.get('session');
   const jwtCookie_str = jwtCookie?.value;
 
   if (jwtCookie_str) {

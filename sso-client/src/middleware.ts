@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 export async function middleware(request: NextRequest) {
     const cookieStore = await cookies();
-    const jwtCookie = cookieStore.get('token');
+    const jwtCookie = cookieStore.get('session');
     const jwtCookie_str = jwtCookie?.value;
 
     const { pathname } = request.nextUrl;

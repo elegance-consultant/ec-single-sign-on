@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
@@ -21,30 +20,30 @@ export async function POST(req: NextRequest) {
 
     if (res.ok) {
         const data = await res.json();
-        const { access_token, expires_in, refresh_token, refresh_expires_in } = data;
+        const { access_token, expires_in, refresh_token, refresh_expires_in, id_token } = data;
 
-        const cookieStore = await cookies();
-        cookieStore.set({
-            name: 'token',
-            value: access_token,
+        const response = NextResponse.json({
+            message: 'Login successful',
+            access_token,
+            refresh_token,
+            id_token
+        });
+        response.cookies.set('session', access_token, {
             httpOnly: true,
-            path: '/',
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: expires_in,
+            secure: true,
+            maxAge: expires_in
         });
-        cookieStore.set({
-            name: 'refresh_token',
-            value: refresh_token,
+        response.cookies.set('refresh_token', refresh_token, {
             httpOnly: true,
-            path: '/',
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: refresh_expires_in,
+            secure: true,
+            maxAge: refresh_expires_in
         });
-        const token = cookieStore.get('token')
-        return Response.json({
-            status: 200,
-            headers: { 'Set-Cookie': `token=${token}` },
+        response.cookies.set('id_token', id_token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: expires_in
         });
+        return response;
     } else {
         return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }

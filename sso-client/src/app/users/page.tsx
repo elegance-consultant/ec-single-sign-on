@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 
 export default async function Page() {
     const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const token = cookieStore.get('session')?.value;
     const response = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users`, {
         method: 'GET',
         headers: {
