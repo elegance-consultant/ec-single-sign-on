@@ -1,13 +1,23 @@
-import DisplayUser from '@/components/display-user';
 import { Card } from '@/components/ui/card';
 import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
+import { cookies } from 'next/headers';
 
-export default function Page() {
+export default async function Page() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+    const reqConutUser = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const conutUser = await reqConutUser.json();
     const stats = [
         {
             title: 'Total Users',
-            value: 5567,
-            change: '+20.1%',
+            value: conutUser || '',
+            change: '20.1%',
             icon: Users,
         },
         {
@@ -31,15 +41,10 @@ export default function Page() {
     ];
 
     return (
-        <div className="space-y-8 py-6 pr-6">
-            <div className="grid grid-cols-2">
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-                    <p className="text-muted-foreground">Here's an overview of your business</p>
-                </div>
-                <div className="justify-self-end">
-                    <DisplayUser />
-                </div>
+        <div className="space-y-8">
+            <div>
+                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+                <p className="text-muted-foreground">Here's an overview of your business</p>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {stats.map((stat) => (

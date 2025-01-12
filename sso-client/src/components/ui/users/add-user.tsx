@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Swal from 'sweetalert2';
 
@@ -39,6 +39,8 @@ export default function CreateUserForm() {
         ],
     });
 
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -57,8 +59,22 @@ export default function CreateUserForm() {
         }));
     };
 
+    const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setConfirmPassword(e.target.value);
+    };
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        if (formData.credentials[0].value !== confirmPassword) {
+            Swal.fire({
+                icon: "error",
+                title: "รหัสผ่านไม่ตรงกัน",
+                showConfirmButton: false,
+                timer: 1000
+            });
+            return;
+        }
+
         const create = await fetch('/api/user/create', {
             method: 'POST',
             body: JSON.stringify(formData),
@@ -98,6 +114,7 @@ export default function CreateUserForm() {
                             name="username"
                             type="text"
                             value={formData.username}
+                            required
                             onChange={handleChange}
                             className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -109,6 +126,7 @@ export default function CreateUserForm() {
                             name="firstName"
                             type="text"
                             value={formData.firstName}
+                            required
                             onChange={handleChange}
                             className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -120,6 +138,7 @@ export default function CreateUserForm() {
                             name="lastName"
                             type="text"
                             value={formData.lastName}
+                            required
                             onChange={handleChange}
                             className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -131,6 +150,7 @@ export default function CreateUserForm() {
                             name="email"
                             type="email"
                             value={formData.email}
+                            required
                             onChange={handleChange}
                             className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -142,7 +162,20 @@ export default function CreateUserForm() {
                             name="value"
                             type="password"
                             value={formData.credentials[0].value || ""}
+                            required
                             onChange={handleCredentialsChange}
+                            className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="confirmPassword">Confirm Password</Label>
+                        <Input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            value={confirmPassword}
+                            required
+                            onChange={handleConfirmPasswordChange}
                             className="w-full border border-gray-500 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>

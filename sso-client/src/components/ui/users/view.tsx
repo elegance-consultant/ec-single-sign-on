@@ -6,6 +6,7 @@ import { useState } from "react";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { Switch } from "../switch";
+import Swal from 'sweetalert2';
 
 interface UserFormProps {
   user: User;
@@ -34,14 +35,22 @@ export function UserForm({ user }: UserFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetch(`/api/user/update`, {
+    const createUser = await fetch(`/api/user/update`, {
       method: 'POST',
       body: JSON.stringify(formData)
     })
+    if (createUser.ok) {
+      Swal.fire({
+          icon: "success",
+          title: "แก้ไขสำเร็จ",
+          showConfirmButton: false,
+          timer: 1000
+      })
+    }
     setIsEditMode(false);
   };
 
-  const handleGoToUsers = () => {
+  const handleBack = () => {
     router.push('/users');
   };
 
@@ -69,6 +78,7 @@ export function UserForm({ user }: UserFormProps) {
                         name={attrKey}
                         type="text"
                         placeholder={attrKey}
+                        required
                         value={formData.attributes[attrKey]?.join(', ') || ''}
                         onChange={handleAttributesChange}
                         className="w-full"
@@ -99,6 +109,7 @@ export function UserForm({ user }: UserFormProps) {
                         name={attrKey}
                         type="text"
                         placeholder={attrKey}
+                        required
                         value={formData.attributes[attrKey]?.join(', ') || ''}
                         onChange={handleAttributesChange}
                         className="w-full"
@@ -126,9 +137,9 @@ export function UserForm({ user }: UserFormProps) {
             })}
           </div>
           <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleGoToUsers}>Back</button>
+            <button type="button" className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleBack}>Back</button>
             {isEditMode && (
-              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md shadow-sm">Save</button>
+              <button type="submit" className="bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded-md shadow-sm">Save</button>
             )}
           </div>
         </form>

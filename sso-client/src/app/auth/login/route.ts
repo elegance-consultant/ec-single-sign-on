@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     if (res.ok) {
         const data = await res.json();
-        const { access_token, expires_in} = data;
+        const { access_token, expires_in, refresh_token, refresh_expires_in } = data;
 
         const cookieStore = await cookies();
         cookieStore.set({
@@ -31,6 +31,14 @@ export async function POST(req: NextRequest) {
             path: '/',
             secure: process.env.NODE_ENV === 'production',
             maxAge: expires_in,
+        });
+        cookieStore.set({
+            name: 'refresh_token',
+            value: refresh_token,
+            httpOnly: true,
+            path: '/',
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: refresh_expires_in,
         });
         const token = cookieStore.get('token')
         return Response.json({

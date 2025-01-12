@@ -120,21 +120,19 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md">
       <div>
-        <div className="grid grid-cols-2">
-          <div className="flex gap-4 mb-4 max-w-sm">
+        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+          <div className="flex gap-4 max-w-sm">
             <Input
               placeholder="Search all columns..."
               value={globalFilter ?? ""}
               onChange={(event) => setGlobalFilter(event.target.value)}
             />
           </div>
-          <div className="justify-self-end">
+          <div className="flex justify-end">
             <DropdownMenu>
-              <div className="flex mb-4">
-                <Button className="md:bg-gray-500 hover:bg-gray-400" onClick={handleExportCSV}>Export CSV</Button>
+                <Button className="bg-gray-500 hover:bg-gray-400" onClick={handleExportCSV}>Export CSV</Button>
                 <DataTableViewOptions table={table} />
-                <Button className="ml-5 md:bg-sky-950 hover:bg-sky-900" onClick={() => redirect('/users/create')}>+ Create new user</Button>
-              </div>
+                <Button className="ml-5 bg-sky-950 hover:bg-sky-900" onClick={() => redirect('/users/create')}>+ Create new user</Button>
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
@@ -160,7 +158,7 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Desktop view */}
-      <div className="hidden md:block rounded-md border">
+      <div className="rounded-md border overflow-x-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -204,8 +202,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <DataTablePagination table={table} />
+      <div className="flex items-center justify-between py-2">
+        <DataTablePagination table={table} className="flex-col md:flex-row" />
       </div>
     </div>
   );

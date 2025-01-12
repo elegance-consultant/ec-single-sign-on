@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 interface IdProps {
   id: string
@@ -18,6 +19,7 @@ interface IdProps {
 
 export function DataTableRowActions({ id }: IdProps) {
 
+  const router = useRouter();
   const Swal = require('sweetalert2');
   const handleDelete = () => {
     const deleteUser = Swal.mixin({
@@ -42,8 +44,13 @@ export function DataTableRowActions({ id }: IdProps) {
           title: "ลบบัญชีผู้ใช้สำเร็จ",
           icon: "success",
           confirmButtonText: "ยืนยัน",
-        }).then(() => {
-          
+        }).then(async () => {
+          const deleteUser = await fetch(`/api/user/delete/${id}`, {
+            method: 'GET'
+          })
+          if (deleteUser.ok) {
+            router.refresh();
+          }
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         deleteUser.fire({

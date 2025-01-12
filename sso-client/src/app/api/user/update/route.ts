@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     const cookieStore = await cookies();
     const jwtCookie = cookieStore.get('token');
     const token = jwtCookie?.value;
-    const response = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${id}`, {
+    const reqUpdateUser = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify(updateUser)
     });
-    const update = await response.json();
-    return NextResponse.json({ update });
+    if (reqUpdateUser.ok) {
+        return NextResponse.json({ reqUpdateUser });
+    }
 }

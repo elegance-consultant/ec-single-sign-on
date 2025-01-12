@@ -69,7 +69,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
             return (
               <Badge
                 variant={user.emailVerified ? 'default' : 'secondary'}
-                className={user.emailVerified ? 'md:bg-green-500 hover:bg-green-600' : 'md:bg-red-500 hover:bg-red-600'}
+                className={user.emailVerified ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
               >
                 {user.emailVerified ? 'Verified' : 'Unverified'}
               </Badge>

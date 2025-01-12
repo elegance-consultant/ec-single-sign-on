@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { UserForm } from "@/components/ui/users/view";
-import DisplayUser from "@/components/display-user";
 
 export default async function Page({
     params,
@@ -20,21 +19,16 @@ export default async function Page({
         },
     });
     const data = await response.json();
-    
+
     return (
-        <div className="space-y-8 py-6 pr-6">
-        <div className='grid grid-cols-2'>
+        <div className="space-y-8">
             <div>
                 <h2 className="text-3xl font-bold tracking-tight">User Information</h2>
                 <p className="text-muted-foreground">
                     Here's an overview of your business
                 </p>
             </div>
-            <div className="justify-self-end">
-                <DisplayUser />
-            </div>
+            <UserForm user={data} />
         </div>
-        <UserForm user={data} />
-    </div>
     );
 }
