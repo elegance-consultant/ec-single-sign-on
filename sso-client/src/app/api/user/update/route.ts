@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const updateUser = await req.json();
     const { id } = updateUser;
     const cookieStore = await cookies();
-    const jwtCookie = cookieStore.get('token');
+    const jwtCookie = cookieStore.get('session');
     const token = jwtCookie?.value;
     const reqUpdateUser = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${id}`, {
         method: 'PUT',

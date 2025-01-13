@@ -9,7 +9,7 @@ export default async function Page({
     const id = (await params).id
 
     const cookieStore = await cookies();
-    const jwtCookie = cookieStore.get('token');
+    const jwtCookie = cookieStore.get('session');
     const jwtCookie_str = jwtCookie?.value;
     const response = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${id}`, {
         method: 'GET',
