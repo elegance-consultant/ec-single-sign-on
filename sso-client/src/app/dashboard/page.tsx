@@ -24,31 +24,40 @@ export default async function Page() {
     });
     const emailVerify = await resUserCountEmailVerify.json();
 
-    const resUserCountUnEmailVerify = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?emailVerified=false`, {
+    const resUserCountEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=true`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
     });
-    const unEmailVerify = await resUserCountUnEmailVerify.json();
+    const enabled = await resUserCountEnabled.json();
+
+    const resUserCountUnEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=false`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const unEnabled = await resUserCountUnEnabled.json();
     
     const stats = [
         {
             title: 'Total Users',
-            value: userCount || '',
+            value: userCount || '0',
             change: '',
             icon: Users,
         },
         {
             title: 'Active Users',
-            value: emailVerify || '',
+            value: enabled || '0',
             change: '',
             icon: Users,
         },
         {
             title: 'UnActive Users',
-            value: unEmailVerify || '',
+            value: unEnabled || '0',
             change: '',
             icon: UserX,
         },
@@ -60,7 +69,7 @@ export default async function Page() {
         // },
         {
             title: 'Verified Users',
-            value: emailVerify || '',
+            value: emailVerify || '0',
             change: '',
             icon: Verified,
         },
