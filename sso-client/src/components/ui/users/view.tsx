@@ -87,9 +87,41 @@ export function UserForm({ user }: UserFormProps) {
                     </div>
                   ));
                 case 'createdTimestamp':
-                  break;
+                  return(
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>{key}</Label>
+                      <Input
+                        id={key}
+                        name={key}
+                        type="text"
+                        placeholder={key}
+                        value={new Date(Number(formData[key as keyof User]?.toString())).toLocaleString() || ''}
+                        onChange={handleChange}
+                        disabled={!isEditMode || key === 'createdTimestamp'}
+                        className="w-full"
+                      />
+                    </div>
+                  );
                 // case 'enabled':
                 //   break;
+                // case 'emailVerified':
+                //   break;
+                case 'username':
+                  return(
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>{key}</Label>
+                      <Input
+                        id={key}
+                        name={key}
+                        type="text"
+                        placeholder={key}
+                        value={formData[key as keyof User]?.toString() || ''}
+                        onChange={handleChange}
+                        disabled={!isEditMode || key === 'username'}
+                        className="w-full"
+                      />
+                    </div>
+                  );
                 case 'totp':
                   break;
                 case 'access':
@@ -100,23 +132,6 @@ export function UserForm({ user }: UserFormProps) {
                   break;
                 case 'notBefore':
                   break;
-                case 'credentials':
-                  return Object.keys(user.attributes).map((attrKey) => (
-                    <div className="grid gap-2" key={attrKey}>
-                      <Label htmlFor={attrKey}>{attrKey}</Label>
-                      <Input
-                        id={attrKey}
-                        name={attrKey}
-                        type="text"
-                        placeholder={attrKey}
-                        required
-                        value={formData.attributes[attrKey]?.join(', ') || ''}
-                        onChange={handleAttributesChange}
-                        className="w-full"
-                        disabled={!isEditMode}
-                      />
-                    </div>
-                  ));
                 default:
                   return (
                     <div className="grid gap-2" key={key}>
