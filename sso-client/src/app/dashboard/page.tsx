@@ -22,7 +22,7 @@ export default async function Page() {
             'Authorization': `Bearer ${token}`
         },
     });
-    const emailVerify = await resUserCountEmailVerify.json();
+    const emailVerifyCount = await resUserCountEmailVerify.json();
 
     const resUserCountEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=true`, {
         method: 'GET',
@@ -69,7 +69,7 @@ export default async function Page() {
         // },
         {
             title: 'Verified Users',
-            value: emailVerify || '0',
+            value: emailVerifyCount || '0',
             change: '',
             icon: Verified,
         },
