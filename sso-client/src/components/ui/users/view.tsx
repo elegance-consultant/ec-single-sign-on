@@ -41,10 +41,10 @@ export function UserForm({ user }: UserFormProps) {
     })
     if (createUser.ok) {
       Swal.fire({
-          icon: "success",
-          title: "แก้ไขสำเร็จ",
-          showConfirmButton: false,
-          timer: 1000
+        icon: "success",
+        title: "แก้ไขสำเร็จ",
+        showConfirmButton: false,
+        timer: 1000
       })
     }
     setIsEditMode(false);
@@ -87,7 +87,7 @@ export function UserForm({ user }: UserFormProps) {
                     </div>
                   ));
                 case 'createdTimestamp':
-                  return(
+                  return (
                     <div className="grid gap-2" key={key}>
                       <Label htmlFor={key}>{key}</Label>
                       <Input
@@ -107,7 +107,7 @@ export function UserForm({ user }: UserFormProps) {
                 // case 'emailVerified':
                 //   break;
                 case 'username':
-                  return(
+                  return (
                     <div className="grid gap-2" key={key}>
                       <Label htmlFor={key}>{key}</Label>
                       <Input
