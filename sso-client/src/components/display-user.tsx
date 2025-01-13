@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const DisplayUser = async () => {
   const cookieStore = await cookies();
-  const jwtCookie = cookieStore.get('token');
+  const jwtCookie = cookieStore.get('session');
   const jwtCookie_str = jwtCookie?.value;
 
   let given_name = 'Guest';
