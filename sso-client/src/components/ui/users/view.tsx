@@ -88,8 +88,8 @@ export function UserForm({ user }: UserFormProps) {
                   ));
                 case 'createdTimestamp':
                   break;
-                case 'enabled':
-                  break;
+                // case 'enabled':
+                //   break;
                 case 'totp':
                   break;
                 case 'access':
