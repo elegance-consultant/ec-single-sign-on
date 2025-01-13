@@ -46,19 +46,19 @@ export default async function Page() {
         {
             title: 'Total Users',
             value: userCount || '0',
-            change: '',
+            change: `+${userCount / 100}%`,
             icon: Users,
         },
         {
             title: 'Active Users',
             value: enabledCount || '0',
-            change: '',
+            change: `+${enabledCount / 100}%`,
             icon: Users,
         },
         {
             title: 'UnActive Users',
             value: unEnabledCount || '0',
-            change: '',
+            change: `+${unEnabledCount / 100}%`,
             icon: UserX,
         },
         // {
@@ -70,7 +70,7 @@ export default async function Page() {
         {
             title: 'Verified Users',
             value: emailVerifyCount || '0',
-            change: '',
+            change: `+${emailVerifyCount / 100}%`,
             icon: Verified,
         },
     ];
@@ -86,7 +86,7 @@ export default async function Page() {
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
                             <stat.icon className="h-5 w-5 text-muted-foreground" />
-                            {/* <ArrowUpRight className="h-4 w-4 text-emerald-500" /> */}
+                            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                         </div>
                         <div className="mt-4">
                             <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
