@@ -60,7 +60,7 @@ export default async function Page() {
         // },
         {
             title: 'Verified Users',
-            value: emailVerify,
+            value: emailVerify || '',
             change: '',
             icon: Verified,
         },
