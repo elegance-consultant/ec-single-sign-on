@@ -92,22 +92,16 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         });
         break;
       case 'enabled':
-
         break;
       case 'totp':
-
         break;
       case 'disableableCredentialTypes':
-
         break;
       case 'requiredActions':
-
         break;
       case 'notBefore':
-
         break;
       case 'access':
-
         break;
       default:
         dynamic_column.push({
