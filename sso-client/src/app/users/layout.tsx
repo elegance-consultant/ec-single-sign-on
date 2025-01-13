@@ -1,24 +1,47 @@
+import DisplayUser from '@/components/display-user';
 import { Sidebar } from '@/components/sidebar';
-import { Navbar } from '@/components/navbar';
-import Header from '@/components/header';
+import { SidebarAdmin } from '@/components/sidebarAdmin';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { cookies } from 'next/headers';
 
-export default async function AdminLayout({
+export default async function CreateUserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const jwtCookie = cookieStore.get('session');
+  const jwtCookie_str = jwtCookie?.value;
+
+  if (jwtCookie_str) {
+    try {
+      const decodedToken: JwtPayload = jwtDecode(jwtCookie_str);
+
+      if (decodedToken.aud?.[0] === 'realm-management') {
+        return (
+          <div className="h-full relative">
+            <SidebarAdmin />
+            <div className="md:pl-72 px-5">
+              <div className="justify-self-end py-6">
+                <DisplayUser />
+              </div>
+              {children}
+            </div>
+          </div>
+        );
+      }
+    } catch (error) {
+      console.error('Failed to decode JWT:', error);
+    }
+  }
   return (
     <div className="h-full relative">
-      <Header />
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80] bg-gray-900">
-        <Sidebar />
-      </div>
-      <div className="md:pl-72">
-        <Navbar />
-        <div className="p-8">
-          {children}
-          
+      <Sidebar />
+      <div className="md:pl-72 px-5">
+        <div className="justify-self-end py-6">
+          <DisplayUser />
         </div>
+        {children}
       </div>
     </div>
   );

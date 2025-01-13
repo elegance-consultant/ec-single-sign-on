@@ -1,50 +1,34 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { decode } from 'jsonwebtoken';
-import { cookies, headers } from 'next/headers';
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import { cookies } from 'next/headers';
 
 export async function middleware(request: NextRequest) {
-
     const cookieStore = await cookies();
-    const jwtCookie = cookieStore.get('token');
+    const jwtCookie = cookieStore.get('session');
     const jwtCookie_str = jwtCookie?.value;
 
     const { pathname } = request.nextUrl;
 
-
-    // Define the paths that need protection
-    const protectedPaths = ['/dashboard', '/users']; // Add any other protected paths here
-
-    // Check if the request path is protected
+    const protectedPaths = ['/dashboard', '/users'];
     if (protectedPaths.some(path => pathname.startsWith(path))) {
-        const token = request.cookies.get('token'); // Check for auth token in cookies       
-        
         if (jwtCookie_str) {
             try {
-                const decodedToken: any = decode(jwtCookie_str);
-                // console.log(decodedToken.aud);
+                const decodedToken: JwtPayload = jwtDecode(jwtCookie_str);
+                
                 if (decodedToken.aud === 'account') {
-                    const headersList = headers();
-                    const users = (await headersList).get('next-url');
-                    if (users == '/dashboard' || users == '/access-denied') {
-                        return NextResponse.redirect(new URL('/access-denied', request.url));
-                    }
-                    
+                    return NextResponse.redirect(new URL('/access-denied', request.url));
                 }
             } catch (error) {
                 console.error('Failed to decode JWT:', error);
             }
-        }
-        // If the token is not present, redirect to the login page (or index page)
-        if (!token) {
-            return NextResponse.redirect(new URL('/login', request.url)); // Redirect to the index page
+        } else {
+            return NextResponse.redirect(new URL('/login', request.url));
         }
     }
 
-    // If the user is authenticated, continue with the request
     return NextResponse.next();
 }
 
-// Optional: Configure the matcher to apply middleware only to specific routes
 export const config = {
-    matcher: ['/dashboard/:path*', '/users/:path*'], // Apply middleware only to specified routes
+    matcher: ['/dashboard/:path*', '/users/:path*'],
 };

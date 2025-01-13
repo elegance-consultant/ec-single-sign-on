@@ -8,30 +8,43 @@ import {
   Clock,
   CalendarDays,
   Menu,
+  LayoutDashboard,
+  Users,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import HomeLogo from '../../public/home.png';
 
-interface Route {
+export interface Route {
   label: string;
   icon: LucideIcon;
   href: string;
 }
 
-const routes: Route[] = [];
+const routes: Route[] = [
+  {
+    label: 'Dashboard',
+    icon: LayoutDashboard,
+    href: '/dashboard',
+  },
+  {
+    label: 'User',
+    icon: Users,
+    href: '/users',
+  },
+];
 
 const handleDeleteCookie = async () => {
   const res = await fetch('/auth/logout', {
     method: 'GET',
   });
-  if (res.ok) {   
+  if (res.ok) {
     redirect('/login');
   }
 };
 
-export function Sidebar() {
+export function SidebarAdmin() {
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

@@ -5,14 +5,17 @@ import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
-    CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { FormEvent, useState } from "react"
+import React, { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
+
+import Logo from "../../public/logo.png";
 
 export function LoginForm({
     className,
@@ -52,14 +55,14 @@ export function LoginForm({
         }
     };
     return (
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
+        <div className={cn("flex justify-center items-center", className)} {...props}>
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
-                    <CardDescription>
-                        Enter your email below to login to your account
-                    </CardDescription>
+                    <Image alt={"Logo"} src={Logo} />
                 </CardHeader>
+                <CardFooter>
+                    <CardTitle className="text-2xl">Login</CardTitle>
+                </CardFooter>
                 <CardContent>
                     <form onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-6">
@@ -68,22 +71,14 @@ export function LoginForm({
                                 <Input
                                     id="username"
                                     type="text"
-                                    placeholder="m@example.com"
+                                    placeholder="chayanan.sin@gmail.com"
                                     required
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    <a
-                                        href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                </div>
+                                <Label htmlFor="password">Password</Label>
                                 <Input
                                     id="password"
                                     type="password"
@@ -94,18 +89,9 @@ export function LoginForm({
                             </div>
                             {error && <p className="text-red-500">{error}</p>}
                             {success && <p className="text-green-500">Login successful!</p>}
-                            <Button type="submit" className="w-full">
+                            <Button type="submit" className="w-full md:bg-sky-950 hover:bg-sky-900">
                                 Login
                             </Button>
-                            {/* <Button variant="outline" className="w-full">
-                                Login with Google
-                            </Button> */}
-                        </div>
-                        <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
-                            <a href="#" className="underline underline-offset-4">
-                                Sign up
-                            </a>
                         </div>
                     </form>
                 </CardContent>

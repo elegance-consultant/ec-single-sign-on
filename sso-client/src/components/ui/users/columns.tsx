@@ -1,25 +1,11 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
-import { MoreHorizontal } from "lucide-react"
-
-import { redirect } from 'next/navigation'
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { User } from "@/types/user"
 import { DataTableColumnHeader } from "@/components/colunm-header"
-import { Attributes } from "./attribute-view"
+import { DataTableRowActions } from "./data-table-row-actions"
 
 export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
   const select_column: ColumnDef<User>[] = [
@@ -50,32 +36,10 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
   const action_column: ColumnDef<User>[] = [
     {
       id: "actions",
+      header: 'Actions',
       cell: ({ row }) => {
         const user = row.original;
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(user.id.toString())}
-              >
-                Copy user ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => redirect(`/users/${user.id}`)}
-              >
-                View user details
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
+        return <DataTableRowActions id={user.id.toString()} />
       },
     }
   ];
@@ -105,6 +69,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
             return (
               <Badge
                 variant={user.emailVerified ? 'default' : 'secondary'}
+                className={user.emailVerified ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
               >
                 {user.emailVerified ? 'Verified' : 'Unverified'}
               </Badge>
@@ -113,17 +78,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         });
         break;
       case 'attributes':
-        dynamic_column.push({
-          accessorKey: field,
-          header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={field} />
-          ),
-          cell: ({ row }) => {
-            const user = row.original;
-            return <Attributes attributes={user.attributes} />;
-          },
-        });
-      break;
+        break;
       case 'createdTimestamp':
         dynamic_column.push({
           accessorKey: field,
@@ -162,7 +117,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const user = row.original;
-            return user?.[field].toString() || '';
+            return user?.[field] ? user?.[field].toString() : '';
           },
         });
         break;
@@ -175,4 +130,3 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
     ...action_column,
   ];
 }
-

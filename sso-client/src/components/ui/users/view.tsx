@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
+import { Switch } from "../switch";
+import Swal from 'sweetalert2';
 
 interface UserFormProps {
   user: User;
@@ -31,96 +33,117 @@ export function UserForm({ user }: UserFormProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    const createUser = await fetch(`/api/user/update`, {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    })
+    if (createUser.ok) {
+      Swal.fire({
+          icon: "success",
+          title: "แก้ไขสำเร็จ",
+          showConfirmButton: false,
+          timer: 1000
+      })
+    }
     setIsEditMode(false);
   };
 
-  const handleGoToUsers = () => {
+  const handleBack = () => {
     router.push('/users');
   };
 
   return (
-    <div className="mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">User view</h1>
-      <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleGoToUsers}>Go to Users Table</button>
-      <button
-        onClick={() => setIsEditMode(!isEditMode)}
-        className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm"
-      >
-        {isEditMode ? 'View' : 'Edit'}
-      </button>
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Object.keys(user).map((key) => {
-            switch (key) {
-              case 'attributes':
-                return Object.keys(user.attributes).map((attrKey) => (
-                  <div className="grid gap-2" key={attrKey}>
-                    <Label htmlFor={attrKey}>{attrKey}</Label>
-                    <Input
-                      id={attrKey}
-                      name={attrKey}
-                      type="text"
-                      placeholder={attrKey}
-                      value={formData.attributes[attrKey]?.join(', ') || ''}
-                      onChange={handleAttributesChange}
-                      className="w-full"
-                      disabled={!isEditMode}
-                    />
-                  </div>
-                ));
-              case 'access':
-                break;
-              case 'disableableCredentialTypes':
-                break;
-              case 'requiredActions':
-                break;
-              case 'notBefore':
-                break;
-              case 'credentials':
-                return Object.keys(user.attributes).map((attrKey) => (
-                  <div className="grid gap-2" key={attrKey}>
-                    <Label htmlFor={attrKey}>{attrKey}</Label>
-                    <Input
-                      id={attrKey}
-                      name={attrKey}
-                      type="text"
-                      placeholder={attrKey}
-                      value={formData.attributes[attrKey]?.join(', ') || ''}
-                      onChange={handleAttributesChange}
-                      className="w-full"
-                      disabled={!isEditMode}
-                    />
-                  </div>
-                ));
-              default:
-                return (
-                  <div className="grid gap-2" key={key}>
-                    <Label htmlFor={key}>{key}</Label>
-                    <Input
-                      id={key}
-                      name={key}
-                      type="text"
-                      placeholder={key}
-                      value={formData[key as keyof User]?.toString() || ''}
-                      onChange={handleChange}
-                      disabled={!isEditMode || key === 'id'}
-                      className="w-full"
-                    />
-                  </div>
-                );
-            }
-          })}
+    <div>
+      <div className="py-4">
+        <div className="flex items-center space-x-2">
+          <label htmlFor="edit-mode-switch" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            {isEditMode ? 'View Mode' : 'Edit Mode'}
+          </label>
+          <Switch id="edit-mode-switch" checked={isEditMode} onCheckedChange={setIsEditMode} />
         </div>
-        {isEditMode && (
-          <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleGoToUsers}>Cancel</button>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm">Save</button>
+      </div>
+      <div className="p-4 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Object.keys(user).map((key) => {
+              switch (key) {
+                case 'attributes':
+                  return Object.keys(user.attributes).map((attrKey) => (
+                    <div className="grid gap-2" key={attrKey}>
+                      <Label htmlFor={attrKey}>{attrKey}</Label>
+                      <Input
+                        id={attrKey}
+                        name={attrKey}
+                        type="text"
+                        placeholder={attrKey}
+                        required
+                        value={formData.attributes[attrKey]?.join(', ') || ''}
+                        onChange={handleAttributesChange}
+                        className="w-full"
+                        disabled={!isEditMode}
+                      />
+                    </div>
+                  ));
+                case 'createdTimestamp':
+                  break;
+                case 'enabled':
+                  break;
+                case 'totp':
+                  break;
+                case 'access':
+                  break;
+                case 'disableableCredentialTypes':
+                  break;
+                case 'requiredActions':
+                  break;
+                case 'notBefore':
+                  break;
+                case 'credentials':
+                  return Object.keys(user.attributes).map((attrKey) => (
+                    <div className="grid gap-2" key={attrKey}>
+                      <Label htmlFor={attrKey}>{attrKey}</Label>
+                      <Input
+                        id={attrKey}
+                        name={attrKey}
+                        type="text"
+                        placeholder={attrKey}
+                        required
+                        value={formData.attributes[attrKey]?.join(', ') || ''}
+                        onChange={handleAttributesChange}
+                        className="w-full"
+                        disabled={!isEditMode}
+                      />
+                    </div>
+                  ));
+                default:
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>{key}</Label>
+                      <Input
+                        id={key}
+                        name={key}
+                        type="text"
+                        placeholder={key}
+                        value={formData[key as keyof User]?.toString() || ''}
+                        onChange={handleChange}
+                        disabled={!isEditMode || key === 'id'}
+                        className="w-full"
+                      />
+                    </div>
+                  );
+              }
+            })}
           </div>
-        )}
-      </form>
+          <div className="flex justify-end space-x-4 mt-4">
+            <button type="button" className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleBack}>Back</button>
+            {isEditMode && (
+              <button type="submit" className="bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded-md shadow-sm">Save</button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

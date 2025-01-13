@@ -16,3 +16,7 @@ interface Access {
 interface Credentials {
   [key: string]: string | boolean;
 };
+
+export interface UserInfo {
+  [key: string]: string;
+}

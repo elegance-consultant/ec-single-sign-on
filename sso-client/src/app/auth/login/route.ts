@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { serialize } from 'cookie';
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
@@ -12,26 +11,38 @@ export async function POST(req: NextRequest) {
         body: new URLSearchParams({
             username: username,
             password: password,
-            grant_type: 'password',
+            grant_type: `${process.env.KEYCLOAK_GRANT_TYPE}`,
             client_id: `${process.env.KEYCLOAK_ID}`,
             client_secret: `${process.env.KEYCLOAK_SECRET}`,
-            scope: 'openid profile email'
+            scope: `${process.env.KEYCLOAK_SCOPE}`
         }),
     });
 
     if (res.ok) {
         const data = await res.json();
-        const { access_token, expires_in} = data;
+        const { access_token, expires_in, refresh_token, refresh_expires_in, id_token } = data;
 
-        // Set the token in a cookie
-        const cookie = serialize('token', access_token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: expires_in, // expire token
-            path: '/'
+        const response = NextResponse.json({
+            message: 'Login successful',
+            access_token,
+            refresh_token,
+            id_token
         });
-        const response = NextResponse.json({ message: 'Logged in successfully' });
-        response.headers.append('Set-Cookie', cookie);
+        response.cookies.set('session', access_token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: expires_in
+        });
+        response.cookies.set('refresh_token', refresh_token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: refresh_expires_in
+        });
+        response.cookies.set('id_token', id_token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: expires_in
+        });
         return response;
     } else {
         return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });

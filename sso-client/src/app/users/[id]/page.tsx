@@ -18,10 +18,17 @@ export default async function Page({
             'Authorization': `Bearer ${jwtCookie_str}`
         },
     });
-    const data = await response.json(); // Await the response.json() call
-    // console.log(data);
-    
+    const data = await response.json();
+
     return (
-        <UserForm user={data} />
+        <div className="space-y-8">
+            <div>
+                <h2 className="text-3xl font-bold tracking-tight">User Information</h2>
+                <p className="text-muted-foreground">
+                    Here's an overview of your business
+                </p>
+            </div>
+            <UserForm user={data} />
+        </div>
     );
 }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -11,8 +11,7 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   VisibilityState,
-  Row,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -20,39 +19,39 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table"
+  TableRow,
+} from "@/components/ui/table";
 
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import { Input } from "@/components/ui/input"
-import React from "react"
-import { DataTablePagination } from "@/components/pagination"
-import { DataTableViewOptions } from "@/components/column-toggle"
-import { Button } from "@/components/ui/button"
-import Papa from 'papaparse';
+import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
+import { DataTableViewOptions } from "@/components/column-toggle";
+import { Button } from "@/components/ui/button";
+import Papa from "papaparse";
+import { redirect } from "next/navigation";
+import { DataTablePagination } from "@/components/pagination";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[],
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
-    // username: false,
-    createdTimestamp: false,
-  })
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    createdTimestamp: true,
+  });
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
     data,
@@ -65,21 +64,23 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
-  })
+  });
 
   function downloadCSV<T>(data: T[], filename: string = "data.csv") {
-    const csv = '\ufeff' + Papa.unparse(data);
-    const csvFile = new Blob([csv], { type: 'text/csv;charset=UTF-16LE;' });
-    const downloadLink = document.createElement('a');
+    const csv = "\ufeff" + Papa.unparse(data);
+    const csvFile = new Blob([csv], { type: "text/csv;charset=UTF-16LE;" });
+    const downloadLink = document.createElement("a");
 
-    downloadLink.setAttribute('href', URL.createObjectURL(csvFile));
-    downloadLink.setAttribute('download', filename);
+    downloadLink.setAttribute("href", URL.createObjectURL(csvFile));
+    downloadLink.setAttribute("download", filename);
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -87,7 +88,12 @@ export function DataTable<TData, TValue>({
 
   const handleExportCSV = () => {
     const selectedRows = table.getSelectedRowModel().rows;
-    const csvData = selectedRows.map((row) => {
+    const rowsToExport =
+      selectedRows && selectedRows.length > 0
+        ? selectedRows
+        : table.getRowModel().rows;
+
+    const csvData = rowsToExport.map((row) => {
       const original = row.original;
       const flattened: any = {};
 
@@ -108,59 +114,51 @@ export function DataTable<TData, TValue>({
       return flattened;
     });
 
-    downloadCSV(csvData, "selected_data.csv");
+    downloadCSV(csvData, "users.csv");
   };
 
   return (
-    <div className="hidden md:block rounded-md">
-      <div className="flex items-center py-4">
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <Input
-            placeholder="Filter emails..."
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-          <Input
-            placeholder="Filter usernames..."
-            value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("username")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
+    <div className="rounded-md">
+      <div>
+        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+          <div className="flex gap-4 max-w-sm">
+            <Input
+              placeholder="Search all columns..."
+              value={globalFilter ?? ""}
+              onChange={(event) => setGlobalFilter(event.target.value)}
+            />
+          </div>
+          <div className="flex justify-end">
+            <DropdownMenu>
+                <Button className="bg-gray-500 hover:bg-gray-400" onClick={handleExportCSV}>Export CSV</Button>
+                <DataTableViewOptions table={table} />
+                <Button className="ml-5 bg-sky-950 hover:bg-sky-900" onClick={() => redirect('/users/create')}>+ Create new user</Button>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-        <Button onClick={handleExportCSV}>Export CSV</Button>
-        <DropdownMenu>
-          <DataTableViewOptions table={table} />
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
       {/* Desktop view */}
-      <div className="hidden md:block rounded-md border">
+      <div className="rounded-md border overflow-x-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -175,7 +173,7 @@ export function DataTable<TData, TValue>({
                           header.getContext()
                         )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -204,14 +202,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <DataTablePagination table={table} />
-      </div>
-
-      {/* Mobile view */}
-      <div className="hidden md:block">
-
+      <div className="flex items-center justify-between py-2">
+        <DataTablePagination table={table} className="flex-col md:flex-row" />
       </div>
     </div>
-  )
+  );
 }
