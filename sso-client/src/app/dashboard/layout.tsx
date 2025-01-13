@@ -3,6 +3,7 @@ import { Sidebar } from '@/components/sidebar';
 import { SidebarAdmin } from '@/components/sidebarAdmin';
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { cookies } from 'next/headers';
+import { Profile } from '../profile';
 
 export default async function AdminLayout({
   children,
@@ -22,7 +23,8 @@ export default async function AdminLayout({
           <div className="h-full relative">
             <SidebarAdmin />
             <div className="md:pl-72 px-5">
-              <div className="justify-self-end py-2">
+              <div className="justify-self-end py-2 flex">
+                <Profile />
                 <DisplayUser />
               </div>
               {children}

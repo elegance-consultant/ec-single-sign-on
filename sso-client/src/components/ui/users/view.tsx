@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Switch } from "../switch";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Swal from 'sweetalert2';
+import { Button } from "../button";
 
 interface UserFormProps {
   user: User;
@@ -69,7 +70,7 @@ export function UserForm({ user }: UserFormProps) {
           <label htmlFor="edit-mode-switch" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {isEditMode ? 'View Mode' : 'Edit Mode'}
           </label>
-          <Switch id="edit-mode-switch" checked={isEditMode} onCheckedChange={setIsEditMode} />
+          <Switch id="edit-mode-switch" checked={isEditMode} onCheckedChange={setIsEditMode} className="" />
         </div>
       </div>
       <div className="p-4 rounded-lg shadow-md">
@@ -126,7 +127,7 @@ export function UserForm({ user }: UserFormProps) {
                         <SelectContent id={key}>
                           <SelectGroup>
                             <SelectItem value="true">isActive</SelectItem>
-                            <SelectItem value="false">noActive</SelectItem>
+                            <SelectItem value="false">inActive</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -200,9 +201,9 @@ export function UserForm({ user }: UserFormProps) {
             })}
           </div>
           <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" className="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-md shadow-sm" onClick={handleBack}>Back</button>
+            <Button type="button" variant="outline" className="bg-white text-sky-900 border border-sky-900" onClick={handleBack}>Back</Button>
             {isEditMode && (
-              <button type="submit" className="bg-sky-500 hover:bg-sky-600 px-4 py-2 rounded-md shadow-sm">Save</button>
+              <Button type="submit" className="bg-sky-900 hover:bg-sky-800 dark:text-white">Save</Button>
             )}
           </div>
         </form>

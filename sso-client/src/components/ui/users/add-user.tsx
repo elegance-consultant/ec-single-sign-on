@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Swal from 'sweetalert2';
+import { Button } from "../button";
 
 interface User {
     username: string;
@@ -181,12 +182,12 @@ export default function CreateUserForm() {
                     </div>
                 </div>
                 <div className="flex justify-end mt-8 space-x-4">
-                    <button type="button" className="border bg-gray-500 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleBack}>
+                    <Button type="button" variant="outline" className="bg-white text-sky-900 border border-sky-900" onClick={handleBack}>
                         Cancel
-                    </button>
-                    <button type="submit" className="bg-sky-500 hover:bg-sky-600 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    </Button>
+                    <Button type="submit" className="bg-sky-900 hover:bg-sky-800 dark:text-white">
                         Create
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

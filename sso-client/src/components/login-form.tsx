@@ -89,7 +89,7 @@ export function LoginForm({
                             </div>
                             {error && <p className="text-red-500">{error}</p>}
                             {success && <p className="text-green-500">Login successful!</p>}
-                            <Button type="submit" className="w-full md:bg-sky-950 hover:bg-sky-900">
+                            <Button type="submit" className="w-full md:bg-sky-950 hover:bg-sky-900 text-white">
                                 Login
                             </Button>
                         </div>
