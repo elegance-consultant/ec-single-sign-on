@@ -54,7 +54,6 @@ export function UserForm({ user }: UserFormProps) {
         timer: 1000
       })
     }
-    console.log(formData);
 
     setIsEditMode(false);
   };
