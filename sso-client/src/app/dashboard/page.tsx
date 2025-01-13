@@ -31,7 +31,7 @@ export default async function Page() {
             'Authorization': `Bearer ${token}`
         },
     });
-    const enabled = await resUserCountEnabled.json();
+    const enabledCount = await resUserCountEnabled.json();
 
     const resUserCountUnEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=false`, {
         method: 'GET',
@@ -40,7 +40,7 @@ export default async function Page() {
             'Authorization': `Bearer ${token}`
         },
     });
-    const unEnabled = await resUserCountUnEnabled.json();
+    const unEnabledCount = await resUserCountUnEnabled.json();
     
     const stats = [
         {
@@ -51,13 +51,13 @@ export default async function Page() {
         },
         {
             title: 'Active Users',
-            value: enabled || '0',
+            value: enabledCount || '0',
             change: '',
             icon: Users,
         },
         {
             title: 'UnActive Users',
-            value: unEnabled || '0',
+            value: unEnabledCount || '0',
             change: '',
             icon: UserX,
         },
