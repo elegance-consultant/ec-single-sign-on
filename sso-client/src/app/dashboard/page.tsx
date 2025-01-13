@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, UserX, Activity, Verified } from 'lucide-react';
+import { ArrowUpRight, Users, UserX } from 'lucide-react';
 import { cookies } from 'next/headers';
 
 export default async function Page() {
@@ -15,14 +15,14 @@ export default async function Page() {
     });
     const userCount = await resUserCount.json();
 
-    const resUserCountEmailVerify = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?emailVerified=true`, {
+    const resUserCountOnline = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?q=isActive:online`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
     });
-    const emailVerifyCount = await resUserCountEmailVerify.json();
+    const userCountOnline = await resUserCountOnline.json();
 
     const resUserCountEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=true`, {
         method: 'GET',
@@ -50,13 +50,13 @@ export default async function Page() {
             icon: Users,
         },
         {
-            title: 'isActive Users',
+            title: 'Active Users',
             value: enabledCount || '0',
             change: `+${enabledCount / 100}%`,
             icon: Users,
         },
         {
-            title: 'noActive Users',
+            title: 'UnActive Users',
             value: unEnabledCount || '0',
             change: `+${unEnabledCount / 100}%`,
             icon: UserX,
@@ -68,10 +68,10 @@ export default async function Page() {
         //     icon: Activity,
         // },
         {
-            title: 'Verified Users',
-            value: emailVerifyCount || '0',
-            change: `+${emailVerifyCount / 100}%`,
-            icon: Verified,
+            title: 'Online',
+            value: userCountOnline || '0',
+            change: `+${userCountOnline / 100}%`,
+            icon: Users,
         },
     ];
 
