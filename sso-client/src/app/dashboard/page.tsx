@@ -50,7 +50,7 @@ export default async function Page() {
             icon: Users,
         },
         {
-            title: 'Active Users',
+            title: 'IsActive Users',
             value: enabledCount || '0',
             change: `+${enabledCount / 100}%`,
             icon: Users,
