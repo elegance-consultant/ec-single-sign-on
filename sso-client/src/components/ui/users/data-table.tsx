@@ -49,7 +49,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    createdTimestamp: true,
+    createdTimestamp: false,
   });
   const [globalFilter, setGlobalFilter] = useState("");
 

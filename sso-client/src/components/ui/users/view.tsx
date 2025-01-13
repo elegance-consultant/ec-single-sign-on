@@ -6,6 +6,7 @@ import { useState } from "react";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { Switch } from "../switch";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Swal from 'sweetalert2';
 
 interface UserFormProps {
@@ -17,9 +18,15 @@ export function UserForm({ user }: UserFormProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      if (name === 'Active') {
+        return { ...prev, [name]: value === 'true' };
+      } else {
+        return { ...prev, [name]: value };
+      }
+    });
   };
 
   const handleAttributesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +54,8 @@ export function UserForm({ user }: UserFormProps) {
         timer: 1000
       })
     }
+    console.log(formData);
+
     setIsEditMode(false);
   };
 
@@ -66,7 +75,7 @@ export function UserForm({ user }: UserFormProps) {
       </div>
       <div className="p-4 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {Object.keys(user).map((key) => {
               switch (key) {
                 case 'attributes':
@@ -89,7 +98,7 @@ export function UserForm({ user }: UserFormProps) {
                 case 'createdTimestamp':
                   return (
                     <div className="grid gap-2" key={key}>
-                      <Label htmlFor={key}>{key}</Label>
+                      <Label htmlFor={key}>วันเวลาที่สร้างบัญชี</Label>
                       <Input
                         id={key}
                         name={key}
@@ -102,10 +111,50 @@ export function UserForm({ user }: UserFormProps) {
                       />
                     </div>
                   );
-                // case 'enabled':
-                //   break;
-                // case 'emailVerified':
-                //   break;
+                case 'enabled':
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>Active User</Label>
+                      <Select
+                        disabled={!isEditMode}
+                        value={formData[key as keyof User]?.toString()}
+                        onValueChange={(value) => setFormData({ ...formData, [key]: value === "true" })}
+                        defaultValue={formData[key as keyof User]?.toString()}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a user" />
+                        </SelectTrigger>
+                        <SelectContent id={key}>
+                          <SelectGroup>
+                            <SelectItem value="true">isActive</SelectItem>
+                            <SelectItem value="false">noActive</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  );
+                case 'emailVerified':
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>EmailVerified</Label>
+                      <Select
+                        disabled={!isEditMode}
+                        value={formData[key as keyof User]?.toString()}
+                        onValueChange={(value) => setFormData({ ...formData, [key]: value === 'true' })}
+                        defaultValue={formData[key as keyof User]?.toString()}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a user" />
+                        </SelectTrigger>
+                        <SelectContent id={key}>
+                          <SelectGroup>
+                            <SelectItem value="true">Verified</SelectItem>
+                            <SelectItem value="false">UnVerified</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  );
                 case 'username':
                   return (
                     <div className="grid gap-2" key={key}>

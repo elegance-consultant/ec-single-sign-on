@@ -50,13 +50,13 @@ export default async function Page() {
             icon: Users,
         },
         {
-            title: 'Active Users',
+            title: 'isActive Users',
             value: enabledCount || '0',
             change: `+${enabledCount / 100}%`,
             icon: Users,
         },
         {
-            title: 'UnActive Users',
+            title: 'noActive Users',
             value: unEnabledCount || '0',
             change: `+${unEnabledCount / 100}%`,
             icon: UserX,
