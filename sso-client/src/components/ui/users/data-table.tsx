@@ -130,9 +130,9 @@ export function DataTable<TData, TValue>({
           </div>
           <div className="flex justify-end">
             <DropdownMenu>
-                <Button className="bg-gray-500 hover:bg-gray-400" onClick={handleExportCSV}>Export CSV</Button>
+                <Button className="bg-gray-500 hover:bg-gray-300" onClick={handleExportCSV}>Export CSV</Button>
                 <DataTableViewOptions table={table} />
-                <Button className="ml-5 bg-sky-950 hover:bg-sky-900" onClick={() => redirect('/users/create')}>+ Create new user</Button>
+                <Button className="ml-5 bg-green-600 hover:bg-green-500" onClick={() => redirect('/users/create')}>+ Create new user</Button>
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()

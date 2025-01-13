@@ -1,31 +1,68 @@
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
+import { ArrowUpRight, Users, UserX, Activity, Verified } from 'lucide-react';
+import { cookies } from 'next/headers';
 
 export default async function Page() {
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get('session')?.value;
+    const resUserCount = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const userCount = await resUserCount.json();
+
+    const resUserCountEmailVerify = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?emailVerified=true`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const emailVerify = await resUserCountEmailVerify.json();
+
+    const resUserCountUnEmailVerify = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?emailVerified=false`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const unEmailVerify = await resUserCountUnEmailVerify.json();
+    
     const stats = [
         {
             title: 'Total Users',
-            value: 123,
-            change: '20.1%',
+            value: userCount || '',
+            change: '',
             icon: Users,
         },
         {
             title: 'Active Users',
-            value: 2350,
-            change: '-15.2%',
+            value: emailVerify || '',
+            change: '',
             icon: Users,
         },
         {
-            title: 'Blacklist User',
-            value: 234,
-            change: '+12.2%',
+            title: 'UnActive Users',
+            value: unEmailVerify || '',
+            change: '',
             icon: UserX,
         },
+        // {
+        //     title: 'Active Sessions',
+        //     value: 573,
+        //     change: '+8.19%',
+        //     icon: Activity,
+        // },
         {
-            title: 'Active Sessions',
-            value: 573,
-            change: '+8.19%',
-            icon: Activity,
+            title: 'Verified Users',
+            value: emailVerify,
+            change: '',
+            icon: Verified,
         },
     ];
 
@@ -40,7 +77,7 @@ export default async function Page() {
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
                             <stat.icon className="h-5 w-5 text-muted-foreground" />
-                            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
+                            {/* <ArrowUpRight className="h-4 w-4 text-emerald-500" /> */}
                         </div>
                         <div className="mt-4">
                             <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>

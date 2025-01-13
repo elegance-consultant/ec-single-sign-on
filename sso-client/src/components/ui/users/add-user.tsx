@@ -181,10 +181,10 @@ export default function CreateUserForm() {
                     </div>
                 </div>
                 <div className="flex justify-end mt-8 space-x-4">
-                    <button type="button" className="border border-gray-400 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleBack}>
+                    <button type="button" className="border bg-gray-500 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleBack}>
                         Cancel
                     </button>
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <button type="submit" className="bg-sky-500 hover:bg-sky-600 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Create
                     </button>
                 </div>

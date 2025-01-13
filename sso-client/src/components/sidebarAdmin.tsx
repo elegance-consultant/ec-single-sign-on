@@ -84,8 +84,8 @@ export function SidebarAdmin() {
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    'group flex items-center px-4 py-2 rounded-md hover:bg-sky-950 transition-colors duration-200',
-                    pathname === route.href ? 'bg-sky-900 font-medium' : 'text-gray-600',
+                    'group flex items-center px-4 py-2 rounded-md hover:bg-white-600 transition-colors duration-200',
+                    pathname === route.href ? 'bg-gray-500 font-medium' : 'text-gray-600',
                   )}
                 >
                   <route.icon className="h-5 w-5 mr-3" />
