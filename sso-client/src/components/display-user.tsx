@@ -23,7 +23,7 @@ const DisplayUser = async () => {
     <div className='hidden md:flex'>
       <Avatar>
         <AvatarImage src="./icon.svg" alt="profile" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarFallback>A</AvatarFallback>
       </Avatar>
       <div className='py-2 px-5'>
         {given_name}

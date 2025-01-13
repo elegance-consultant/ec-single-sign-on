@@ -6,6 +6,7 @@ import { useState } from "react";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { Switch } from "../switch";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Swal from 'sweetalert2';
 
 interface UserFormProps {
@@ -17,9 +18,15 @@ export function UserForm({ user }: UserFormProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      if (name === 'Active') {
+        return { ...prev, [name]: value === 'true' };
+      } else {
+        return { ...prev, [name]: value };
+      }
+    });
   };
 
   const handleAttributesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,12 +48,13 @@ export function UserForm({ user }: UserFormProps) {
     })
     if (createUser.ok) {
       Swal.fire({
-          icon: "success",
-          title: "แก้ไขสำเร็จ",
-          showConfirmButton: false,
-          timer: 1000
+        icon: "success",
+        title: "แก้ไขสำเร็จ",
+        showConfirmButton: false,
+        timer: 1000
       })
     }
+
     setIsEditMode(false);
   };
 
@@ -66,7 +74,7 @@ export function UserForm({ user }: UserFormProps) {
       </div>
       <div className="p-4 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {Object.keys(user).map((key) => {
               switch (key) {
                 case 'attributes':
@@ -87,9 +95,81 @@ export function UserForm({ user }: UserFormProps) {
                     </div>
                   ));
                 case 'createdTimestamp':
-                  break;
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>วันเวลาที่สร้างบัญชี</Label>
+                      <Input
+                        id={key}
+                        name={key}
+                        type="text"
+                        placeholder={key}
+                        value={new Date(Number(formData[key as keyof User]?.toString())).toLocaleString() || ''}
+                        onChange={handleChange}
+                        disabled={!isEditMode || key === 'createdTimestamp'}
+                        className="w-full"
+                      />
+                    </div>
+                  );
                 case 'enabled':
-                  break;
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>Active User</Label>
+                      <Select
+                        disabled={!isEditMode}
+                        value={formData[key as keyof User]?.toString()}
+                        onValueChange={(value) => setFormData({ ...formData, [key]: value === "true" })}
+                        defaultValue={formData[key as keyof User]?.toString()}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a user" />
+                        </SelectTrigger>
+                        <SelectContent id={key}>
+                          <SelectGroup>
+                            <SelectItem value="true">isActive</SelectItem>
+                            <SelectItem value="false">noActive</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  );
+                case 'emailVerified':
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>EmailVerified</Label>
+                      <Select
+                        disabled={!isEditMode}
+                        value={formData[key as keyof User]?.toString()}
+                        onValueChange={(value) => setFormData({ ...formData, [key]: value === 'true' })}
+                        defaultValue={formData[key as keyof User]?.toString()}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a user" />
+                        </SelectTrigger>
+                        <SelectContent id={key}>
+                          <SelectGroup>
+                            <SelectItem value="true">Verified</SelectItem>
+                            <SelectItem value="false">UnVerified</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  );
+                case 'username':
+                  return (
+                    <div className="grid gap-2" key={key}>
+                      <Label htmlFor={key}>{key}</Label>
+                      <Input
+                        id={key}
+                        name={key}
+                        type="text"
+                        placeholder={key}
+                        value={formData[key as keyof User]?.toString() || ''}
+                        onChange={handleChange}
+                        disabled={!isEditMode || key === 'username'}
+                        className="w-full"
+                      />
+                    </div>
+                  );
                 case 'totp':
                   break;
                 case 'access':
@@ -100,23 +180,6 @@ export function UserForm({ user }: UserFormProps) {
                   break;
                 case 'notBefore':
                   break;
-                case 'credentials':
-                  return Object.keys(user.attributes).map((attrKey) => (
-                    <div className="grid gap-2" key={attrKey}>
-                      <Label htmlFor={attrKey}>{attrKey}</Label>
-                      <Input
-                        id={attrKey}
-                        name={attrKey}
-                        type="text"
-                        placeholder={attrKey}
-                        required
-                        value={formData.attributes[attrKey]?.join(', ') || ''}
-                        onChange={handleAttributesChange}
-                        className="w-full"
-                        disabled={!isEditMode}
-                      />
-                    </div>
-                  ));
                 default:
                   return (
                     <div className="grid gap-2" key={key}>
@@ -137,9 +200,9 @@ export function UserForm({ user }: UserFormProps) {
             })}
           </div>
           <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm" onClick={handleBack}>Back</button>
+            <button type="button" className="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-md shadow-sm" onClick={handleBack}>Back</button>
             {isEditMode && (
-              <button type="submit" className="bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded-md shadow-sm">Save</button>
+              <button type="submit" className="bg-sky-500 hover:bg-sky-600 px-4 py-2 rounded-md shadow-sm">Save</button>
             )}
           </div>
         </form>

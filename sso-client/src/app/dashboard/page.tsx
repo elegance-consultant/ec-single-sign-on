@@ -1,31 +1,77 @@
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
+import { ArrowUpRight, Users, UserX } from 'lucide-react';
+import { cookies } from 'next/headers';
 
 export default async function Page() {
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get('session')?.value;
+    const resUserCount = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const userCount = await resUserCount.json();
+
+    const resUserCountOnline = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?q=isActive:online`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const userCountOnline = await resUserCountOnline.json();
+
+    const resUserCountEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=true`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const enabledCount = await resUserCountEnabled.json();
+
+    const resUserCountUnEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=false`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const unEnabledCount = await resUserCountUnEnabled.json();
+    
     const stats = [
         {
             title: 'Total Users',
-            value: 123,
-            change: '20.1%',
+            value: userCount || '0',
+            change: `+${userCount / 100}%`,
             icon: Users,
         },
         {
-            title: 'Active Users',
-            value: 2350,
-            change: '-15.2%',
+            title: 'IsActive Users',
+            value: enabledCount || '0',
+            change: `+${enabledCount / 100}%`,
             icon: Users,
         },
         {
-            title: 'Blacklist User',
-            value: 234,
-            change: '+12.2%',
+            title: 'InActive Users',
+            value: unEnabledCount || '0',
+            change: `+${unEnabledCount / 100}%`,
             icon: UserX,
         },
+        // {
+        //     title: 'Active Sessions',
+        //     value: 573,
+        //     change: '+8.19%',
+        //     icon: Activity,
+        // },
         {
-            title: 'Active Sessions',
-            value: 573,
-            change: '+8.19%',
-            icon: Activity,
+            title: 'Online',
+            value: userCountOnline || '0',
+            change: `+${userCountOnline / 100}%`,
+            icon: Users,
         },
     ];
 

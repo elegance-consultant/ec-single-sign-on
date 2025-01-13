@@ -71,7 +71,26 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
                 variant={user.emailVerified ? 'default' : 'secondary'}
                 className={user.emailVerified ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
               >
-                {user.emailVerified ? 'Verified' : 'Unverified'}
+                {user.emailVerified ? 'Verified' : 'UnVerified'}
+              </Badge>
+            );
+          },
+        });
+        break;
+      case 'enabled':
+        dynamic_column.push({
+          accessorKey: field,
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title={field} />
+          ),
+          cell: ({ row }) => {
+            const user = row.original
+            return (
+              <Badge
+                variant={user.enabled ? 'default' : 'secondary'}
+                className={user.enabled ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
+              >
+                {user.enabled ? 'isActive' : 'noActive'}
               </Badge>
             );
           },
@@ -92,22 +111,16 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         });
         break;
       case 'enabled':
-
         break;
       case 'totp':
-
         break;
       case 'disableableCredentialTypes':
-
         break;
       case 'requiredActions':
-
         break;
       case 'notBefore':
-
         break;
       case 'access':
-
         break;
       default:
         dynamic_column.push({
