@@ -68,12 +68,12 @@ export function SidebarAdmin() {
 
       <div
         className={cn(
-          'fixed inset-y-0 left-0 z-[80] w-64 shadow-md transform transition-transform',
+          'fixed inset-y-0 left-0 z-[80] w-64 bg-white shadow-md transform transition-transform',
           isOpen ? 'translate-x-0' : '-translate-x-full',
           'md:translate-x-0 md:flex md:flex-col'
         )}
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full text-gray-800">
           <div className="px-4 py-6">
             <Link href="/dashboard" className="flex justify-center items-center mb-8">
               <Image src={HomeLogo} alt={'homeLogo'} className="h-8 w-auto" />
@@ -85,10 +85,10 @@ export function SidebarAdmin() {
                   href={route.href}
                   className={cn(
                     'group flex items-center px-4 py-2 rounded-md hover:bg-white-600 transition-colors duration-200',
-                    pathname === route.href ? 'bg-white-500 font-medium' : 'text-white-600',
+                    pathname === route.href ? 'bg-gray-500 font-medium' : 'text-white-600',
                   )}
                 >
-                  <route.icon className="h-5 w-5 mr-3" />
+                  <route.icon className="h-5 w-5 mr-3 text-white" />
                   {route.label}
                 </Link>
               ))}
