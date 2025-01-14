@@ -68,7 +68,7 @@ export function SidebarAdmin() {
 
             <div
                 className={cn(
-                    'fixed inset-y-0 left-0 z-[80] w-64 shadow-md transform transition-transform dark:bg-white/0',
+                    'fixed inset-y-0 left-0 z-[80] w-64 shadow-md transform transition-transform dark:bg-black bg-white dark:text-white',
                     isOpen ? 'translate-x-0' : '-translate-x-full',
                     'md:translate-x-0 md:flex md:flex-col'
                 )}
@@ -76,7 +76,7 @@ export function SidebarAdmin() {
                 <div className="flex flex-col h-full">
                     <div className="px-4 py-6">
                         <Link href="/dashboard" className="flex justify-center items-center mb-8">
-                            <Image src={HomeLogo} alt={'homeLogo'} className="h-8 w-max" />
+                            <Image src={HomeLogo} alt={'homeLogo'} className="h-auto" />
                         </Link>
                         <div className="space-y-2">
                             {routes.map((route) => (
