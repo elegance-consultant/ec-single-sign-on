@@ -110,8 +110,6 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           },
         });
         break;
-      case 'enabled':
-        break;
       case 'totp':
         break;
       case 'disableableCredentialTypes':

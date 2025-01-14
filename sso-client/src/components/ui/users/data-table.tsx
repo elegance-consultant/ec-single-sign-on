@@ -32,9 +32,9 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { DataTableViewOptions } from "@/components/column-toggle";
 import { Button } from "@/components/ui/button";
-import Papa from "papaparse";
 import { redirect } from "next/navigation";
 import { DataTablePagination } from "@/components/pagination";
+import Papa from "papaparse";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -109,7 +109,6 @@ export function DataTable<TData, TValue>({
           }
         }
       }
-
       flattenObject(original);
       return flattened;
     });

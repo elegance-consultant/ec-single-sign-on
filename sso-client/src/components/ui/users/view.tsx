@@ -88,7 +88,7 @@ export function UserForm({ user }: UserFormProps) {
                         type="text"
                         placeholder={attrKey}
                         required
-                        value={formData.attributes[attrKey]?.toString() || ''}
+                        value={formData.attributes[attrKey]?.join(', ') || ''}
                         onChange={handleAttributesChange}
                         className="w-full"
                         disabled={!isEditMode}
