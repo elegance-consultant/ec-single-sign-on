@@ -81,7 +81,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         dynamic_column.push({
           accessorKey: field,
           header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={field} />
+            <DataTableColumnHeader column={column} title='พร้อมใช้งาน' />
           ),
           cell: ({ row }) => {
             const user = row.original
@@ -102,7 +102,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         dynamic_column.push({
           accessorKey: field,
           header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={field} />
+            <DataTableColumnHeader column={column} title='วันเวลาที่สร้างบัญชี' />
           ),
           cell: ({ row }) => {
             const timestamp = row.original[field];
