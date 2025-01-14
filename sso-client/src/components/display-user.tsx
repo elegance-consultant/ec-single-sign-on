@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { ModeToggle } from './mode-toggle';
 import { jwtDecode } from "jwt-decode";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Profile } from '@/app/profile';
 
 const DisplayUser = async () => {
   const cookieStore = await cookies();
@@ -21,10 +21,7 @@ const DisplayUser = async () => {
 
   return (
     <div className='hidden md:flex'>
-      <Avatar>
-        <AvatarImage src="./icon.svg" alt="profile" />
-        <AvatarFallback>A</AvatarFallback>
-      </Avatar>
+      <Profile />
       <div className='py-2 px-5'>
         {given_name}
       </div>

@@ -24,8 +24,8 @@ export function DataTableViewOptions<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          className="hidden ml-5 lg:flex"
+          variant="default"
+          className="hidden ml-5 lg:flex text-white bg-gray-500 hover:bg-gray-600 dark:bg-gray-500 dark:hover:bg-gray-600"
         >
           <Settings2 />
           View

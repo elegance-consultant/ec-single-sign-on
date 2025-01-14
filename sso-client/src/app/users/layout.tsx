@@ -22,7 +22,7 @@ export default async function CreateUserLayout({
           <div className="h-full relative">
             <SidebarAdmin />
             <div className="md:pl-72 px-5">
-              <div className="justify-self-end py-6">
+              <div className="justify-self-end py-2 flex">
                 <DisplayUser />
               </div>
               {children}
@@ -38,7 +38,7 @@ export default async function CreateUserLayout({
     <div className="h-full relative">
       <Sidebar />
       <div className="md:pl-72 px-5">
-        <div className="justify-self-end py-6">
+        <div className="justify-self-end py-2">
           <DisplayUser />
         </div>
         {children}

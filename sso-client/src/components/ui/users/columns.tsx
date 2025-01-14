@@ -90,7 +90,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
                 variant={user.enabled ? 'default' : 'secondary'}
                 className={user.enabled ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
               >
-                {user.enabled ? 'isActive' : 'noActive'}
+                {user.enabled ? 'isActive' : 'inActive'}
               </Badge>
             );
           },
