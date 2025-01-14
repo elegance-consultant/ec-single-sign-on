@@ -1,12 +1,13 @@
-"use client"
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import ImgProfile from '../../public/icon.png';
+import Image from "next/image";
 
 export function Profile() {
     return (
         <Avatar className="hidden md:flex">
-            <AvatarImage src="./favicon.ico" alt="profile" />
-            <AvatarFallback>A</AvatarFallback>
+            <AvatarFallback>
+                <Image src={ImgProfile} alt={"profile"} width={100} height={100} />
+            </AvatarFallback>
         </Avatar>
     );
 }

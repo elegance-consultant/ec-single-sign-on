@@ -107,7 +107,7 @@ export function SidebarAdmin() {
                             </div>
                         </div>
                         <button
-                            className="group flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-800/20 transition-colors duration-200 text-red-500" // Adjusted hover and text color
+                            className="group flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-800/20 transition-colors duration-200 text-red-500"
                             onClick={handleDeleteCookie}
                         >
                             <LogOut className="h-5 w-5 mr-3" />
