@@ -1,3 +1,8 @@
+import { AreaChartCompo } from '@/components/areaChart';
+import { BarChartMultiple } from '@/components/barChartMulti';
+import { LineChart_Linear } from '@/components/lineChart-Linear';
+import { PieChartCompo } from '@/components/pie-chart';
+import { PieChartDA } from '@/components/pieChartDonutActive';
 import { Card } from '@/components/ui/card';
 import { ArrowUpRight, Users, UserX } from 'lucide-react';
 import { cookies } from 'next/headers';
@@ -99,6 +104,15 @@ export default async function Page() {
                         </div>
                     </Card>
                 ))}
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <PieChartCompo />
+                <PieChartDA />
+                <BarChartMultiple />
+                <LineChart_Linear />
+            </div>
+            <div>
+                <AreaChartCompo />
             </div>
         </div>
     );
