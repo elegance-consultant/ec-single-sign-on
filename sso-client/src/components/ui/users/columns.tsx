@@ -96,7 +96,30 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           },
         });
         break;
+      // case 'attributes':
+      //   break;
       case 'attributes':
+        dynamic_column.push({
+          accessorKey: 'NationalIDCard',
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title='IDCard' />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            return user.attributes.NationalIDCard;
+          }
+        });
+      case 'attributes':
+        dynamic_column.push({
+          accessorKey: 'Telephone',
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title='Phone' />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            return user.attributes.Telephone.toString().replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+          }
+        });
         break;
       case 'createdTimestamp':
         dynamic_column.push({
@@ -106,7 +129,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const timestamp = row.original[field];
-            return timestamp ? new Date(Number(timestamp)).toLocaleString() : ''; // Format the timestamp
+            return timestamp ? new Date(Number(timestamp)).toLocaleString() : '';
           },
         });
         break;

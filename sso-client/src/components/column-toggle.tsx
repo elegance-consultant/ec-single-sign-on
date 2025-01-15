@@ -64,6 +64,17 @@ export function DataTableViewOptions<TData>({
                     สถานะบัญชี
                   </DropdownMenuCheckboxItem>
                 )
+              case 'NationalIDCard':
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    IDCard
+                  </DropdownMenuCheckboxItem>
+                )
               default:
                 return (
                   <DropdownMenuCheckboxItem
