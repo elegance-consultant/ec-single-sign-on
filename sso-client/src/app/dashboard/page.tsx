@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
+import { ArrowUpRight, Users, User, UserX, Activity } from 'lucide-react';
 import { cookies } from 'next/headers';
 
 export default async function Page() {
@@ -44,20 +44,20 @@ export default async function Page() {
             title: 'Active Users',
             value: enabledCount || '0',
             change: `+${enabledCount / 100}%`,
-            icon: Users,
+            icon: User,
         },
         {
-            title: 'Backlist Users',
+            title: 'Blacklist User',
             value: unEnabledCount || '0',
             change: `+${unEnabledCount / 100}%`,
             icon: UserX,
         },
-        {
-            title: 'Active Sessions',
-            value: 573,
-            change: '+8.19%',
-            icon: Activity,
-        },
+        // {
+        //     title: 'Active Sessions',
+        //     value: 573,
+        //     change: '+8.19%',
+        //     icon: Activity,
+        // },
     ];
 
     return (

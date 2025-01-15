@@ -81,7 +81,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         dynamic_column.push({
           accessorKey: field,
           header: ({ column }) => (
-            <DataTableColumnHeader column={column} title='พร้อมใช้งาน' />
+            <DataTableColumnHeader column={column} title='สถานะบัญชี' />
           ),
           cell: ({ row }) => {
             const user = row.original
@@ -90,7 +90,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
                 variant={user.enabled ? 'default' : 'secondary'}
                 className={user.enabled ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
               >
-                {user.enabled ? 'isActive' : 'inActive'}
+                {user.enabled ? 'Active' : 'Blacklist'}
               </Badge>
             );
           },

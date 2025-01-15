@@ -61,7 +61,7 @@ export function DataTableViewOptions<TData>({
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
-                    พร้อมใช้งาน
+                    สถานะบัญชี
                   </DropdownMenuCheckboxItem>
                 )
               default:
