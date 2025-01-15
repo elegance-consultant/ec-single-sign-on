@@ -1,6 +1,5 @@
 .git
-.results
-scripts
+.next
 *Dockerfile*
 .env*
 node_modules
