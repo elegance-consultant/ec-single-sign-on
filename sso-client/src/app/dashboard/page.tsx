@@ -1,8 +1,3 @@
-import { AreaChartCompo } from '@/components/areaChart';
-import { BarChartMultiple } from '@/components/barChartMulti';
-import { LineChart_Linear } from '@/components/lineChart-Linear';
-import { PieChartCompo } from '@/components/pie-chart';
-import { PieChartDA } from '@/components/pieChartDonutActive';
 import { Card } from '@/components/ui/card';
 import { ArrowUpRight, Users, UserX } from 'lucide-react';
 import { cookies } from 'next/headers';
@@ -91,7 +86,7 @@ export default async function Page() {
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
                             <stat.icon className="h-5 w-5 text-muted-foreground" />
-                            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
+                            {/* <ArrowUpRight className="h-4 w-4 text-emerald-500" /> */}
                         </div>
                         <div className="mt-4">
                             <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
@@ -106,13 +101,7 @@ export default async function Page() {
                 ))}
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <PieChartCompo />
-                <PieChartDA />
-                <BarChartMultiple />
-                <LineChart_Linear />
-            </div>
-            <div>
-                <AreaChartCompo />
+
             </div>
         </div>
     );
