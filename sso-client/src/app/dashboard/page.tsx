@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, User, UserX, Activity } from 'lucide-react';
+import { ArrowUpRight, Users, User, UserX } from 'lucide-react';
 import { cookies } from 'next/headers';
 
 export default async function Page() {
@@ -32,6 +32,17 @@ export default async function Page() {
         },
     });
     const unEnabledCount = await resUserCountUnEnabled.json();
+
+    const resClientSessionCount = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/clients/${process.env.KEYCLOAK_CLIENT_UUID}/session-count`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const ObjclientSessionCount = await resClientSessionCount.json();
+    const { count } = ObjclientSessionCount;
+    const clientSessionCount = count;
     
     const stats = [
         {
@@ -51,6 +62,12 @@ export default async function Page() {
             value: unEnabledCount || '0',
             change: `+${unEnabledCount / 100}%`,
             icon: UserX,
+        },
+        {
+            title: 'Online',
+            value: clientSessionCount - 1,
+            change: `+${(clientSessionCount -1) / 100}%`,
+            icon: Users,
         },
         // {
         //     title: 'Active Sessions',

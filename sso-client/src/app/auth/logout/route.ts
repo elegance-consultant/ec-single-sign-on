@@ -5,18 +5,18 @@ import { NextResponse } from 'next/server'
 export async function GET() {
     const cookieStore = await cookies();
     const jwtCookie = cookieStore.get('session');
+    const token = cookieStore.get('session')?.value;
     const jwtCookie_str = jwtCookie?.value;
 
-    let uuid = '';
     if (jwtCookie_str) {
         try {
             const decodedToken: any = jwtDecode(jwtCookie_str);
-            uuid = decodedToken.sub;
             if (decodedToken.aud?.[0] === 'realm-management') {
-                const logout = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${uuid}/logout`, {
-                    method: 'GET',
+                const logout = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${decodedToken.sub}/logout`, {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                 });
                 cookieStore.delete('session');
