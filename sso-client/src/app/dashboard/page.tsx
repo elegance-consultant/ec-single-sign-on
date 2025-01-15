@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { ArrowUpRight, Users, UserX } from 'lucide-react';
+import { ArrowUpRight, Users, UserX, Activity } from 'lucide-react';
 import { cookies } from 'next/headers';
 
 export default async function Page() {
@@ -14,15 +14,6 @@ export default async function Page() {
         },
     });
     const userCount = await resUserCount.json();
-
-    const resUserCountOnline = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?q=isActive:online`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-    });
-    const userCountOnline = await resUserCountOnline.json();
 
     const resUserCountEnabled = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/count?enabled=true`, {
         method: 'GET',
@@ -50,28 +41,22 @@ export default async function Page() {
             icon: Users,
         },
         {
-            title: 'IsActive Users',
+            title: 'Active Users',
             value: enabledCount || '0',
             change: `+${enabledCount / 100}%`,
             icon: Users,
         },
         {
-            title: 'InActive Users',
+            title: 'Backlist Users',
             value: unEnabledCount || '0',
             change: `+${unEnabledCount / 100}%`,
             icon: UserX,
         },
-        // {
-        //     title: 'Active Sessions',
-        //     value: 573,
-        //     change: '+8.19%',
-        //     icon: Activity,
-        // },
         {
-            title: 'Online',
-            value: userCountOnline || '0',
-            change: `+${userCountOnline / 100}%`,
-            icon: Users,
+            title: 'Active Sessions',
+            value: 573,
+            change: '+8.19%',
+            icon: Activity,
         },
     ];
 
@@ -86,7 +71,7 @@ export default async function Page() {
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
                             <stat.icon className="h-5 w-5 text-muted-foreground" />
-                            {/* <ArrowUpRight className="h-4 w-4 text-emerald-500" /> */}
+                            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                         </div>
                         <div className="mt-4">
                             <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>

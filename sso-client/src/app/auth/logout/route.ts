@@ -1,22 +1,31 @@
+import { jwtDecode } from 'jwt-decode';
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
- 
+
 export async function GET() {
     const cookieStore = await cookies();
-    const id_token = cookieStore.get('id_token')?.value;
-    const logout = await fetch(`${process.env.KEYCLOAK_HOST}/realms/${process.env.KEYCLOAK_REALMS}/protocol/openid-connect/logout`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            client_id: `${process.env.KEYCLOAK_ID}`,
-            client_secret: `${process.env.KEYCLOAK_SECRET}`,
-            id_token: `${id_token}`
-        }),
-    });
-    cookieStore.delete('session');
-    cookieStore.delete('refresh_token');
-    cookieStore.delete('id_token');
-    return NextResponse.json({ logout });
+    const jwtCookie = cookieStore.get('session');
+    const jwtCookie_str = jwtCookie?.value;
+
+    let uuid = '';
+    if (jwtCookie_str) {
+        try {
+            const decodedToken: any = jwtDecode(jwtCookie_str);
+            uuid = decodedToken.sub;
+            if (decodedToken.aud?.[0] === 'realm-management') {
+                const logout = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/users/${uuid}/logout`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                cookieStore.delete('session');
+                return NextResponse.json({ message: logout });
+            }
+            cookieStore.delete('session');
+            return NextResponse.json({ message: 'logout' });
+        } catch (error) {
+            console.error('Failed to decode JWT:', error);
+        }
+    }
 }

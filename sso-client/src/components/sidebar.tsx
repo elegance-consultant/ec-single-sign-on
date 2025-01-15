@@ -21,7 +21,6 @@ export interface Route {
 }
 
 const routes: Route[] = [
-
 ];
 
 const handleDeleteCookie = async () => {
@@ -57,7 +56,7 @@ export function Sidebar() {
 
             <div
                 className={cn(
-                    'fixed inset-y-0 left-0 z-[80] w-64 shadow-md transform transition-transform bg-white dark:bg-black',
+                    'fixed inset-y-0 left-0 z-[80] w-64 shadow-md transform transition-transform dark:bg-black bg-white dark:text-white',
                     isOpen ? 'translate-x-0' : '-translate-x-full',
                     'md:translate-x-0 md:flex md:flex-col'
                 )}
@@ -65,7 +64,7 @@ export function Sidebar() {
                 <div className="flex flex-col h-full">
                     <div className="px-4 py-6">
                         <Link href="/dashboard" className="flex justify-center items-center mb-8">
-                            <Image src={HomeLogo} alt={'homeLogo'} className="h-8 w-max" />
+                            <Image src={HomeLogo} alt={'homeLogo'} className="h-auto" />
                         </Link>
                         <div className="space-y-2">
                             {routes.map((route) => (
@@ -73,7 +72,7 @@ export function Sidebar() {
                                     key={route.href}
                                     href={route.href}
                                     className={cn(
-                                        'group flex items-center px-4 py-2 rounded-md hover:bg-white/10 dark:hover:bg-gray-700 transition-colors duration-200 text-black dark:text-white', // Updated text color for dark mode
+                                        'group flex items-center px-4 py-2 rounded-md transition-colors duration-200 text-black',
                                         pathname === route.href ? 'bg-sky-900 dark:bg-sky-600 hover:bg-sky-800 dark:hover:bg-sky-700 font-medium text-white' : 'dark:text-gray-300',
                                     )}
                                 >
@@ -96,7 +95,7 @@ export function Sidebar() {
                             </div>
                         </div>
                         <button
-                            className="group flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-800/20 transition-colors duration-200 text-red-500" // Adjusted hover and text color
+                            className="group flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-800/20 transition-colors duration-200 text-red-500"
                             onClick={handleDeleteCookie}
                         >
                             <LogOut className="h-5 w-5 mr-3" />
