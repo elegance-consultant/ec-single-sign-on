@@ -81,7 +81,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         dynamic_column.push({
           accessorKey: field,
           header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={field} />
+            <DataTableColumnHeader column={column} title='สถานะบัญชี' />
           ),
           cell: ({ row }) => {
             const user = row.original
@@ -90,27 +90,48 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
                 variant={user.enabled ? 'default' : 'secondary'}
                 className={user.enabled ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
               >
-                {user.enabled ? 'isActive' : 'inActive'}
+                {user.enabled ? 'Active' : 'Blacklist'}
               </Badge>
             );
           },
         });
         break;
+      // case 'attributes':
+      //   break;
       case 'attributes':
+        dynamic_column.push({
+          accessorKey: 'NationalIDCard',
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title='IDCard' />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            return user.attributes.NationalIDCard;
+          }
+        });
+      case 'attributes':
+        dynamic_column.push({
+          accessorKey: 'Telephone',
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title='Phone' />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            return user.attributes.Telephone.toString().replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+          }
+        });
         break;
       case 'createdTimestamp':
         dynamic_column.push({
           accessorKey: field,
           header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={field} />
+            <DataTableColumnHeader column={column} title='วันเวลาที่สร้างบัญชี' />
           ),
           cell: ({ row }) => {
             const timestamp = row.original[field];
-            return timestamp ? new Date(Number(timestamp)).toLocaleString() : ''; // Format the timestamp
+            return timestamp ? new Date(Number(timestamp)).toLocaleString() : '';
           },
         });
-        break;
-      case 'enabled':
         break;
       case 'totp':
         break;

@@ -88,7 +88,7 @@ export function UserForm({ user }: UserFormProps) {
                         type="text"
                         placeholder={attrKey}
                         required
-                        value={formData.attributes[attrKey]?.toString() || ''}
+                        value={formData.attributes[attrKey]?.join(', ') || ''}
                         onChange={handleAttributesChange}
                         className="w-full"
                         disabled={!isEditMode}
@@ -126,8 +126,8 @@ export function UserForm({ user }: UserFormProps) {
                         </SelectTrigger>
                         <SelectContent id={key}>
                           <SelectGroup>
-                            <SelectItem value="true">isActive</SelectItem>
-                            <SelectItem value="false">inActive</SelectItem>
+                            <SelectItem value="true">Active</SelectItem>
+                            <SelectItem value="false">Blacklist</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>

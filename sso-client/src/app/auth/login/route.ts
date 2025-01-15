@@ -20,25 +20,13 @@ export async function POST(req: NextRequest) {
 
     if (res.ok) {
         const data = await res.json();
-        const { access_token, expires_in, refresh_token, refresh_expires_in, id_token } = data;
+        const { access_token, expires_in } = data;
 
         const response = NextResponse.json({
             message: 'Login successful',
             access_token,
-            refresh_token,
-            id_token
         });
         response.cookies.set('session', access_token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: expires_in
-        });
-        response.cookies.set('refresh_token', refresh_token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: refresh_expires_in
-        });
-        response.cookies.set('id_token', id_token, {
             httpOnly: true,
             secure: true,
             maxAge: expires_in
