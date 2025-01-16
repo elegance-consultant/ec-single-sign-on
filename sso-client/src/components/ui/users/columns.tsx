@@ -106,7 +106,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const user = row.original;
-            return user.attributes.NationalIDCard;
+            return user.attributes.NationalIDCard || '';
           }
         });
       case 'attributes':
@@ -117,7 +117,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const user = row.original;
-            return user.attributes.Telephone.toString().replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+            return user.attributes.Telephone.toString().replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3') || '';
           }
         });
         break;
