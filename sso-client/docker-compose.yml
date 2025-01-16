@@ -16,12 +16,14 @@ services:
     environment: # Optional environment variables
       - PORT=3001
       - NODE_ENV=production # Important for production
-      - AUTH_SECRET=+fPXTFfSweyKc2oNT2vclrdXodNL5NMTczOpbTzXEl4=
+      - KEYCLOAK_CLIENT_UUID=0020097f-9846-49b5-9f08-6d4d34e9d637
       - KEYCLOAK_ID=QYmZpudLGEqxBrGlK66hqw==
-      - KEYCLOAK_SECRET=Zju0tBUai1T9fdJAdPRu1FaHqHg5teZ0
+      - KEYCLOAK_SECRET=BJyYQMWmtgCaa2NBx3b7IJkebkA7idOQ
       - KEYCLOAK_HOST=https://keycloak.ecsocketio.com
       - KEYCLOAK_REALMS=swp-sso
       - KEYCLOAK_AUTHORIZATION=protocol/openid-connect/token
+      - KEYCLOAK_SCOPE=openid profile email
+      - KEYCLOAK_GRANT_TYPE=password
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ec-sso-rtr.entrypoints=websecure"
