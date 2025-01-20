@@ -99,16 +99,23 @@ export function DataTable<TData, TValue>({
 
       function flattenObject(obj: any, prefix = "") {
         for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            const propName = prefix ? `${prefix}.${key}` : key;
-            if (typeof obj[key] === "object" && obj[key] !== null) {
-              flattenObject(obj[key], propName);
-            } else {
-              flattened[propName] = obj[key];
+            if (obj.hasOwnProperty(key)) {
+                const propName = prefix 
+                    ? (Array.isArray(obj) ? `${prefix}` : `${prefix}.${key}`)
+                    : key;
+                if (typeof obj[key] === "object" && obj[key] !== null) {
+                    flattenObject(obj[key], propName);
+                } else {
+                    if (Array.isArray(obj)) {
+                        flattened[prefix] = obj;
+                    } else {
+                        flattened[propName] = obj[key];
+                    }
+                }
             }
-          }
         }
-      }
+    }
+    
       flattenObject(original);
       return flattened;
     });
