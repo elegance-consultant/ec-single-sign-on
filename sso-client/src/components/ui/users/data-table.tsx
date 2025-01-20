@@ -84,44 +84,52 @@ export function DataTable<TData, TValue>({
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
-  }
+}
 
-  const handleExportCSV = () => {
+const handleExportCSV = () => {
     const selectedRows = table.getSelectedRowModel().rows;
     const rowsToExport =
-      selectedRows && selectedRows.length > 0
-        ? selectedRows
-        : table.getRowModel().rows;
+        selectedRows && selectedRows.length > 0
+            ? selectedRows
+            : table.getRowModel().rows;
 
     const csvData = rowsToExport.map((row) => {
-      const original = row.original;
-      const flattened: any = {};
+        const original = row.original;
+        const flattened: any = {};
 
-      function flattenObject(obj: any, prefix = "") {
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                const propName = prefix 
-                    ? (Array.isArray(obj) ? `${prefix}` : `${prefix}.${key}`)
-                    : key;
-                if (typeof obj[key] === "object" && obj[key] !== null) {
-                    flattenObject(obj[key], propName);
-                } else {
-                    if (Array.isArray(obj)) {
-                        flattened[prefix] = obj;
+        function flattenObject(obj: any, prefix = "") {
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let propName = prefix 
+                        ? (Array.isArray(obj) ? `${prefix}` : `${prefix}.${key}`)
+                        : key;
+                    switch (propName) {
+                      case propName:
+                        propName = key;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                    if (typeof obj[key] === "object" && obj[key] !== null) {
+                        flattenObject(obj[key], propName);
                     } else {
-                        flattened[propName] = obj[key];
+                        if (Array.isArray(obj)) {
+                            flattened[prefix] = obj;
+                        } else {
+                            flattened[propName] = obj[key];
+                        }
                     }
                 }
             }
         }
-    }
-    
-      flattenObject(original);
-      return flattened;
+
+        flattenObject(original);
+        return flattened;
     });
 
     downloadCSV(csvData, "users.csv");
-  };
+};
 
   return (
     <div className="rounded-md">
