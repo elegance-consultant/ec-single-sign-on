@@ -22,6 +22,7 @@ services:
       - KEYCLOAK_HOST=https://keycloak.ecsocketio.com
       - KEYCLOAK_REALMS=swp-sso
       - KEYCLOAK_GRANT_TYPE=password
+      - KEYCLOAK_SCOPE=openid profile email
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ec-sso-rtr.entrypoints=websecure"
