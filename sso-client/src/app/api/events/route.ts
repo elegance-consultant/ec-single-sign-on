@@ -25,12 +25,12 @@ export async function GET(request: Request) {
       request.signal.addEventListener("abort", () => {
         clearInterval(intervalId);
         console.log("Client disconnected");
-        controller.close();
+        // controller.close();
       });
       request.signal.addEventListener("abort", () => {
         clearInterval(intervalIdToDay);
         console.log("Client disconnected");
-        controller.close();
+        // controller.close();
       });
     },
     cancel() {
