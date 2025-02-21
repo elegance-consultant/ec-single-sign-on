@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { UserForm } from "@/components/ui/users/view";
+import { User } from "@/types/user";
 
 export default async function Page({
     params,

@@ -14,7 +14,7 @@ interface UserFormProps {
   user: User;
 }
 
-export function UserForm({ user }: UserFormProps) {
+export function UserForm({ user }: UserFormProps) {  
   const [formData, setFormData] = useState(user);
   const [isEditMode, setIsEditMode] = useState(false);
   const router = useRouter();
@@ -52,7 +52,7 @@ export function UserForm({ user }: UserFormProps) {
         icon: "success",
         title: "แก้ไขสำเร็จ",
         showConfirmButton: false,
-        timer: 1000
+        timer: 1500
       })
     }
 
@@ -95,6 +95,8 @@ export function UserForm({ user }: UserFormProps) {
                       />
                     </div>
                   ));
+                // case 'attributes':
+                //   break;
                 case 'createdTimestamp':
                   return (
                     <div className="grid gap-2" key={key}>

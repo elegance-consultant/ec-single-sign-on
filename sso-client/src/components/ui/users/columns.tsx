@@ -98,6 +98,8 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
         break;
       // case 'attributes':
       //   break;
+
+      //Fixed field display Tables User is undefined
       case 'attributes':
         dynamic_column.push({
           accessorKey: 'NationalIDCard',
@@ -106,7 +108,11 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const user = row.original;
-            return user.attributes?.NationalIDCard ?? '';
+            if (user.attributes?.NationalIDCard == undefined) {
+              return '';
+            } else {
+              return user.attributes?.NationalIDCard ?? '';
+            }
           }
         },
         {
@@ -116,7 +122,11 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
           ),
           cell: ({ row }) => {
             const user = row.original;
-            return user.attributes?.Telephone.toString().replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3') ?? '';
+            if (user.attributes?.Telephone == undefined) {
+              return '';
+            } else {
+              return user.attributes?.Telephone.toString().replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3') ?? '';
+            }
           }
         });
         break;
