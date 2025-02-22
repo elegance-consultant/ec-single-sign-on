@@ -2,13 +2,7 @@ import { UserPage } from '@/components/ui/users/user-page';
 import { cookies } from 'next/headers';
 
 interface PageProps {
-    searchParams: {
-        page?: string;
-        pageSize?: string;
-        search?: string;
-        q?: string;
-        searchType?: string;
-    };
+    searchParams: Promise<{ [key: string]: string | string[] | number | undefined }>;
 }
 
 export default async function Page({ searchParams }: PageProps) {
@@ -19,15 +13,15 @@ export default async function Page({ searchParams }: PageProps) {
         throw new Error('Session token is missing');
     }
 
-    // Await searchParams before using its properties
-    const { page: pageParam, pageSize: pageSizeParam, search: searchParam, q: nationalIDCardParam, searchType: searchTypeParam } = await searchParams;
+    const params = await Promise.resolve(searchParams);
+    const { page: pageParam, pageSize: pageSizeParam, search: searchParam, q: nationalIDCardParam, searchType: searchTypeParam } = params;
 
-    const page = parseInt(pageParam || '1');
-    const pageSize = parseInt(pageSizeParam || '10'); // Number of items per page
+    const page = pageParam || 1;
+    const pageSize = pageSizeParam || 10;
     const search = searchParam || '';
     const searchType = searchTypeParam || 'name-email';
     const nationalIDCard = nationalIDCardParam || '';
-    const first = (page - 1) * pageSize;
+    const first = (Number(page) - 1) * Number(pageSize);
     const max = pageSize;
 
     const keycloakHost = process.env.KEYCLOAK_HOST;
@@ -41,9 +35,9 @@ export default async function Page({ searchParams }: PageProps) {
     const countUrl = `${keycloakHost}/admin/realms/${keycloakRealm}/users/count`;
 
     if (searchType === 'name-email' && search) {
-        usersUrl += `&search=${encodeURIComponent(search)}`;
+        usersUrl += `&search=${encodeURIComponent(search.toString())}`;
     } else if (searchType === 'national-id' && nationalIDCard) {
-        usersUrl += `&q=NationalIDCard:${encodeURIComponent(nationalIDCard)}`;
+        usersUrl += `&q=NationalIDCard:${encodeURIComponent(nationalIDCard.toString())}`;
     }
 
     const headers = {
@@ -66,7 +60,7 @@ export default async function Page({ searchParams }: PageProps) {
             totalUsersResponse.json()
         ]);
 
-        const totalPages = Math.ceil(totalUsers / pageSize);
+        const totalPages = Math.ceil(totalUsers / Number(pageSize));
 
         return (
             <div className="space-y-8">
@@ -76,7 +70,7 @@ export default async function Page({ searchParams }: PageProps) {
                         Here's an overview of your business
                     </p>
                 </div>
-                <UserPage data={data} totalUsers={totalUsers} totalPages={totalPages} page={page} pageSize={pageSize} search={search} nationalIDCard={nationalIDCard} searchType={searchType} />
+                <UserPage data={data} totalUsers={totalUsers} totalPages={totalPages} page={Number(page)} pageSize={Number(pageSize)} search={search.toString()} nationalIDCard={nationalIDCard.toString()} searchType={searchType.toString()} />
             </div>
         );
     } catch (error) {
