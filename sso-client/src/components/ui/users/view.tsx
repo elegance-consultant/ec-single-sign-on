@@ -264,7 +264,7 @@ export function UserForm({ user }: UserFormProps) {
               const attributeValue = formData.attributes?.[key]?.[0] || '';
 
               // Skip rendering if the attribute value is undefined or empty
-              if (attributeValue === undefined || attributeValue === '') {
+              if (attributeValue === undefined) {
                 return null;
               }
 
