@@ -228,24 +228,6 @@
       "multivalued": false
     },
     {
-      "name": "NationalIDCard",
-      "displayName": "National ID Card",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "group": "user-profile",
-      "multivalued": false
-    },
-    {
       "name": "addr_PostCode",
       "displayName": "addr_PostCode",
       "validations": {},
@@ -379,6 +361,56 @@
           "admin"
         ]
       },
+      "multivalued": false
+    },
+    {
+      "name": "NationalIDCard",
+      "displayName": "National ID Card",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "Nationality",
+      "displayName": "Nationality",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin"
+        ],
+        "edit": [
+          "admin"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "NationalIDCard_Expired",
+      "displayName": "NationalIDCard-Expired",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin"
+        ],
+        "edit": [
+          "admin"
+        ]
+      },
+      "group": "user-profile",
       "multivalued": false
     }
   ],
