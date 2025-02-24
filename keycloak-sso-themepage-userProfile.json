@@ -260,6 +260,7 @@
           "user"
         ]
       },
+      "group": "user-profile",
       "multivalued": false
     },
     {
