@@ -68,6 +68,18 @@ export function DataTable<TData, TValue>({
   });
   const [globalFilter, setGlobalFilter] = useState("");
 
+  const [selectedSearchType, setSelectedSearchType] = useState(searchType);
+  const [searchValue, setSearchValue] = useState(search);
+  const [nationalIDValue, setNationalIDValue] = useState(nationalIDCard);
+
+  const handleSearchTypeChange = (value: string) => {
+    setSelectedSearchType(value);
+    if (value === 'refresh') {
+      setSearchValue('');
+      setNationalIDValue('');
+    }
+  };
+
   const table = useReactTable({
     data,
     columns,
@@ -157,7 +169,7 @@ export function DataTable<TData, TValue>({
             onChange={(event) => setGlobalFilter(event.target.value)}
           /> */}
           <form method="GET" action="/users" className="flex grid-cols-2">
-            <Select name="searchType" defaultValue={searchType}>
+            <Select name="searchType" defaultValue={selectedSearchType} onValueChange={handleSearchTypeChange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Search by" />
               </SelectTrigger>
@@ -166,12 +178,13 @@ export function DataTable<TData, TValue>({
                 <SelectItem value="national-id">National ID Card</SelectItem>
               </SelectContent>
             </Select>
-            {searchType === 'name-email' ? (
+            {selectedSearchType === 'name-email' ? (
               <Input
                 type="text"
                 name="search"
                 placeholder="Search users by name or email..."
-                defaultValue={search}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 className="max-w-sm ml-2"
               />
             ) : (
@@ -179,7 +192,8 @@ export function DataTable<TData, TValue>({
                 type="text"
                 name="q"
                 placeholder="Search users by National ID Card..."
-                defaultValue={nationalIDCard}
+                value={nationalIDValue}
+                onChange={(e) => setNationalIDValue(e.target.value)}
                 className="max-w-sm ml-2"
               />
             )}
