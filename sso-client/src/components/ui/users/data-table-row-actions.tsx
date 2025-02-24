@@ -76,9 +76,9 @@ export function DataTableRowActions({ id }: IdProps) {
             <Link href={`/users/${id}`}>
               <Eye className="w-4 h-4 text-blue-500" />
               <span className="ml-2">{"View"}</span>
-              /
+              {/* /
               <Pencil className="h-4 w-4 text-green-500" />
-              <span className="ml-2">{"Update"}</span>
+              <span className="ml-2">{"Update"}</span> */}
             </Link>
           </Button>
         </DropdownMenuItem>

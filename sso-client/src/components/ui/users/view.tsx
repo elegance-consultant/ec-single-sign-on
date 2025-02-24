@@ -117,14 +117,14 @@ export function UserForm({ user }: UserFormProps) {
 
   return (
     <div>
-      <div className="py-4">
+      {/* <div className="py-4">
         <div className="flex items-center space-x-2">
           <label htmlFor="edit-mode-switch" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {isEditMode ? 'View Mode' : 'Edit Mode'}
           </label>
           <Switch id="edit-mode-switch" checked={isEditMode} onCheckedChange={setIsEditMode} />
         </div>
-      </div>
+      </div> */}
       <div className="p-4 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
           {/* Personal Information */}
