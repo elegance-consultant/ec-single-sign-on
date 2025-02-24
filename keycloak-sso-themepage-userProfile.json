@@ -210,6 +210,113 @@
       "multivalued": false
     },
     {
+      "name": "No",
+      "displayName": "HouseNo",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "addr_Moo",
+      "displayName": "addr_Moo",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "Residence",
+      "displayName": "Residence/ Village",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "multivalued": false
+    },
+    {
+      "name": "Floor",
+      "displayName": "Floor/ Room",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "addr_Road",
+      "displayName": "addr_Road",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "addr_Soi",
+      "displayName": "addr_Soi",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "user-profile",
+      "multivalued": false
+    },
+    {
       "name": "DateOfBirth",
       "displayName": "Date Of Birth",
       "validations": {},
