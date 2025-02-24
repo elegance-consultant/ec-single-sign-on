@@ -205,7 +205,7 @@ export function DataTable<TData, TValue>({
             <DropdownMenu>
               <Button className="bg-gray-500 hover:bg-gray-600 text-white dark:bg-gray-500 hover:dark:bg-gray-600" onClick={handleExportCSV}>Export CSV</Button>
               <DataTableViewOptions table={table} />
-              <Button className="ml-5 bg-sky-900 hover:bg-sky-800 dark:text-white" onClick={() => redirect('/users/create')}>+ Create new user</Button>
+              {/* <Button className="ml-5 bg-sky-900 hover:bg-sky-800 dark:text-white" onClick={() => redirect('/users/create')}>+ Create new user</Button> */}
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
