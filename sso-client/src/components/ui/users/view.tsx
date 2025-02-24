@@ -89,6 +89,11 @@ export function UserForm({ user }: UserFormProps) {
       BankName: formData.attributes?.BankName?.[0] || '',
       BankCode: formData.attributes?.BankCode?.[0] || '',
       BankAccount: formData.attributes?.BankAccount?.[0] || '',
+      BankCardholderName: formData.attributes?.BankCardholderName?.[0] || '',
+      BankName_Next: formData.attributes?.BankName_Next?.[0] || '',
+      BankCode_Next: formData.attributes?.BankCode_Next?.[0] || '',
+      BankAccount_Next: formData.attributes?.BankAccount_Next?.[0] || '',
+      BankCardholderName_Next: formData.attributes?.BankCardholderName_Next?.[0] || '',
     },
     contactInfo: {
       Telephone: formData.attributes?.Telephone?.[0] || '',
