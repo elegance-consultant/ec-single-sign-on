@@ -80,10 +80,16 @@ export function UserForm({ user }: UserFormProps) {
     },
     addressInfo: {
       addr_Address: formData.attributes?.addr_Address?.[0] || '',
+      No: formData.attributes?.No?.[0] || '',
       addr_SubDistrict: formData.attributes?.addr_SubDistrict?.[0] || '',
       addr_District: formData.attributes?.addr_District?.[0] || '',
       addr_Province: formData.attributes?.addr_Province?.[0] || '',
       addr_PostCode: formData.attributes?.addr_PostCode?.[0] || '',
+      addr_Moo: formData.attributes?.addr_Moo?.[0] || '',
+      Residence: formData.attributes?.Residence?.[0] || '',
+      addr_Road: formData.attributes?.addr_Road?.[0] || '',
+      addr_Soi: formData.attributes?.addr_Soi?.[0] || '',
+      Floor: formData.attributes?.Floor?.[0] || '',
     },
     bankInfo: {
       BankName: formData.attributes?.BankName?.[0] || '',
