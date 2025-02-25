@@ -1,32 +1,33 @@
-networks:
-  t3_proxy:
-   external: true
+# networks:
+#   t3_proxy:
+#    external: true
 
 services:
-  ec-sso:
-    container_name: ec-sso
-    # image: sso:latest
+  ausiris-sso:
+    container_name: ausiris-sso
+    image: elegancedevteam/ausiris-sso:0.0.5
     build:
       context: . # Current directory as build context
       dockerfile: Dockerfile # Name of your Dockerfile
-    networks:
-      - t3_proxy
+    # networks:
+    #   - t3_proxy
     ports:
       - "9998:3001" # Map host port 3000 to container port 3000
-    environment: # Optional environment variables
-      - PORT=3001
-      - NODE_ENV=production # Important for production
-      - KEYCLOAK_ID=QYmZpudLGEqxBrGlK66hqw==
-      - KEYCLOAK_CLIENT_UUID=0020097f-9846-49b5-9f08-6d4d34e9d637
-      - KEYCLOAK_SECRET=BJyYQMWmtgCaa2NBx3b7IJkebkA7idOQ
-      - KEYCLOAK_HOST=https://keycloak.ecsocketio.com
-      - KEYCLOAK_REALMS=swp-sso
-      - KEYCLOAK_GRANT_TYPE=password
-      - KEYCLOAK_SCOPE=openid profile email
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ec-sso-rtr.entrypoints=websecure"
-      - "traefik.http.routers.ec-sso-rtr.rule=Host(`sso.ecgold.io`)"
-      - "traefik.http.routers.ec-sso-rtr.middlewares=chain-no-auth@file"
-      - "traefik.http.routers.ec-sso-rtr.service=ec-sso-svc"
-      - "traefik.http.services.ec-sso-svc.loadbalancer.server.port=3001"
+    restart: always
+    # environment: # Optional environment variables
+    #   - PORT=3001
+    #   - NODE_ENV=production # Important for production
+    #   - KEYCLOAK_ID=QYmZpudLGEqxBrGlK66hqw==
+    #   - KEYCLOAK_CLIENT_UUID=0020097f-9846-49b5-9f08-6d4d34e9d637
+    #   - KEYCLOAK_SECRET=BJyYQMWmtgCaa2NBx3b7IJkebkA7idOQ
+    #   - KEYCLOAK_HOST=https://keycloak.ecsocketio.com
+    #   - KEYCLOAK_REALMS=swp-sso
+    #   - KEYCLOAK_GRANT_TYPE=password
+    #   - KEYCLOAK_SCOPE=openid profile email
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.ec-sso-rtr.entrypoints=websecure"
+    #   - "traefik.http.routers.ec-sso-rtr.rule=Host(`sso.ecgold.io`)"
+    #   - "traefik.http.routers.ec-sso-rtr.middlewares=chain-no-auth@file"
+    #   - "traefik.http.routers.ec-sso-rtr.service=ec-sso-svc"
+    #   - "traefik.http.services.ec-sso-svc.loadbalancer.server.port=3001"

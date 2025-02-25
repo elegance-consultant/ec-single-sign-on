@@ -6,11 +6,11 @@ import { redirect } from "next/navigation";
 
 export default function AccessDenied() {
   const handleDeleteCookie = async () => {
-    const res = await fetch('/auth/logout', {
+    const res = await fetch('auth/logout', {
       method: 'GET',
     });
     if (res.ok) {
-      redirect('/login');
+      redirect('login');
     }
   };
   return (

@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
                 console.error('Failed to decode JWT:', error);
             }
         } else {
-            return NextResponse.redirect(new URL('/login', request.url));
+            return NextResponse.redirect(new URL('login', request.url));
         }
     }
 

@@ -168,7 +168,7 @@ export function DataTable<TData, TValue>({
             value={globalFilter ?? ""}
             onChange={(event) => setGlobalFilter(event.target.value)}
           /> */}
-          <form method="GET" action="/users" className="flex grid-cols-2">
+          <form method="GET" action="users" className="flex grid-cols-2">
             <Select name="searchType" defaultValue={selectedSearchType} onValueChange={handleSearchTypeChange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Search by" />

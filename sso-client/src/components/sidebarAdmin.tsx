@@ -40,11 +40,11 @@ const routes: Route[] = [
 ];
 
 const handleDeleteCookie = async () => {
-    const res = await fetch('/auth/logout', {
+    const res = await fetch('auth/logout', {
         method: 'GET',
     });
     if (res.ok) {
-        redirect('/login');
+        redirect('login');
     }
 };
 
@@ -55,7 +55,7 @@ export function SidebarAdmin() {
     const [messages, setMessages] = useState<Message[]>([]);
 
     useEffect(() => {
-        const eventSource = new EventSource('/api/events');
+        const eventSource = new EventSource('api/events');
 
         eventSource.onmessage = (event: MessageEvent) => {
             try {
