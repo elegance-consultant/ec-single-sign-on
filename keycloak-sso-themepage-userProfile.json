@@ -106,6 +106,12 @@
       "displayName": "Telephone",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -142,6 +148,12 @@
       "displayName": "addr_Address",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -160,6 +172,12 @@
       "displayName": "addr_District",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -178,6 +196,12 @@
       "displayName": "addr_SubDistrict",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -196,6 +220,12 @@
       "displayName": "addr_Province",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -214,6 +244,12 @@
       "displayName": "HouseNo",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -232,6 +268,12 @@
       "displayName": "addr_Moo",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -322,6 +364,12 @@
       "displayName": "Date Of Birth",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -340,6 +388,12 @@
       "displayName": "addr_PostCode",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -356,8 +410,17 @@
     {
       "name": "E-KYC",
       "displayName": "E-KYC",
-      "validations": {},
-      "annotations": {},
+      "validations": {
+        "options": {
+          "options": [
+            "true",
+            "false"
+          ]
+        }
+      },
+      "annotations": {
+        "inputType": "select"
+      },
       "permissions": {
         "view": [
           "admin",
@@ -373,8 +436,17 @@
     {
       "name": "CDD",
       "displayName": "CDD",
-      "validations": {},
-      "annotations": {},
+      "validations": {
+        "options": {
+          "options": [
+            "true",
+            "false"
+          ]
+        }
+      },
+      "annotations": {
+        "inputType": "select"
+      },
       "permissions": {
         "view": [
           "admin",
@@ -385,165 +457,6 @@
         ]
       },
       "group": "verify",
-      "multivalued": false
-    },
-    {
-      "name": "BankAccount",
-      "displayName": "BankAccountNumber",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "selector": {
-        "scopes": [
-          "e-payment"
-        ]
-      },
-      "group": "e-payment",
-      "multivalued": false
-    },
-    {
-      "name": "BankName",
-      "displayName": "BankName",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "selector": {
-        "scopes": [
-          "e-payment"
-        ]
-      },
-      "group": "e-payment",
-      "multivalued": false
-    },
-    {
-      "name": "BankCode",
-      "displayName": "BankCode",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "selector": {
-        "scopes": [
-          "e-payment"
-        ]
-      },
-      "group": "e-payment",
-      "multivalued": false
-    },
-    {
-      "name": "BankCardholderName",
-      "displayName": "BankCardholderName",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "group": "e-payment",
-      "multivalued": false
-    },
-    {
-      "name": "BankAccount_Next",
-      "displayName": "BankAccountNumber",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "group": "e-payment-next",
-      "multivalued": false
-    },
-    {
-      "name": "BankName_Next",
-      "displayName": "BankName",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "group": "e-payment-next",
-      "multivalued": false
-    },
-    {
-      "name": "BankCode_Next",
-      "displayName": "BankCode",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "group": "e-payment-next",
-      "multivalued": false
-    },
-    {
-      "name": "BankCardholderName_Next",
-      "displayName": "BankCardholderName",
-      "validations": {},
-      "annotations": {},
-      "permissions": {
-        "view": [
-          "admin",
-          "user"
-        ],
-        "edit": [
-          "admin",
-          "user"
-        ]
-      },
-      "group": "e-payment-next",
       "multivalued": false
     },
     {
@@ -566,6 +479,12 @@
       "displayName": "National ID Card",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin",
@@ -584,6 +503,12 @@
       "displayName": "Nationality",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin"
@@ -600,6 +525,12 @@
       "displayName": "NationalIDCard-Expired",
       "validations": {},
       "annotations": {},
+      "required": {
+        "roles": [
+          "admin",
+          "user"
+        ]
+      },
       "permissions": {
         "view": [
           "admin"
@@ -609,6 +540,272 @@
         ]
       },
       "group": "user-profile",
+      "multivalued": false
+    },
+    {
+      "name": "next",
+      "displayName": "Next",
+      "validations": {
+        "options": {
+          "options": [
+            "true",
+            "false"
+          ]
+        }
+      },
+      "annotations": {
+        "inputType": "select"
+      },
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "platform",
+      "multivalued": false
+    },
+    {
+      "name": "plus",
+      "displayName": "Plus",
+      "validations": {
+        "options": {
+          "options": [
+            "true",
+            "false"
+          ]
+        }
+      },
+      "annotations": {
+        "inputType": "select"
+      },
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "platform",
+      "multivalued": false
+    },
+    {
+      "name": "BankAccount_Next_Collateral",
+      "displayName": "BankAccountNumber-Next-Collateral",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankName_Next_Collateral",
+      "displayName": "BankName-Next-Collateral",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankCode_Next_Collateral",
+      "displayName": "BankCode-Next-Collateral",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankCardholderName_Next_Collateral",
+      "displayName": "BankCardholderName-Next-Collateral",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankAccount_Next_CashBalance",
+      "displayName": "BankAccountNumber-Next-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankName_Next_CashBalance",
+      "displayName": "BankName-Next-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankCode_Next_CashBalance",
+      "displayName": "BankCode-Next-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankCardholderName_Next_CashBalance",
+      "displayName": "BankCardholderName-Next-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-next",
+      "multivalued": false
+    },
+    {
+      "name": "BankAccount_Plus_CashBalance",
+      "displayName": "BankAccount-Plus-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-plus",
+      "multivalued": false
+    },
+    {
+      "name": "BankName_Plus_CashBalance",
+      "displayName": "BankName-Plus-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin",
+          "user"
+        ],
+        "edit": [
+          "admin",
+          "user"
+        ]
+      },
+      "group": "e-payment-plus",
+      "multivalued": false
+    },
+    {
+      "name": "BankCode_Plus_CashBalance",
+      "displayName": "BankCode-Plus-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin"
+        ],
+        "edit": [
+          "admin"
+        ]
+      },
+      "group": "e-payment-plus",
+      "multivalued": false
+    },
+    {
+      "name": "BankCardholderName_Plus_CashBalance",
+      "displayName": "BankCardholderName-Plus-CashBalance",
+      "validations": {},
+      "annotations": {},
+      "permissions": {
+        "view": [
+          "admin"
+        ],
+        "edit": [
+          "admin"
+        ]
+      },
+      "group": "e-payment-plus",
       "multivalued": false
     }
   ],
@@ -625,12 +822,6 @@
       "annotations": {}
     },
     {
-      "name": "e-payment",
-      "displayHeader": "E-Payment",
-      "displayDescription": "",
-      "annotations": {}
-    },
-    {
       "name": "verify",
       "displayHeader": "Verify",
       "displayDescription": "",
@@ -639,6 +830,18 @@
     {
       "name": "e-payment-next",
       "displayHeader": "E-payment-Next",
+      "displayDescription": "",
+      "annotations": {}
+    },
+    {
+      "name": "platform",
+      "displayHeader": "Platform",
+      "displayDescription": "",
+      "annotations": {}
+    },
+    {
+      "name": "e-payment-plus",
+      "displayHeader": "E-payment-Plus",
       "displayDescription": "",
       "annotations": {}
     }

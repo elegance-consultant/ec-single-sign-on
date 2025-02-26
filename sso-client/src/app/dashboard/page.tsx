@@ -44,7 +44,7 @@ export default async function Page() {
     const { count } = ObjclientSessionCount;
     const clientSessionCount = count;
     
-    const resClientSessionCountPlus = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/clients/${process.env.KEYCLOAK_CLIENT_UUID}/session-count`, {
+    const resClientSessionCountPlus = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/clients/${process.env.KEYCLOAK_CLIENT_UUID_PLUS}/session-count`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
