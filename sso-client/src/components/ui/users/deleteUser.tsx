@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation"
     const router = useRouter()
     const handleConfirm = async (Id: string) => {
 
-        const deleteUser = await fetch(`/api/user/delete/${Id}`, {
+        const deleteUser = await fetch(`api/user/delete/${Id}`, {
             method: 'GET',
         });
         if (deleteUser.ok) {

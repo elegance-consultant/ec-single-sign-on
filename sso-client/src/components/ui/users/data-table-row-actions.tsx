@@ -45,7 +45,7 @@ export function DataTableRowActions({ id }: IdProps) {
           icon: "success",
           confirmButtonText: "ยืนยัน",
         }).then(async () => {
-          const deleteUser = await fetch(`/api/user/delete/${id}`, {
+          const deleteUser = await fetch(`api/user/delete/${id}`, {
             method: 'GET'
           })
           if (deleteUser.ok) {
