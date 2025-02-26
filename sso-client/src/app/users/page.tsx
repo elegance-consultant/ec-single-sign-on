@@ -14,13 +14,14 @@ export default async function Page({ searchParams }: PageProps) {
     }
 
     const params = await Promise.resolve(searchParams);
-    const { page: pageParam, pageSize: pageSizeParam, search: searchParam, q: nationalIDCardParam, searchType: searchTypeParam } = params;
+    const { page: pageParam, pageSize: pageSizeParam, search: searchParam, q: nationalIDCardParam, q: phoneParam, searchType: searchTypeParam } = params;
 
     const page = pageParam || 1;
     const pageSize = pageSizeParam || 10;
     const search = searchParam || '';
     const searchType = searchTypeParam || 'name-email';
     const nationalIDCard = nationalIDCardParam || '';
+    const phone = phoneParam || '';
     const first = (Number(page) - 1) * Number(pageSize);
     const max = pageSize;
 
@@ -38,6 +39,8 @@ export default async function Page({ searchParams }: PageProps) {
         usersUrl += `&search=${encodeURIComponent(search.toString())}`;
     } else if (searchType === 'national-id' && nationalIDCard) {
         usersUrl += `&q=NationalIDCard:${encodeURIComponent(nationalIDCard.toString())}`;
+    } else if (searchType === 'phone' && phone) {
+        usersUrl += `&q=Telephone:${encodeURIComponent(phone.toString())}`;
     }
 
     const headers = {
@@ -70,7 +73,7 @@ export default async function Page({ searchParams }: PageProps) {
                         Here's an overview of your business
                     </p>
                 </div>
-                <UserPage data={data} totalUsers={totalUsers} totalPages={totalPages} page={Number(page)} pageSize={Number(pageSize)} search={search.toString()} nationalIDCard={nationalIDCard.toString()} searchType={searchType.toString()} />
+                <UserPage data={data} totalUsers={totalUsers} totalPages={totalPages} page={Number(page)} pageSize={Number(pageSize)} search={search.toString()} nationalIDCard={nationalIDCard.toString()} searchType={searchType.toString()} phone={phone.toString()} />
             </div>
         );
     } catch (error) {

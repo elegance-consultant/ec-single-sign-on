@@ -43,20 +43,21 @@ export function UserForm({ user }: UserFormProps) {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch(`api/user/update`, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-    });
+    // const response = await fetch('/api/user/update', {
+    //   method: 'POST',
+    //   body: JSON.stringify(formData),
+    // });
 
-    if (response.ok) {
-      Swal.fire({
-        icon: "success",
-        title: "แก้ไขสำเร็จ",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      setIsEditMode(false);
-    }
+    // if (response.ok) {
+    //   Swal.fire({
+    //     icon: "success",
+    //     title: "แก้ไขสำเร็จ",
+    //     showConfirmButton: false,
+    //     timer: 1500,
+    //   });
+    //   setIsEditMode(false);
+    // }
+    console.log(formData);
   };
 
   // Handle back button click
@@ -91,15 +92,35 @@ export function UserForm({ user }: UserFormProps) {
       addr_Road: formData.attributes?.addr_Road?.[0] || '',
       addr_Soi: formData.attributes?.addr_Soi?.[0] || '',
     },
+    // bankInfo: {
+    //   BankName: formData.attributes?.BankName?.[0] || '',
+    //   BankCode: formData.attributes?.BankCode?.[0] || '',
+    //   BankAccount: formData.attributes?.BankAccount?.[0] || '',
+    //   BankCardholderName: formData.attributes?.BankCardholderName?.[0] || '',
+    //   BankName_Next: formData.attributes?.BankName_Next?.[0] || '',
+    //   BankCode_Next: formData.attributes?.BankCode_Next?.[0] || '',
+    //   BankAccount_Next: formData.attributes?.BankAccount_Next?.[0] || '',
+    //   BankCardholderName_Next: formData.attributes?.BankCardholderName_Next?.[0] || '',
+    // },
     bankInfo: {
-      BankName: formData.attributes?.BankName?.[0] || '',
-      BankCode: formData.attributes?.BankCode?.[0] || '',
-      BankAccount: formData.attributes?.BankAccount?.[0] || '',
-      BankCardholderName: formData.attributes?.BankCardholderName?.[0] || '',
-      BankName_Next: formData.attributes?.BankName_Next?.[0] || '',
-      BankCode_Next: formData.attributes?.BankCode_Next?.[0] || '',
-      BankAccount_Next: formData.attributes?.BankAccount_Next?.[0] || '',
-      BankCardholderName_Next: formData.attributes?.BankCardholderName_Next?.[0] || '',
+      nextCollateral: {
+        BankName_Next_Collateral: formData.attributes?.BankName_Next_Collateral?.[0] || '',
+        BankCode_Next_Collateral: formData.attributes?.BankCode_Next_Collateral?.[0] || '',
+        BankAccount_Next_Collateral: formData.attributes?.BankAccount_Next_Collateral?.[0] || '',
+        BankCardholderName_Next_Collateral: formData.attributes?.BankCardholderName_Next_Collateral?.[0] || '',
+      },
+      nextCash_Balance: {
+        BankName_Next_CashBalance: formData.attributes?.BankName_Next_CashBalance?.[0] || '',
+        BankCode_Next_CashBalance: formData.attributes?.BankCode_Next_CashBalance?.[0] || '',
+        BankAccount_Next_CashBalance: formData.attributes?.BankAccount_Next_CashBalance?.[0] || '',
+        BankCardholderName_Next_CashBalance: formData.attributes?.BankCardholderName_Next_CashBalance?.[0] || '',
+      },
+      plusCash_Balance: {
+        BankName_Plus_CashBalance: formData.attributes?.BankName_Plus_CashBalance?.[0] || '',
+        BankCode_Plus_CashBalance: formData.attributes?.BankCode_Plus_CashBalance?.[0] || '',
+        BankAccount_Plus_CashBalance: formData.attributes?.BankAccount_Plus_CashBalance?.[0] || '',
+        BankCardholderName_Plus_CashBalance: formData.attributes?.BankCardholderName_Plus_CashBalance?.[0] || '',
+      }
     },
     contactInfo: {
       Telephone: formData.attributes?.Telephone?.[0] || '',
@@ -119,18 +140,22 @@ export function UserForm({ user }: UserFormProps) {
       // notBefore: formData.notBefore,
       // access: formData.access,
     },
+    platform: {
+      next: formData.attributes?.next?.[0] || '',
+      plus: formData.attributes?.plus?.[0] || '',
+    },
   };
 
   return (
     <div>
-      {/* <div className="py-4">
+      <div className="py-4">
         <div className="flex items-center space-x-2">
           <label htmlFor="edit-mode-switch" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {isEditMode ? 'View Mode' : 'Edit Mode'}
           </label>
           <Switch id="edit-mode-switch" checked={isEditMode} onCheckedChange={setIsEditMode} />
         </div>
-      </div> */}
+      </div>
       <div className="p-4 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
           {/* Personal Information */}
@@ -230,8 +255,41 @@ export function UserForm({ user }: UserFormProps) {
 
           {/* Bank Information */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
-            <h2 className="col-span-full text-lg font-semibold">Bank Information</h2>
-            {Object.entries(groupedFields.bankInfo).map(([key, value]) => (
+            <h2 className="col-span-full text-lg font-semibold">AusirisNext Bank Information</h2>
+            {Object.entries(groupedFields.bankInfo.nextCollateral).map(([key, value]) => (
+              <div className="grid gap-2" key={key}>
+                <Label htmlFor={key}>{key}</Label>
+                <Input
+                  id={key}
+                  name={key}
+                  type="text"
+                  placeholder={key}
+                  value={value || ''}
+                  onChange={handleAttributesChange}
+                  disabled={!isEditMode}
+                  className="w-full"
+                />
+              </div>
+            ))}
+            {Object.entries(groupedFields.bankInfo.nextCash_Balance).map(([key, value]) => (
+              <div className="grid gap-2" key={key}>
+                <Label htmlFor={key}>{key}</Label>
+                <Input
+                  id={key}
+                  name={key}
+                  type="text"
+                  placeholder={key}
+                  value={value || ''}
+                  onChange={handleAttributesChange}
+                  disabled={!isEditMode}
+                  className="w-full"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+            <h2 className="col-span-full text-lg font-semibold">AusirisPlus Bank Information</h2>
+            {Object.entries(groupedFields.bankInfo.plusCash_Balance).map(([key, value]) => (
               <div className="grid gap-2" key={key}>
                 <Label htmlFor={key}>{key}</Label>
                 <Input
@@ -301,8 +359,51 @@ export function UserForm({ user }: UserFormProps) {
                     </SelectTrigger>
                     <SelectContent id={key}>
                       <SelectGroup>
-                        <SelectItem value="true">True</SelectItem>
-                        <SelectItem value="false">False</SelectItem>
+                        <SelectItem value="true">Active</SelectItem>
+                        <SelectItem value="false">unActive</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Platform */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+            <h2 className="col-span-full text-lg font-semibold">Platform</h2>
+            {Object.entries(groupedFields.platform).map(([key]) => {
+              const attributeValue = formData.attributes?.[key]?.[0] || '';
+
+              // Skip rendering if the attribute value is undefined or empty
+              if (attributeValue === undefined) {
+                return null;
+              }
+
+              return (
+                <div className="grid gap-2" key={key}>
+                  <Label htmlFor={key}>{key}</Label>
+                  <Select
+                    disabled={!isEditMode}
+                    value={attributeValue}
+                    onValueChange={(value) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        attributes: {
+                          ...prev.attributes || {},
+                          [key]: [value],
+                        },
+                      }))
+                    }
+                    defaultValue={attributeValue}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a status" />
+                    </SelectTrigger>
+                    <SelectContent id={key}>
+                      <SelectGroup>
+                        <SelectItem value="true">Active</SelectItem>
+                        <SelectItem value="false">unActive</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

@@ -5,7 +5,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  basePath: "/AusirisSSO",
+  // basePath: "/AusirisSSO",
   output: "standalone",
 };
 

@@ -18,19 +18,10 @@ export async function GET(request: Request) {
         sendEvent({ message: `Current time: ${new Date().toLocaleTimeString()}` });
       }, 1000);
 
-      const intervalIdToDay = setInterval(() => {
-        sendEvent({ message: `Current day: ${new Date().toLocaleDateString()}` });
-      }, 1000);
-
       request.signal.addEventListener("abort", () => {
         clearInterval(intervalId);
         console.log("Client disconnected");
-        // controller.close();
-      });
-      request.signal.addEventListener("abort", () => {
-        clearInterval(intervalIdToDay);
-        console.log("Client disconnected");
-        // controller.close();
+        controller.close();
       });
     },
     cancel() {

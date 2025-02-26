@@ -128,6 +128,48 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
               return user.attributes?.Telephone.toString().replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3') ?? '';
             }
           }
+        },
+        {
+          accessorKey: 'next',
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title='Next' />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            if (user.attributes?.next === undefined) {
+              return null;
+            } else {
+              return (
+                <Badge
+                  variant={user.attributes?.next[0] === 'true' ? 'default' : 'secondary'}
+                  className={user.attributes?.next[0] === 'true' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
+                >
+                  {user.attributes?.next[0] == 'true' ? 'Active' : 'unActive'}
+                </Badge>
+              );
+            }
+          }
+        },
+        {
+          accessorKey: 'plus',
+          header: ({ column }) => (
+            <DataTableColumnHeader column={column} title='Plus' />
+          ),
+          cell: ({ row }) => {
+            const user = row.original;
+            if (user.attributes?.plus === undefined) {
+              return null;
+            } else {
+              return (
+                <Badge
+                  variant={user.attributes?.plus[0] === 'true' ? 'default' : 'secondary'}
+                  className={user.attributes?.plus[0] === 'true' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
+                >
+                  {user.attributes?.plus[0] === 'true' ? 'Active' : 'unActive'}
+                </Badge>
+              );
+            }
+          }
         });
         break;
       case 'createdTimestamp':

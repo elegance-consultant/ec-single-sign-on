@@ -32,7 +32,6 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { DataTableViewOptions } from "@/components/column-toggle";
 import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
 import { DataTablePagination } from "@/components/pagination";
 import Papa from "papaparse";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -47,6 +46,7 @@ interface DataTableProps<TData, TValue> {
   search: string;
   nationalIDCard: string;
   searchType: string;
+  phone: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -59,12 +59,15 @@ export function DataTable<TData, TValue>({
   search,
   nationalIDCard,
   searchType,
+  phone,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     createdTimestamp: false,
+    // next: false,
+    // plus: false,
   });
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -131,21 +134,29 @@ export function DataTable<TData, TValue>({
               ? (Array.isArray(obj) ? `${prefix}` : `${prefix}.${key}`)
               : key;
             switch (propName) {
+              case 'totp': break;
+              case 'notBefore': break;
+              case 'disableableCredentialTypes': break;
+              case 'requiredActions': break;
+              case 'access.manageGroupMembership': break;
+              case 'access.view': break;
+              case 'access.mapRoles': break;
+              case 'access.impersonate': break;
+              case 'access.manage': break;
+              case 'access': break;
               case propName:
                 propName = key;
-                break;
-
+                if (typeof obj[key] === "object" && obj[key] !== null) {
+                  flattenObject(obj[key], propName);
+                } else {
+                  if (Array.isArray(obj)) {
+                    flattened[prefix] = obj;
+                  } else {
+                    flattened[propName] = obj[key];
+                  }
+                }
               default:
                 break;
-            }
-            if (typeof obj[key] === "object" && obj[key] !== null) {
-              flattenObject(obj[key], propName);
-            } else {
-              if (Array.isArray(obj)) {
-                flattened[prefix] = obj;
-              } else {
-                flattened[propName] = obj[key];
-              }
             }
           }
         }
@@ -176,8 +187,10 @@ export function DataTable<TData, TValue>({
               <SelectContent>
                 <SelectItem value="name-email">Name/Email</SelectItem>
                 <SelectItem value="national-id">National ID Card</SelectItem>
+                <SelectItem value="phone">Phone</SelectItem>
               </SelectContent>
             </Select>
+
             {selectedSearchType === 'name-email' ? (
               <Input
                 type="text"
@@ -187,7 +200,7 @@ export function DataTable<TData, TValue>({
                 onChange={(e) => setSearchValue(e.target.value)}
                 className="max-w-sm ml-2"
               />
-            ) : (
+            ) : selectedSearchType === 'national-id' ? (
               <Input
                 type="text"
                 name="q"
@@ -196,11 +209,22 @@ export function DataTable<TData, TValue>({
                 onChange={(e) => setNationalIDValue(e.target.value)}
                 className="max-w-sm ml-2"
               />
+            ) : (
+              <Input
+                type="text"
+                name="q"
+                placeholder="Search users by phone..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="max-w-sm ml-2"
+              />
             )}
+
             <Button type="submit" className="ml-2 px-4 py-2 bg-green-500 hover:bg-green-600 dark:text-white">
               Search
             </Button>
           </form>
+
           <div className="flex justify-end">
             <DropdownMenu>
               <Button className="bg-gray-500 hover:bg-gray-600 text-white dark:bg-gray-500 hover:dark:bg-gray-600" onClick={handleExportCSV}>Export CSV</Button>

@@ -55,7 +55,7 @@ export function SidebarAdmin() {
     const [messages, setMessages] = useState<Message[]>([]);
 
     useEffect(() => {
-        const eventSource = new EventSource('api/events');
+        const eventSource = new EventSource('/api/events');
 
         eventSource.onmessage = (event: MessageEvent) => {
             try {

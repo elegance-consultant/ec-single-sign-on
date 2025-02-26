@@ -15,6 +15,7 @@ interface UserPageProps {
     search: string;
     nationalIDCard: string;
     searchType: string;
+    phone: string;
 }
 
 export function Loading() {
@@ -25,7 +26,7 @@ export function Loading() {
     );
 }
 
-export function UserPage({ data, totalUsers, totalPages, page, pageSize, search, nationalIDCard, searchType }: UserPageProps) {
+export function UserPage({ data, totalUsers, totalPages, page, pageSize, search, nationalIDCard, searchType, phone }: UserPageProps) {
     const [isClient, setIsClient] = useState(() => typeof window !== undefined);
 
     useEffect(() => {
@@ -44,5 +45,5 @@ export function UserPage({ data, totalUsers, totalPages, page, pageSize, search,
 
     const dynamicFields = Object.keys(data[0] || '');
 
-    return isClient ? <DataTable columns={getColumns(dynamicFields)} data={data} totalUsers={totalUsers} totalPages={totalPages} page={page} pageSize={pageSize} search={search} nationalIDCard={nationalIDCard} searchType={searchType} /> : <Loading />
+    return isClient ? <DataTable columns={getColumns(dynamicFields)} data={data} totalUsers={totalUsers} totalPages={totalPages} page={page} pageSize={pageSize} search={search} nationalIDCard={nationalIDCard} searchType={searchType} phone={phone} /> : <Loading />
 }

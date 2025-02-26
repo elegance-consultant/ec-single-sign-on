@@ -86,6 +86,28 @@ export function DataTableViewOptions<TData>({
                     Phone
                   </DropdownMenuCheckboxItem>
                 )
+              case 'next':
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    Next
+                  </DropdownMenuCheckboxItem>
+                )
+              case 'plus':
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    Plus
+                  </DropdownMenuCheckboxItem>
+                )
               default:
                 return (
                   <DropdownMenuCheckboxItem

@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation"
             method: 'GET',
         });
         if (deleteUser.ok) {
-          router.push('/users')
+          router.push('users')
         }
     }
     return (
