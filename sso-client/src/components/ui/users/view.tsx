@@ -43,21 +43,20 @@ export function UserForm({ user }: UserFormProps) {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const response = await fetch('/api/user/update', {
-    //   method: 'POST',
-    //   body: JSON.stringify(formData),
-    // });
+    const response = await fetch('/api/user/update', {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    });
 
-    // if (response.ok) {
-    //   Swal.fire({
-    //     icon: "success",
-    //     title: "แก้ไขสำเร็จ",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    //   setIsEditMode(false);
-    // }
-    console.log(formData);
+    if (response.ok) {
+      Swal.fire({
+        icon: "success",
+        title: "แก้ไขสำเร็จ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setIsEditMode(false);
+    }
   };
 
   // Handle back button click
@@ -92,16 +91,6 @@ export function UserForm({ user }: UserFormProps) {
       addr_Road: formData.attributes?.addr_Road?.[0] || '',
       addr_Soi: formData.attributes?.addr_Soi?.[0] || '',
     },
-    // bankInfo: {
-    //   BankName: formData.attributes?.BankName?.[0] || '',
-    //   BankCode: formData.attributes?.BankCode?.[0] || '',
-    //   BankAccount: formData.attributes?.BankAccount?.[0] || '',
-    //   BankCardholderName: formData.attributes?.BankCardholderName?.[0] || '',
-    //   BankName_Next: formData.attributes?.BankName_Next?.[0] || '',
-    //   BankCode_Next: formData.attributes?.BankCode_Next?.[0] || '',
-    //   BankAccount_Next: formData.attributes?.BankAccount_Next?.[0] || '',
-    //   BankCardholderName_Next: formData.attributes?.BankCardholderName_Next?.[0] || '',
-    // },
     bankInfo: {
       nextCollateral: {
         BankName_Next_Collateral: formData.attributes?.BankName_Next_Collateral?.[0] || '',
@@ -359,8 +348,8 @@ export function UserForm({ user }: UserFormProps) {
                     </SelectTrigger>
                     <SelectContent id={key}>
                       <SelectGroup>
-                        <SelectItem value="true">Active</SelectItem>
-                        <SelectItem value="false">unActive</SelectItem>
+                        <SelectItem value="true">True</SelectItem>
+                        <SelectItem value="false">False</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

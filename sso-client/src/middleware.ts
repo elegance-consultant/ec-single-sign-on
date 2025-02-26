@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
                 const decodedToken: JwtPayload = jwtDecode(jwtCookie_str);
                 
                 if (decodedToken.aud === 'account') {
-                    return NextResponse.redirect(new URL('access-denied', request.url));
+                    return NextResponse.redirect(new URL('/access-denied', request.url));
                 }
             } catch (error) {
                 console.error('Failed to decode JWT:', error);
