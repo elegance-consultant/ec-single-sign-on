@@ -44,6 +44,16 @@ export default async function Page() {
     const { count } = ObjclientSessionCount;
     const clientSessionCount = count;
     
+    const resClientSessionCountPlus = await fetch(`${process.env.KEYCLOAK_HOST}/admin/realms/${process.env.KEYCLOAK_REALMS}/clients/${process.env.KEYCLOAK_CLIENT_UUID}/session-count`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    const ObjclientSessionCountPlus = await resClientSessionCountPlus.json();
+    const { countPlus } = ObjclientSessionCountPlus;
+
     const stats = [
         {
             title: 'Total Users',
@@ -64,9 +74,15 @@ export default async function Page() {
             icon: UserX,
         },
         {
-            title: 'Online',
+            title: 'AusirisNext Online',
             value: clientSessionCount - 1,
             change: `+${(clientSessionCount -1) / 100}%`,
+            icon: Users,
+        },
+        {
+            title: 'AusirisPlus Online',
+            value: 100,
+            change: `+${(100) / 100}%`,
             icon: Users,
         },
         // {
@@ -83,7 +99,7 @@ export default async function Page() {
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
                 <p className="text-muted-foreground">Here's an overview of your business</p>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                 {stats.map((stat) => (
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
