@@ -40,7 +40,7 @@ const routes: Route[] = [
 ];
 
 const handleDeleteCookie = async () => {
-    const res = await fetch('/auth/logout', {
+    const res = await fetch('auth/logout', {
         method: 'GET',
     });
     if (res.ok) {
