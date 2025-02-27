@@ -99,7 +99,7 @@ export default async function Page() {
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
                 <p className="text-muted-foreground">Here's an overview of your business</p>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {stats.map((stat) => (
                     <Card key={stat.title} className="p-6">
                         <div className="flex items-center justify-between">
