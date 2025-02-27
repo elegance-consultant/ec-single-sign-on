@@ -43,7 +43,7 @@ export function UserForm({ user }: UserFormProps) {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch('/api/user/update', {
+    const response = await fetch('api/user/update', {
       method: 'POST',
       body: JSON.stringify(formData),
     });
