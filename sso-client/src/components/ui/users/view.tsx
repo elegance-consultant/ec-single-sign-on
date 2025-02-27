@@ -61,7 +61,7 @@ export function UserForm({ user }: UserFormProps) {
 
   // Handle back button click
   const handleBack = () => {
-    router.push('/users');
+    router.push('users');
   };
 
   // Grouped fields based on the converted map
