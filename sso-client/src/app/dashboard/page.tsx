@@ -73,18 +73,18 @@ export default async function Page() {
             change: `+${unEnabledCount / 100}%`,
             icon: UserX,
         },
-        {
-            title: 'AusirisNext Online',
-            value: clientSessionCount,
-            change: `+${(clientSessionCount) / 100}%`,
-            icon: Users,
-        },
-        {
-            title: 'AusirisPlus Online',
-            value: 100,
-            change: `+${(100) / 100}%`,
-            icon: Users,
-        },
+        // {
+        //     title: 'AusirisNext Online',
+        //     value: clientSessionCount,
+        //     change: `+${(clientSessionCount) / 100}%`,
+        //     icon: Users,
+        // },
+        // {
+        //     title: 'AusirisPlus Online',
+        //     value: 100,
+        //     change: `+${(100) / 100}%`,
+        //     icon: Users,
+        // },
         // {
         //     title: 'Active Sessions',
         //     value: 573,
