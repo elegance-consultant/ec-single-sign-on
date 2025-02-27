@@ -20,11 +20,15 @@ export interface Route {
     href: string;
 }
 
+interface Message {
+    message: string;
+}
+
 const routes: Route[] = [
 ];
 
 const handleDeleteCookie = async () => {
-    const res = await fetch('auth/logout', {
+    const res = await fetch('/auth/logout', {
         method: 'GET',
     });
     if (res.ok) {
@@ -36,6 +40,31 @@ export function Sidebar() {
     const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    useEffect(() => {
+        const eventSource = new EventSource('api/events');
+
+        eventSource.onmessage = (event: MessageEvent) => {
+            try {
+                const newMessage: Message = JSON.parse(event.data);
+                setMessages((prevMessages) => [...prevMessages, newMessage]);
+            } catch (error) {
+                console.error("Error parsing SSE data:", error, event.data);
+                // Handle the error appropriately, e.g., close the EventSource
+                eventSource.close();
+            }
+        };
+
+        eventSource.onerror = (error) => {
+            console.error('SSE error:', error);
+            eventSource.close();
+        };
+
+        return () => {
+            eventSource.close();
+        };
+    }, []);
 
     useEffect(() => {
         setIsClient(true);

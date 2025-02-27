@@ -75,8 +75,8 @@ export default async function Page() {
         },
         {
             title: 'AusirisNext Online',
-            value: clientSessionCount - 1,
-            change: `+${(clientSessionCount -1) / 100}%`,
+            value: clientSessionCount,
+            change: `+${(clientSessionCount) / 100}%`,
             icon: Users,
         },
         {
