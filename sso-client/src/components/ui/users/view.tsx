@@ -174,23 +174,24 @@ export function UserForm({ user }: UserFormProps) {
                   </div>
                 );
               }
-              if (key === 'DateOfBirth') {
-                return (
-                  <div className="grid gap-2" key={key}>
-                    <Label htmlFor={key}>วันเกิด</Label>
-                    <Input
-                      id={key}
-                      name={key}
-                      type="text"
-                      placeholder={key}
-                      value={new Date(Number(formData[key as keyof User]?.toString() || 0)).toLocaleString() || ''}
-                      onChange={handleChange}
-                      disabled={!isEditMode}
-                      className="w-full"
-                    />
-                  </div>
-                );
-              }
+              // if (key === 'DateOfBirth') {
+              //   return (
+              //     <div className="grid gap-2" key={key}>
+              //       <Label htmlFor={key}>วันเกิด</Label>
+              //       {formData[key as keyof User]?.toString()}
+              //       <Input
+              //         id={key}
+              //         name={key}
+              //         type="text"
+              //         placeholder={key}
+              //         value={new Date(Number(formData[key as keyof User]?.toString() || 0)).toLocaleString() || ''}
+              //         onChange={handleChange}
+              //         disabled={!isEditMode}
+              //         className="w-full"
+              //       />
+              //     </div>
+              //   );
+              // }
               return (
                 <div className="grid gap-2" key={key}>
                   <Label htmlFor={key}>{key}</Label>
