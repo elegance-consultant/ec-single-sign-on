@@ -57,6 +57,16 @@ export function UserForm({ user }: UserFormProps) {
       });
       setIsEditMode(false);
     }
+
+    if (response.ok == false) {
+      Swal.fire({
+        icon: "error",
+        title: "แก้ไขไม่สำเร็จ",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setIsEditMode(false);
+    }
   };
 
   // Handle back button click
@@ -73,13 +83,13 @@ export function UserForm({ user }: UserFormProps) {
       email: formData.email || '',
       emailVerified: formData.emailVerified || false,
       DateOfBirth: formData.attributes?.DateOfBirth?.[0] || '',
-      Gender: formData.attributes?.Gender?.[0] || '',
+      // Gender: formData.attributes?.Gender?.[0] || '',
       Nationality: formData.attributes?.Nationality?.[0] || '',
       NationalIDCard: formData.attributes?.NationalIDCard?.[0] || '',
       NationalIDCard_Expired: formData.attributes?.NationalIDCard_Expired?.[0] || '',
     },
     addressInfo: {
-      addr_Address: formData.attributes?.addr_Address?.[0] || '',
+      // addr_Address: formData.attributes?.addr_Address?.[0] || '',
       No: formData.attributes?.No?.[0] || '',
       Floor: formData.attributes?.Floor?.[0] || '',
       addr_SubDistrict: formData.attributes?.addr_SubDistrict?.[0] || '',
