@@ -43,8 +43,32 @@ export function UserForm({ user }: UserFormProps) {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch('../api/user/update', {
-      method: 'POST',
+    var path = "";
+    var methodPath = "";
+    var nextCheck = false;
+    // const response = await fetch('../api/user/update', {
+    //   method: 'POST',
+    //   body: JSON.stringify(formData),
+    // });
+
+    if (formData.attributes.next == undefined) {
+      nextCheck = false;
+    } else {
+      nextCheck = true;
+    }
+
+    if (nextCheck === true) {
+      path = process.env.NEXT_PUBLIC_UPDATE_USER_NEXT || "../api/user/update";
+      methodPath = 'PUT';
+    } else {
+      path = '../api/user/update';
+      methodPath = 'POST';
+    }
+    const response = await fetch(`${path}`, {
+      method: methodPath,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(formData),
     });
 
@@ -384,7 +408,8 @@ export function UserForm({ user }: UserFormProps) {
                 <div className="grid gap-2" key={key}>
                   <Label htmlFor={key}>{key}</Label>
                   <Select
-                    disabled={!isEditMode}
+                    // disabled={!isEditMode}
+                    disabled={true}
                     value={attributeValue}
                     onValueChange={(value) =>
                       setFormData((prev) => ({
@@ -403,7 +428,7 @@ export function UserForm({ user }: UserFormProps) {
                     <SelectContent id={key}>
                       <SelectGroup>
                         <SelectItem value="true">Active</SelectItem>
-                        <SelectItem value="false">unActive</SelectItem>
+                        <SelectItem value="false">Inactive</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

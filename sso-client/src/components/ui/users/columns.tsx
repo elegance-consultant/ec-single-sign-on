@@ -144,7 +144,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
                   variant={user.attributes?.next[0] === 'true' ? 'default' : 'secondary'}
                   className={user.attributes?.next[0] === 'true' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
                 >
-                  {user.attributes?.next[0] == 'true' ? 'Active' : 'unActive'}
+                  {user.attributes?.next[0] == 'true' ? 'Active' : 'Inactive'}
                 </Badge>
               );
             }
@@ -165,7 +165,7 @@ export function getColumns(dynamicFields: string[]): ColumnDef<User>[] {
                   variant={user.attributes?.plus[0] === 'true' ? 'default' : 'secondary'}
                   className={user.attributes?.plus[0] === 'true' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}
                 >
-                  {user.attributes?.plus[0] === 'true' ? 'Active' : 'unActive'}
+                  {user.attributes?.plus[0] === 'true' ? 'Active' : 'Inactive'}
                 </Badge>
               );
             }
