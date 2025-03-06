@@ -24,7 +24,12 @@ export function UserForm({ user }: UserFormProps) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      attributes: {
+        ...prev.attributes,
+        [name]: [value],
+      },
+
+      // [name]: [value],
     }));
   };
 
@@ -33,10 +38,10 @@ export function UserForm({ user }: UserFormProps) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      attributes: {
+     attributes: {
         ...prev.attributes,
         [name]: [value],
-      },
+      }, 
     }));
   };
 
@@ -128,26 +133,26 @@ export function UserForm({ user }: UserFormProps) {
     bankInfo: {
       nextCollateral: {
         BankName_Next_Collateral: formData.attributes?.BankName_Next_Collateral?.[0] || '',
-        BankCode_Next_Collateral: formData.attributes?.BankCode_Next_Collateral?.[0] || '',
+        // BankCode_Next_Collateral: formData.attributes?.BankCode_Next_Collateral?.[0] || '',
         BankAccount_Next_Collateral: formData.attributes?.BankAccount_Next_Collateral?.[0] || '',
-        BankCardholderName_Next_Collateral: formData.attributes?.BankCardholderName_Next_Collateral?.[0] || '',
+        // BankCardholderName_Next_Collateral: formData.attributes?.BankCardholderName_Next_Collateral?.[0] || '',
       },
       nextCash_Balance: {
         BankName_Next_CashBalance: formData.attributes?.BankName_Next_CashBalance?.[0] || '',
-        BankCode_Next_CashBalance: formData.attributes?.BankCode_Next_CashBalance?.[0] || '',
+        // BankCode_Next_CashBalance: formData.attributes?.BankCode_Next_CashBalance?.[0] || '',
         BankAccount_Next_CashBalance: formData.attributes?.BankAccount_Next_CashBalance?.[0] || '',
-        BankCardholderName_Next_CashBalance: formData.attributes?.BankCardholderName_Next_CashBalance?.[0] || '',
+        // BankCardholderName_Next_CashBalance: formData.attributes?.BankCardholderName_Next_CashBalance?.[0] || '',
       },
       plusCash_Balance: {
         BankName_Plus_CashBalance: formData.attributes?.BankName_Plus_CashBalance?.[0] || '',
-        BankCode_Plus_CashBalance: formData.attributes?.BankCode_Plus_CashBalance?.[0] || '',
+        // BankCode_Plus_CashBalance: formData.attributes?.BankCode_Plus_CashBalance?.[0] || '',
         BankAccount_Plus_CashBalance: formData.attributes?.BankAccount_Plus_CashBalance?.[0] || '',
-        BankCardholderName_Plus_CashBalance: formData.attributes?.BankCardholderName_Plus_CashBalance?.[0] || '',
+        // BankCardholderName_Plus_CashBalance: formData.attributes?.BankCardholderName_Plus_CashBalance?.[0] || '',
       }
     },
     contactInfo: {
       Telephone: formData.attributes?.Telephone?.[0] || '',
-      lastAddress: formData.attributes?.lastAddress?.[0] || '',
+      // lastAddress: formData.attributes?.lastAddress?.[0] || '',
     },
     verificationInfo: {
       CDD: formData.attributes?.CDD?.[0] || '',
@@ -235,15 +240,16 @@ export function UserForm({ user }: UserFormProps) {
                     type="text"
                     placeholder={key}
                     value={
-                      formData.attributes?.[key]?.[0] ||
+                      formData.attributes?.[key]?.[0] || 
                       formData[key as keyof User]?.toString() || ''
                     }
                     onChange={(e) => {
-                      if (formData.attributes?.[key]) {
+                      // if (formData.attributes?.[key]) {
+                      //   handleAttributesChange(e);
+                      // } else {
+                      //   handleChange(e);
+                      // }
                         handleAttributesChange(e);
-                      } else {
-                        handleChange(e);
-                      }
                     }}
                     disabled={
                       !isEditMode ||
@@ -305,7 +311,7 @@ export function UserForm({ user }: UserFormProps) {
                   placeholder={key}
                   value={value || ''}
                   onChange={handleAttributesChange}
-                  disabled={!isEditMode}
+                  disabled={!isEditMode || key === 'BankName_Next_CashBalance' || key === 'BankAccount_Next_CashBalance'}
                   className="w-full"
                 />
               </div>
@@ -323,7 +329,8 @@ export function UserForm({ user }: UserFormProps) {
                   placeholder={key}
                   value={value || ''}
                   onChange={handleAttributesChange}
-                  disabled={!isEditMode}
+                  // disabled={!isEditMode}
+                  disabled={true}
                   className="w-full"
                 />
               </div>
