@@ -58,7 +58,7 @@ export function UserForm({ user }: UserFormProps) {
     }
 
     if (nextCheck === true) {
-      path = process.env.NEXT_PUBLIC_UPDATE_USER_NEXT || "../api/user/update";
+      path = process.env.UPDATE_USER_NEXT || "../api/user/update";
       methodPath = 'PUT';
     } else {
       path = '../api/user/update';
