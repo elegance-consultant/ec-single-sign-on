@@ -38,10 +38,11 @@ export function UserForm({ user }: UserFormProps) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-     attributes: {
+      [name]: value,
+      attributes: {
         ...prev.attributes,
         [name]: [value],
-      }, 
+      },
     }));
   };
 
@@ -240,7 +241,7 @@ export function UserForm({ user }: UserFormProps) {
                     type="text"
                     placeholder={key}
                     value={
-                      formData.attributes?.[key]?.[0] || 
+                      formData.attributes?.[key]?.[0] ||
                       formData[key as keyof User]?.toString() || ''
                     }
                     onChange={(e) => {
@@ -249,7 +250,7 @@ export function UserForm({ user }: UserFormProps) {
                       // } else {
                       //   handleChange(e);
                       // }
-                        handleAttributesChange(e);
+                      handleAttributesChange(e);
                     }}
                     disabled={
                       !isEditMode ||
